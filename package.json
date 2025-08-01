@@ -1,0 +1,36 @@
+{
+  "name": "lviv-historic-museum",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build:admin": "npm --workspace=packages/admin run build",
+    "build:client": "npm --workspace=packages/client run build",
+    "type-check": "npm --workspace=packages/client run type-check",
+    "prepare": "husky"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "turbo": "^2.3.0"
+  },
+  "packageManager": "npm@10.2.3",
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix --config ./packages/client/eslint.config.mjs",
+      "prettier --write"
+    ],
+    "**/*.css": [
+      "stylelint --fix",
+      "prettier --write"
+    ]
+  }
+}

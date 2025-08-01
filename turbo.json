@@ -1,0 +1,14 @@
+{
+  "tasks": {
+    "build": {
+      "outputs": ["packages/admin/build/**", "packages/client/.next/**"],
+      "dependsOn": ["^build"]
+    },
+    "dev": {
+      "cache": false
+    },
+    "lint": {
+      "outputs": []
+    }
+  }
+}

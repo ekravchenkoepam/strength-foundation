@@ -1,0 +1,27 @@
+.button {
+  position: relative;
+  border: 1px solid transparent;
+  border-radius: 100px;
+  padding: 16px 24px;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+
+  &.primary {
+    background: var(--color-light);
+    color: var(--color-dark);
+  }
+
+  &.secondary {
+    background: var(--color-yellow);
+    color: var(--color-dark);
+  }
+
+  &.transparent {
+    background: var(--color-light);
+    color: var(--color-dark);
+    border: 2px solid var(--color-olive-darker);
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_blocks_header_blocks",
+  "info": {
+    "displayName": "HeaderBlock",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}

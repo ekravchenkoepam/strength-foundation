@@ -1,0 +1,4 @@
+export const SOCIALS_STYLES = {
+  BACKGROUND_COLOR: "#F1EACF",
+  COLOR: "#484838",
+}

@@ -1,0 +1,16 @@
+.socialsContainer {
+  display: flex;
+  gap: 8px;
+}
+
+.socialLink {
+  display: inline-flex;
+  transition: color 0.2s;
+
+  // Optional: hover on entire circle
+  &:hover {
+    --icon-color: var(--hover-icon-color, var(--icon-color));
+    --bg-color: var(--hover-bg-color, var(--bg-color));
+  }
+}
+
