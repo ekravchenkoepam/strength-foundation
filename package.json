@@ -12,7 +12,7 @@
     "build:admin": "npm --workspace=packages/admin run build",
     "build:client": "npm --workspace=packages/client run build",
     "type-check": "npm --workspace=packages/client run type-check",
-    "prepare": "husky"
+    "prepare": "husky || true"
   },
   "author": "",
   "license": "ISC",
