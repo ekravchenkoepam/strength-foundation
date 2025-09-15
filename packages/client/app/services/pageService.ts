@@ -27,5 +27,5 @@ export const getPageBySlug  = async ({
     options: { cache },
   });
 
-  return data.at(0);
+  return data?.at(0);
 }

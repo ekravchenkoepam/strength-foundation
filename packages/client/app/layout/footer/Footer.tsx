@@ -29,7 +29,7 @@ export const Footer = () => {
           <Socials socials={socials} />
         </div>
 
-        {links.map(({ href, title, sublinks }) => (
+        {links?.map(({ href, title, sublinks }) => (
           <div className={styles.column} key={title}>
             <Link className={styles.heading} href={href}>{title}</Link>
             {Array.isArray(sublinks) && sublinks.length > 0 && (

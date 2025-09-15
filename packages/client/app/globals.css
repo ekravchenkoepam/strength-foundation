@@ -1,11 +1,13 @@
 :root {
   --color-dark: #151512;
+  --color-black: #000000;
   --color-light: #FFFFFF;
   --color-yellow: #EFCB4C;
   --color-olive: #66664D;
   --color-olive-darker: #484838;
   --color-cream: #F1EACF;
   --color-beige: #C5C5B7;
+  --color-gray: #6F6F6F;
 
   --border-radius: 40px;
 }

@@ -39,7 +39,7 @@ export const Header = () => {
 
           <nav className={styles.nav}>
             <ul className={styles.linksContainer}>
-              {links.map(({ href, title, sublinks }: LinkType) => (
+              {links?.map(({ href, title, sublinks }: LinkType) => (
                 <li key={title}>
                   <Link href={`/${locale}/${href}`}>
                     {title}
