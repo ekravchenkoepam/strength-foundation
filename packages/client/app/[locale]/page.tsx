@@ -11,9 +11,40 @@ import styles from '../page.module.scss';
 import clsx from 'clsx';
 import { Button, ButtonTypeEnum } from '@/app/components/shared';
 
+type Block = {
+  __component: string;
+  video?: { data: Video[] };
+  image?: { data: Image[] };
+  text?: string;
+  title?: string;
+  description?: string;
+}
+
+type Video = {
+  id: string;
+  attributes: {
+    url: string;
+    mime: string;
+  };
+}
+
+type Image = {
+  id: string;
+  attributes: {
+    url: string;
+    alternativeText?: string;
+  };
+}
+
+type Homepage = {
+  attributes: {
+    blocks: Block[];
+  };
+}
+
 export default function Home() {
   const { locale } = useApp();
-  const [homepage, setHomepage] = useState(null);
+  const [homepage, setHomepage] = useState<Homepage | null>(null);
 
   useEffect(() => {
     async function fetchPage() {
@@ -34,7 +65,7 @@ export default function Home() {
   return (
     <div className={styles.homePage}>
       <div className={styles.headerBlock}>
-        {homepage?.attributes?.blocks?.map((block, index) => {
+        {homepage?.attributes?.blocks?.map((block: Block, index: number) => {
           switch (block.__component) {
             case "blocks.video":
               return (
