@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { ComponentType, FC, useState } from 'react';
 
 import {
   FacebookIcon,
@@ -11,15 +11,31 @@ import {
   YoutubeIcon,
 } from '@/app/components/icons';
 
-import styles from './Socials.module.scss';
 import { SocialName } from '@/app/components/shared/Socials/types';
 
-export interface SocialsProps {
+import styles from './Socials.module.scss';
+
+type SocialsProps = {
   socials: any[];
   backgroundColor?: string;
   color?: string;
   hoverBackgroundColor?: string;
 }
+
+type IconProps = {
+  backgroundColor?: string;
+  color?: string;
+};
+
+const iconMap: Record<SocialName, ComponentType<IconProps>> = {
+  telegram: TelegramIcon,
+  linkedin: LinkedinIcon,
+  facebook: FacebookIcon,
+  instagram: InstagramIcon,
+  tiktok: TiktokIcon,
+  youtube: YoutubeIcon,
+  spotify: SpotifyIcon,
+};
 
 export const Socials: FC<SocialsProps> = ({
   socials,
@@ -30,29 +46,13 @@ export const Socials: FC<SocialsProps> = ({
   const [hovered, setHovered] = useState<SocialName | null>(null);
 
   const renderIcon = (name: SocialName, isHovered: boolean) => {
-    const props = {
-      backgroundColor: isHovered ? hoverBackgroundColor : backgroundColor,
-      color,
-    };
+    const Icon = iconMap[name];
 
-    switch (name) {
-      case 'telegram':
-        return <TelegramIcon {...props} />;
-      case 'linkedin':
-        return <LinkedinIcon {...props} />;
-      case 'facebook':
-        return <FacebookIcon {...props} />;
-      case 'instagram':
-        return <InstagramIcon {...props} />;
-      case 'tiktok':
-        return <TiktokIcon {...props} />;
-      case 'youtube':
-        return <YoutubeIcon {...props} />;
-      case 'spotify':
-        return <SpotifyIcon {...props} />;
-      default:
-        return null;
-    }
+    if (!Icon) return null;
+
+    const currentBackgroundColor = isHovered ? hoverBackgroundColor : backgroundColor;
+
+    return <Icon backgroundColor={currentBackgroundColor} color={color} />;
   };
 
   return (
@@ -64,10 +64,10 @@ export const Socials: FC<SocialsProps> = ({
           <a
             key={name}
             href={link}
-            target="_blank"
-            rel="noopener noreferrer"
             aria-label={name}
-            className="social-link"
+            target='_blank'
+            rel='noopener noreferrer'
+            className='social-link'
             onMouseEnter={() => setHovered(name)}
             onMouseLeave={() => setHovered(null)}
           >

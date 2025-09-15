@@ -2,7 +2,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 13px;
+  font-size: 16px;
+  margin: 80px 52px;
 }
 
 .breadcrumbs {
@@ -14,8 +15,12 @@
   display: flex;
   gap: 8px;
   align-items: center;
-}
 
-.inactive {
-  color: var(--color-description);
+  & a {
+    color: var(--color-gray);
+  }
+
+  &.inactive {
+    color: var(--color-black);
+  }
 }
