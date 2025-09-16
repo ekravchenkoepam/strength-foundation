@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "report_types",
+  "info": {
+    "singularName": "report-type",
+    "pluralName": "report-types",
+    "displayName": "ReportByType",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "Name": {
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "type": "string"
+    },
+    "Years": {
+      "type": "component",
+      "repeatable": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "reports.report-year"
+    },
+    "Reports": {
+      "type": "component",
+      "repeatable": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      },
+      "component": "reports.report"
+    }
+  }
+}

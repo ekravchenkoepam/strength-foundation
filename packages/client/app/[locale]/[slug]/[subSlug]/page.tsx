@@ -19,7 +19,7 @@ export default function SubPage() {
   const PageComponent = pageMap[subSlug as string];
 
   return (
-    <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
       <PageComponent locale={locale} slug={slug} subSlug={subSlug} />
     </div>
   )

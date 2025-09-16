@@ -376,6 +376,51 @@ export interface ApiPagePage extends Schema.CollectionType {
   };
 }
 
+export interface ApiReportTypeReportType extends Schema.CollectionType {
+  collectionName: 'report_types';
+  info: {
+    description: '';
+    displayName: 'ReportByType';
+    pluralName: 'report-types';
+    singularName: 'report-type';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::report-type.report-type', 'oneToOne', 'admin::user'> & Attribute.Private;
+    locale: Attribute.String;
+    localizations: Attribute.Relation<'api::report-type.report-type', 'oneToMany', 'api::report-type.report-type'>;
+    Name: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    publishedAt: Attribute.DateTime;
+    Reports: Attribute.Component<'reports.report', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::report-type.report-type', 'oneToOne', 'admin::user'> & Attribute.Private;
+    Years: Attribute.Component<'reports.report-year', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+  };
+}
+
 export interface ApiSocialSocial extends Schema.CollectionType {
   collectionName: 'socials';
   info: {
@@ -723,6 +768,7 @@ declare module '@strapi/types' {
       'admin::user': AdminUser;
       'api::navigation.navigation': ApiNavigationNavigation;
       'api::page.page': ApiPagePage;
+      'api::report-type.report-type': ApiReportTypeReportType;
       'api::social.social': ApiSocialSocial;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

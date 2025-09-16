@@ -1,1 +1,1 @@
-export * from './Breadcrumbs';
+export { Breadcrumbs } from './Breadcrumbs';
