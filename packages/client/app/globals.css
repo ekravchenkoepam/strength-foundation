@@ -3,11 +3,13 @@
   --color-black: #000000;
   --color-light: #FFFFFF;
   --color-yellow: #EFCB4C;
+  --color-yellow-light: #F1CC62;
   --color-olive: #66664D;
   --color-olive-darker: #484838;
   --color-cream: #F1EACF;
   --color-beige: #C5C5B7;
   --color-gray: #6F6F6F;
+  --color-gray-dark: #595959;
 
   --border-radius: 40px;
 }
