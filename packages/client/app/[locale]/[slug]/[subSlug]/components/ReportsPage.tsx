@@ -4,12 +4,24 @@ import React, { FC, useEffect, useState } from 'react';
 import { fetchAPI } from '@/app/utils/fetch-api';
 import { PageProps } from '../../types';
 
-import { Tab, Accordion } from '@/app/components/shared';
+import { Tab, Accordion, Loading } from '@/app/components/shared';
+import { extractAttributes } from '@/app/utils/api-helpers';
 
-export const ReportsPage: FC<PageProps> = ({ locale, slug, subSlug }) => {
-  const [reportPage, setReportPage] = useState<any>(null);
+import styles from '../../../page.module.scss'
+
+const sortYears = (years: any[]) => {
+  return [...years].sort((a, b) => {
+    const yearA = parseInt(a.Text.replace(/\D/g, ''), 10);
+    const yearB = parseInt(b.Text.replace(/\D/g, ''), 10);
+    return yearB - yearA;
+  });
+};
+
+export const ReportsPage: FC<PageProps> = () => {
+  const [reportsByType, setReportsByType] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
+  const [openYearId, setOpenYearId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -18,7 +30,10 @@ export const ReportsPage: FC<PageProps> = ({ locale, slug, subSlug }) => {
           path: '/report-types',
           urlParams: { populate: 'Years.Reports.File,Reports' },
         });
-        setReportPage(data);
+
+        const updatedReports = extractAttributes(data.data)
+
+        setReportsByType(updatedReports);
       } catch (error) {
         console.error(error);
       } finally {
@@ -29,41 +44,45 @@ export const ReportsPage: FC<PageProps> = ({ locale, slug, subSlug }) => {
     void fetchReports();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (!reportPage?.data?.length) return <p>No reports found</p>;
-
-  const reportTypes = reportPage.data;
+  if (loading) return <Loading headerText="Звіти"/>;
+  if (!reportsByType.length) return <p>Звітів не знайдено</p>;
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
+    setOpenYearId(null);
   };
 
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', width: '100%', padding: '50px' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2rem' }}>
-       <h1>Reports Page</h1>
-       <p>Locale: <strong>{locale}</strong></p>
-       <p>Slug: <strong>{slug}</strong></p>
-       <p>SubSlug: <strong>{subSlug}</strong></p>
-     </div>
+  const handleToggleYear = (yearId: number) => () => {
+    setOpenYearId((prevId) => (prevId === yearId ? null : yearId));
+  };
 
-      <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
-        {reportTypes.map((report: any, i: number) => (
+  const sortedYears = sortYears(reportsByType[activeTab].Years);
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1>Звіти</h1>
+      </div>
+      <div className={styles.tabs}>
+        {reportsByType.map((report: any, i: number) => (
           <Tab
             key={report.id}
-            name={report.attributes.Name}
+            name={report.Name}
             isActive={i === activeTab}
             onClick={() => handleTabClick(i)}
           />
         ))}
       </div>
 
-      <div>
-        <div>
-          {reportTypes[activeTab].attributes.Years.map((year: any) => (
-            <Accordion key={year.id} year={year} />
-          ))}
-        </div>
+      <div className={styles.content}>
+        {sortedYears.map((year: any) => (
+          <Accordion
+            key={year.id}
+            year={year}
+            isOpen={year.id === openYearId}
+            onToggle={handleToggleYear(year.id)}
+          />
+        ))}
       </div>
     </div>
   );

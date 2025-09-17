@@ -3,10 +3,10 @@
   cursor: pointer;
   border-bottom: 2px solid transparent;
   transition: border-color 0.2s;
-  color: var(--color-dark);
+  color: var(--color-gray-dark);
 
   &.active {
-    color: var(--color-gray-dark);
-    border-bottom: 2px solid var(--color-gray-dark);
+    color: var(--color-dark);
+    border-bottom: 2px solid var(--color-dark);
   }
 }

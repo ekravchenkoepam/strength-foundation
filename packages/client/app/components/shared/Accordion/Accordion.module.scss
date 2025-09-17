@@ -8,9 +8,14 @@
   display: flex;
   align-items: center;
   padding: 0.5rem 1rem;
-  background-color: var(--color-yellow-light);
   border-radius: 4px;
   cursor: pointer;
+  border: 2px solid var(--color-yellow-light);
+  background-color: var(--color-light);
+
+  &.active {
+    background-color: var(--color-yellow-light);
+  }
 }
 
 .accordionContent {
@@ -22,8 +27,10 @@
   border-top: none;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  display: flex;
-  gap: 4.5rem;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 2rem;
 
   li {
     display: flex;
@@ -33,6 +40,7 @@
 
     a {
       display: flex;
+      flex-direction: column;
       align-items: center;
       gap: 0.5rem;
       color: var(--color-dark);
