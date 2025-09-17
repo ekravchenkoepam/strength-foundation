@@ -3,7 +3,7 @@
   --color-black: #000000;
   --color-light: #FFFFFF;
   --color-yellow: #EFCB4C;
-  --color-yellow-light: #F1CC62;
+  --color-yellow-light: #F5E094;
   --color-olive: #66664D;
   --color-olive-darker: #484838;
   --color-cream: #F1EACF;
@@ -15,7 +15,7 @@
 }
 
 h1 {
-  font-size: 56px;
+  font-size: 64px;
 }
 
 h2 {
