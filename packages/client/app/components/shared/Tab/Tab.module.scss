@@ -1,12 +1,28 @@
 .tab {
-  padding: 0.5rem 1rem;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 10px 62px;
   cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: border-color 0.2s;
-  color: var(--color-gray-dark);
+  background-color: var(--white-100);
+  border-radius: 8px 8px 0 0;
+  color: var(--grey-10);
+  position: relative;
 
   &.active {
-    color: var(--color-dark);
-    border-bottom: 2px solid var(--color-dark);
+    color: var(--black-100);
+
+    border-bottom: none;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 2px;
+      right: 2px;
+      height: 2px;
+      background-color: var(--yellow-100);
+      border-radius: 100px 100px 0 0;
+    }
   }
 }

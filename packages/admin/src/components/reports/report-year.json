@@ -1,14 +1,15 @@
 {
   "collectionName": "components_reports_report_years",
   "info": {
-    "displayName": "ReportYear"
+    "displayName": "ReportYear",
+    "description": ""
   },
   "options": {},
   "attributes": {
-    "Text": {
+    "text": {
       "type": "string"
     },
-    "Reports": {
+    "reports": {
       "type": "component",
       "repeatable": true,
       "component": "reports.report"

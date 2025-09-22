@@ -13,6 +13,17 @@ export interface BlocksHeaderBlock extends Schema.Component {
   };
 }
 
+export interface ContactsPhone extends Schema.Component {
+  collectionName: 'components_contacts_phones';
+  info: {
+    description: '';
+    displayName: 'Phone';
+  };
+  attributes: {
+    number: Attribute.String;
+  };
+}
+
 export interface ReportsReport extends Schema.Component {
   collectionName: 'components_reports_reports';
   info: {
@@ -20,19 +31,20 @@ export interface ReportsReport extends Schema.Component {
     displayName: 'Report';
   };
   attributes: {
-    File: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    Name: Attribute.String;
+    file: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    name: Attribute.String;
   };
 }
 
 export interface ReportsReportYear extends Schema.Component {
   collectionName: 'components_reports_report_years';
   info: {
+    description: '';
     displayName: 'ReportYear';
   };
   attributes: {
-    Reports: Attribute.Component<'reports.report', true>;
-    Text: Attribute.String;
+    reports: Attribute.Component<'reports.report', true>;
+    text: Attribute.String;
   };
 }
 
@@ -84,6 +96,7 @@ declare module '@strapi/types' {
   export module Shared {
     export interface Components {
       'blocks.header-block': BlocksHeaderBlock;
+      'contacts.phone': ContactsPhone;
       'reports.report': ReportsReport;
       'reports.report-year': ReportsReportYear;
       'shared.button': SharedButton;

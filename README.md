@@ -1,6 +1,6 @@
 # Strength Foundation
 
-This repo has inside both Admin and Client website for the Lviv Historic Museum, Ukraine.
+This repo has inside both Admin and Client website for the Strength Foundation, Ukraine.
 
 - [Specification](./docs/SPECIFICATION.md): basic functional requirements to the system.
 - [Learn](./docs/LEARN.md): this project is based on `NPM workspaces`, `Turborepo`, `Strapi`, `Next.js`. So, if you are not familiar with them please refer to the article we created.

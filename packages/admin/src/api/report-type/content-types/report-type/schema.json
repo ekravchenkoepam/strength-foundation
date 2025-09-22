@@ -16,7 +16,7 @@
     }
   },
   "attributes": {
-    "Name": {
+    "name": {
       "pluginOptions": {
         "i18n": {
           "localized": true
@@ -24,7 +24,7 @@
       },
       "type": "string"
     },
-    "Years": {
+    "years": {
       "type": "component",
       "repeatable": true,
       "pluginOptions": {
@@ -34,7 +34,7 @@
       },
       "component": "reports.report-year"
     },
-    "Reports": {
+    "reports": {
       "type": "component",
       "repeatable": true,
       "pluginOptions": {

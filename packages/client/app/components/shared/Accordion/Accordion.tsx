@@ -9,11 +9,11 @@ import styles from './Accordion.module.scss';
 
 type Report = {
   id: number;
-  Name?: string;
-  File?: { data?: { attributes?: { url?: string } } };
+  name?: string;
+  file?: { data?: { attributes?: { url?: string } } };
 };
 
-type Year = { id: number; Text: string; Reports: Report[] };
+type Year = { id: number; text: string; reports: Report[] };
 
 type AccordionProps = {
   year: Year;
@@ -37,22 +37,22 @@ export const Accordion: FC<AccordionProps> = ({ year, isOpen, onToggle }) => {
         className={clsx(styles.accordionHeader, { [styles.active]: isOpen })}
         onClick={onToggle}
       >
-        {year.Text}
+        {year.text}
         <img src={src} alt={alt} className={styles.arrow} />
       </div>
 
       {isOpen && (
         <ul className={styles.accordionContent}>
-          {year.Reports.map((report) => (
+          {year.reports.map((report) => (
             <li key={report.id}>
-              {report.File?.data?.attributes?.url ? (
+              {report.file?.data?.attributes?.url ? (
                 <a
-                  href={getStrapiMedia(report.File.data.attributes.url)}
+                  href={getStrapiMedia(report.file.data.attributes.url)}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <img src="/images/file.svg" alt="file" />
-                  <p>{report.Name || 'Без назви'}</p>
+                  <p>{report.name || 'Без назви'}</p>
                 </a>
               ) : (
                 'No file'

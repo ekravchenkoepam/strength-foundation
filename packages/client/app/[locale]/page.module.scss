@@ -1,3 +1,10 @@
+.layout {
+
+  &.reportPage {
+    background-color: var(--white-80);
+  }
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -9,14 +16,15 @@
 .header {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 54px 0 100px;
+  align-items: start;
+  padding: 32px 0 48px;
 }
 
 .tabs {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1rem;
+  border-bottom: 2px solid var(--yellow-40);
 }
 
 .content {

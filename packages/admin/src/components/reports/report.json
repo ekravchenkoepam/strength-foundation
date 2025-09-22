@@ -6,7 +6,7 @@
   },
   "options": {},
   "attributes": {
-    "File": {
+    "file": {
       "type": "media",
       "multiple": false,
       "required": false,
@@ -17,7 +17,7 @@
         "audios"
       ]
     },
-    "Name": {
+    "name": {
       "type": "string"
     }
   }

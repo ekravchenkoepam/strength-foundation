@@ -11,8 +11,8 @@ import styles from '../../../page.module.scss'
 
 const sortYears = (years: any[]) => {
   return [...years].sort((a, b) => {
-    const yearA = parseInt(a.Text.replace(/\D/g, ''), 10);
-    const yearB = parseInt(b.Text.replace(/\D/g, ''), 10);
+    const yearA = parseInt(a.text.replace(/\D/g, ''), 10);
+    const yearB = parseInt(b.text.replace(/\D/g, ''), 10);
     return yearB - yearA;
   });
 };
@@ -28,10 +28,12 @@ export const ReportsPage: FC<PageProps> = () => {
       try {
         const data = await fetchAPI({
           path: '/report-types',
-          urlParams: { populate: 'Years.Reports.File,Reports' },
+          urlParams: { populate: 'years.reports.file,reports' },
         });
 
         const updatedReports = extractAttributes(data.data)
+
+        console.log({ updatedReports });
 
         setReportsByType(updatedReports);
       } catch (error) {
@@ -56,18 +58,18 @@ export const ReportsPage: FC<PageProps> = () => {
     setOpenYearId((prevId) => (prevId === yearId ? null : yearId));
   };
 
-  const sortedYears = sortYears(reportsByType[activeTab].Years);
+  const sortedYears = sortYears(reportsByType[activeTab].years);
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1>Звіти</h1>
+        <div className="h2">Звіти</div>
       </div>
       <div className={styles.tabs}>
         {reportsByType.map((report: any, i: number) => (
           <Tab
             key={report.id}
-            name={report.Name}
+            name={report.name}
             isActive={i === activeTab}
             onClick={() => handleTabClick(i)}
           />

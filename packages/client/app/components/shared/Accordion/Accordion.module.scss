@@ -1,5 +1,6 @@
 .accordionItem {
   margin-bottom: 0.5rem;
+  background-color: var(--white-100);
 }
 
 .accordionHeader {
@@ -9,13 +10,13 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem;
-  border-radius: 10px;
+  border-radius: var(--border-radius);
   cursor: pointer;
-  border: 2px solid var(--color-yellow-light);
+  border: 2px solid var( --yellow-60);
   background-color: var(--color-light);
 
   &.active {
-    background-color: var(--color-yellow-light);
+    background-color: var( --yellow-60);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -26,27 +27,43 @@
 }
 
 .accordionContent {
-  padding: 3rem;
+  width: 100%;
+  height: 100%;
+  padding: 20px 24px;
   margin: 0;
-  border: 2px solid var(--color-yellow-light);
+  border: 2px solid var(--yellow-60);
   border-top: none;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-radius: 0 0 var(--border-radius) var(--border-radius);
 
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-auto-rows: 220px;
 
   li {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 220px;
     gap: 0.5rem;
     margin-bottom: 0.25rem;
+    border-radius: var(--border-radius);
+    background-color: var(--white-100);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--yellow-40);
+      transform: translateY(-4px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
     a {
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: 0.5rem;
       color: var(--color-dark);
       text-decoration: none;

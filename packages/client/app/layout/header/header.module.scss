@@ -1,19 +1,15 @@
 .headerContainer {
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: space-between;
-  padding: 28px 52px;
-  margin: 0 auto;
   gap: 24px;
   overflow: visible;
-  background: var(--color-olive-darker);
 
   .headerContent {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 28px;
 
     .utilityContainer {
       display: flex;
@@ -21,6 +17,8 @@
       gap: 24px;
       justify-content: space-between;
       width: 100%;
+      padding: 15px 52px 20px;
+      background: var(--green-100);
 
       .supportButtonsContainer {
         display: flex;
@@ -30,107 +28,110 @@
   }
 }
 
-.nav {
-  display: flex;
+.navigationContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  margin: 0 65px;
+  justify-content: center;
+  padding: 22px 70px;
+  border-bottom: 2px solid var(--yellow-100);
 
-  .linksContainer {
+  .nav {
     display: flex;
-    gap: 40px;
+    justify-content: center;
     align-items: center;
-    list-style: none;
-    padding: 0;
-    overflow: visible;
-    margin-right: 65px;
+    margin: 0 65px;
 
-    li {
-      position: relative;
+    .linksContainer {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      list-style: none;
+      padding: 0;
+      overflow: visible;
+      margin: 0 138px;
 
-      a {
-        display: flex;
-        align-items: center;
-        padding: 8px 12px;
-        text-decoration: none;
-        color: var(--color-light);
-        background: transparent;
-        transition: background 0.2s, color 0.2s;
-      }
+      li {
+        position: relative;
 
-      a:hover {
-        border-bottom: 1px solid var(--color-light);
-        color: var(--color-yellow);
-      }
+        a {
+          display: flex;
+          align-items: center;
+          padding: 8px 12px;
+          text-decoration: none;
+          color: var(--black-100);
+          background: transparent;
+          transition: background 0.2s, color 0.2s;
 
-      .sublinks {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        z-index: 1000;
-        min-width: 180px;
-        background: var(--color-olive-darker);
-        border: 1px solid var(--color-olive-darker);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 4px 0;
-
-        li {
-          a {
-            display: block;
-            padding: 8px 12px;
-            white-space: nowrap;
-            color: var(--color-light);
-            background: var(--color-olive-darker);
-          }
-
-          a:hover {
-            color: var(--color-yellow);
-            text-decoration: none;
-            border: none;
+          &:hover {
+            border-bottom: 2px solid var(--black-100);
           }
         }
-      }
 
-      &:hover .sublinks {
-        display: block;
+        .sublinks {
+          display: none;
+          position: absolute;
+          top: 100%;
+          left: 0;
+          z-index: 1000;
+          min-width: 180px;
+          background: var(--black-100);
+          border: 1px solid var(--black-100);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          padding: 4px 0;
+
+          li {
+            a {
+              display: block;
+              padding: 8px 12px;
+              white-space: nowrap;
+              color: var(--white-100);
+              background: var(--black-100);
+            }
+
+            a:hover {
+              text-decoration: none;
+              border: none;
+            }
+          }
+        }
+
+        &:hover .sublinks {
+          display: block;
+        }
       }
+    }
+
+  }
+
+  .languages {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .language {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px 0;
+    color: var(--grey-50);
+    cursor: pointer;
+    position: relative;
+
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -6px;
+      top: 20%;
+      height: 60%;
+      width: 1px;
+      background-color: var(--grey-50);
     }
   }
 
-}
-
-.currentPage {
-  color: var(--color-primary);
-}
-
-
-.navigationContainer {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.languages {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.language {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  padding: 4px 0;
-  color: #B5B5B5;
-  cursor: pointer;
-
-  &:hover {
-    color: var(--color-yellow);
+  .currentLang {
+    color: var(--black-100);
   }
 }
-
-.currentLang {
-  border-bottom: 1px solid var(--color-light);
-  color: var(--color-light);
-}
-
