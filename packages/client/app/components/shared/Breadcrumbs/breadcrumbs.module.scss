@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 16px;
-  margin: 80px 52px 0;
+  padding: 48px 52px 0;
 }
 
 .breadcrumbs {
@@ -17,10 +17,10 @@
   align-items: center;
 
   & a {
-    color: var(--color-gray);
+    color: var(--black-60);
   }
 
   &.inactive {
-    color: var(--color-black);
+    color: var(--black-100);
   }
 }

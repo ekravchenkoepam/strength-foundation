@@ -25,7 +25,12 @@ export const Button: FC<ButtonProps> = ({
   onClick,
 }) => (
   <button
-    className={clsx(className, styles.button, styles[type])}
+    className={clsx(
+      'h8',
+      className,
+      styles.button,
+      styles[type]
+    )}
     disabled={isDisabled}
     onClick={onClick}
   >

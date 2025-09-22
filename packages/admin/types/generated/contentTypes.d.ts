@@ -285,6 +285,29 @@ export interface AdminUser extends Schema.CollectionType {
   };
 }
 
+export interface ApiContactContact extends Schema.SingleType {
+  collectionName: 'contacts';
+  info: {
+    description: '';
+    displayName: 'Contacts';
+    pluralName: 'contacts';
+    singularName: 'contact';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    copyright: Attribute.String;
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::contact.contact', 'oneToOne', 'admin::user'> & Attribute.Private;
+    email: Attribute.String;
+    phones: Attribute.Component<'contacts.phone', true>;
+    publishedAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::contact.contact', 'oneToOne', 'admin::user'> & Attribute.Private;
+  };
+}
+
 export interface ApiNavigationNavigation extends Schema.CollectionType {
   collectionName: 'navigations';
   info: {
@@ -397,14 +420,14 @@ export interface ApiReportTypeReportType extends Schema.CollectionType {
     createdBy: Attribute.Relation<'api::report-type.report-type', 'oneToOne', 'admin::user'> & Attribute.Private;
     locale: Attribute.String;
     localizations: Attribute.Relation<'api::report-type.report-type', 'oneToMany', 'api::report-type.report-type'>;
-    Name: Attribute.String &
+    name: Attribute.String &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
         };
       }>;
     publishedAt: Attribute.DateTime;
-    Reports: Attribute.Component<'reports.report', true> &
+    reports: Attribute.Component<'reports.report', true> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -412,7 +435,7 @@ export interface ApiReportTypeReportType extends Schema.CollectionType {
       }>;
     updatedAt: Attribute.DateTime;
     updatedBy: Attribute.Relation<'api::report-type.report-type', 'oneToOne', 'admin::user'> & Attribute.Private;
-    Years: Attribute.Component<'reports.report-year', true> &
+    years: Attribute.Component<'reports.report-year', true> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -766,6 +789,7 @@ declare module '@strapi/types' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::contact.contact': ApiContactContact;
       'api::navigation.navigation': ApiNavigationNavigation;
       'api::page.page': ApiPagePage;
       'api::report-type.report-type': ApiReportTypeReportType;

@@ -1,149 +1,71 @@
-//.contacts {
-//  display: flex;
-//  justify-content: space-between;
-//  padding-bottom: 40px;
-//  border-bottom: 1px solid var(--color-light);
-//}
-//
-//.info {
-//  display: flex;
-//  gap: 80px;
-//}
-//
-//.socialMedia {
-//  display: flex;
-//  justify-content: space-between;
-//  align-items: center;
-//  padding-top: 40px;
-//
-//  p {
-//    color: var(--color-secondary-content);
-//    font-size: 14px;
-//  }
-//}
-//
-//.socialMediaLinks {
-//  display: flex;
-//  gap: 40px;
-//}
-
 .footer {
-  background: var(--color-dark); // темний фон
-  color: #fff;
-  padding: 48px 75px;
+  background: var(--green-100);
+  color: var(--white-100);
 
-  a {
-    color: #ccc;
-    text-decoration: none;
+  .footerWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: space-between;
+    padding: 48px 75px;
 
-    &:hover,
-    &:focus {
-      text-decoration: underline;
-      outline: none;
-    }
-  }
-}
+    .contactsContainer {
+      margin: 0 auto;
 
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: space-between;
-}
+      .contacts {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        margin: 0;
+        padding: 0;
 
-.column {
-  flex: 1 1 200px;
-  min-width: 180px;
-  display: flex;
-  flex-direction: column;
+        .phones {
+          display: flex;
+          flex-direction: column;
+          margin: 32px 0 16px;
+          gap: 5px;
+        }
 
-  // Щоб відокремити колонки одна від одної
-  &:not(:last-child) {
-    margin-right: 24px;
-  }
-}
+        li {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          font-size: var(--h9-size);
+          line-height: var(--h9-line);
 
-.logo {
-  margin-bottom: 16px;
-}
+          a {
+            color: var(--white-100);
+            text-decoration: none;
 
-.description {
-  font-size: 14px;
-  color: #ccc;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-}
+            &:hover {
+              text-decoration: underline;
+            }
+          }
 
-.heading {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 12px;
-  color: #ffc107 !important;
-  cursor: pointer;
-
-  &:hover,
-  &:focus {
-    text-decoration: underline;
-    outline: none;
-  }
-}
-
-.links {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  li {
-    margin-bottom: 8px;
-
-    a {
-      color: #ccc;
-
-      &:hover,
-      &:focus {
-        color: #ffc107;
-        text-decoration: underline;
-        outline: none;
+          span {
+            font-size: 14px;
+          }
+        }
       }
     }
   }
-}
 
-.bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 32px;
-  padding-top: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  font-size: 12px;
-  color: #aaa;
-  gap: 12px;
+  .copyrightContainer {
+    border-top: 1px solid var(--white-100);
+    margin-top: 32px;
+    padding: 16px 0;
+    display: flex;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--grey-40);
+    text-transform: uppercase;
 
-  // Щоб текст у нижній частині не "залипав" до лівого краю на мобільних
-  span {
-    flex: 1 1 auto;
-    min-width: 180px;
-  }
-}
-
-.bottomLinks {
-  display: flex;
-  gap: 16px;
-
-  a {
-    color: #aaa;
-
-    &:hover,
-    &:focus {
-      color: #ffc107;
-      text-decoration: underline;
-      outline: none;
+    .copyrightText {
+      font-size: var(--h10-size);
+      line-height: var(--h8-line);
     }
   }
 }
-
-/* Responsive */
 
 @media (max-width: 768px) {
   .footer {
@@ -153,11 +75,6 @@
   .container {
     flex-direction: column;
     gap: 32px;
-  }
-
-  .column {
-    min-width: auto;
-    margin-right: 0 !important;
   }
 
   .bottom {

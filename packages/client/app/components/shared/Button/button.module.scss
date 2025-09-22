@@ -1,27 +1,31 @@
 .button {
   position: relative;
   border: 1px solid transparent;
-  border-radius: 100px;
-  padding: 16px 24px;
+  border-radius: 10px;
+  padding: 14px 30px;
   font-family: inherit;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 500;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
 
   &.primary {
-    background: var(--color-light);
-    color: var(--color-dark);
+    background: var(--white-100);
+    color: var(--black-100);
   }
 
   &.secondary {
     background: var(--color-yellow);
-    color: var(--color-dark);
+    color: var(--black-100);
+
+    &:hover {
+      background: var(--yellow-60);
+    }
   }
 
   &.transparent {
     background: var(--color-light);
-    color: var(--color-dark);
-    border: 2px solid var(--color-olive-darker);
+    color: var(--black-100);
+    border: 2px solid var(--green-100);
   }
 }

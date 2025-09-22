@@ -24,6 +24,20 @@ export function formatDate(dateString: string) {
   return date.toLocaleDateString("en-US", options);
 }
 
-export const extractAttributes = <T = any>(data: { attributes: T }[]): T[] => {
-  return data?.map((item) => item.attributes);
+export const extractAttributes = <T = any>(
+  data?: { id: number; attributes: T } | { id: number; attributes: T }[]
+): (T & { id: number }) | (T & { id: number })[] | null => {
+  if (!data) return null;
+
+  if (Array.isArray(data)) {
+    return data.map((item) => ({
+      id: item.id,
+      ...item.attributes,
+    }));
+  }
+
+  return {
+    id: data.id,
+    ...data.attributes,
+  };
 };
