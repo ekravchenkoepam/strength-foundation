@@ -1,6 +1,7 @@
 'use client';
 
 import React, { FC } from 'react';
+import clsx from 'clsx';
 
 import styles from './Tab.module.scss';
 
@@ -14,7 +15,11 @@ export const Tab: FC<TabProps> = ({ name, isActive, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className={`${styles.tab} ${isActive ? styles.active : ''}`}
+      className={clsx(
+        'h8',
+        styles.tab,
+        isActive && styles.active
+      )}
     >
       {name}
     </div>

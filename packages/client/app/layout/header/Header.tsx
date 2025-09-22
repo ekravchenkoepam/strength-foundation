@@ -41,7 +41,7 @@ export const Header = () => {
             <ul className={styles.linksContainer}>
               {links?.map(({ href, title, sublinks }: LinkType) => (
                 <li key={title}>
-                  <Link href={`/${locale}/${href}`}>
+                  <Link href={`/${locale}/${href}`} className="h6">
                     {title}
 
                     {hasSublinks(sublinks) && <ArrowDown />}
@@ -59,8 +59,11 @@ export const Header = () => {
                 </li>
               ))}
             </ul>
-            <LanguageSwitch />
           </nav>
+
+          <div className={styles.languageSwitch}>
+            <LanguageSwitch />
+          </div>
         </div>
       </div>
     </header>

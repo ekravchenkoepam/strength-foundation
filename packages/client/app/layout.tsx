@@ -11,10 +11,16 @@ import { AppContextProvider } from '@/app/context/AppProvider';
 
 import "./globals.css";
 
-const font = localFont({
-  src: "./fonts/Unbounded.ttf",
-  variable: "--font-unbounded",
-  weight: "400 500 600 700 900",
+const eUkraine = localFont({
+  src: "./fonts/e-Ukraine-Regular.otf",
+  variable: "--font-e-ukraine",
+  weight: "300 900",
+});
+
+const eUkraineHead = localFont({
+  src: "./fonts/e-UkraineHead-Regular.otf",
+  variable: "--font-e-ukraine-head",
+  weight: "100 700 900",
 });
 
 export const metadata: Metadata = {
@@ -29,17 +35,21 @@ export default async function RootLayout({
 }>) {
   const { data: navigations }: any = await fetchAPI({ path: "/navigations" });
   const { data: socialLinks }: any = await fetchAPI({ path: "/socials" });
+  const { data: contact }: any = await fetchAPI({ path: "/contact" });
+
+  console.log({ contact });
 
   const links = extractAttributes(navigations);
   const socials = extractAttributes(socialLinks);
+  const contacts = extractAttributes(contact);
 
   return (
     <html lang="uk">
-      <body className={font.variable}>
+    <body className={`${eUkraine.variable} ${eUkraineHead.variable}`}>
         <AppContextProvider links={links} socials={socials} locale="uk">
-          <Header/>
+          <Header />
           {children}
-          <Footer/>
+          <Footer contacts={contacts} />
         </AppContextProvider>
       </body>
     </html>

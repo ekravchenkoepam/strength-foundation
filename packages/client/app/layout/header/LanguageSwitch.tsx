@@ -8,7 +8,7 @@ import styles from './header.module.scss';
 
 const LOCALE_LABELS: Record<string, string> = {
   uk: 'УКР',
-  en: 'ENG',
+  en: 'EN',
 };
 
 export const LanguageSwitch = () => {
