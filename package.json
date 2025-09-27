@@ -9,6 +9,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "turbo run dev",
+    "prepare:project": "chmod +x ./setup.sh && bash -lc './setup.sh'",
     "build:admin": "npm --workspace=packages/admin run build",
     "build:client": "npm --workspace=packages/client run build",
     "type-check": "npm --workspace=packages/client run type-check",
