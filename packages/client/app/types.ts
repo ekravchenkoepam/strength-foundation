@@ -2,6 +2,8 @@ export interface LinkType {
   href: string;
   title: string;
   sublinks: any;
+  position: number;
+  isHidden: boolean;
 }
 
 export interface ImageType {
