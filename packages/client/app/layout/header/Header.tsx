@@ -10,6 +10,7 @@ import { LanguageSwitch } from '@/app/layout/header/LanguageSwitch';
 import { LinkType } from '@/app/types';
 
 import { useApp } from '@/app/context/AppContext';
+import { sortByPosition } from '@/app/helpers';
 
 import { SOCIALS_STYLES } from '@/app/layout/header/constants';
 
@@ -18,6 +19,9 @@ import styles from './header.module.scss';
 export const Header = () => {
   const { links, socials, locale } = useApp()
 
+  const sortedLinks = sortByPosition(links)
+  const sortedSocials = sortByPosition(socials)
+
   const hasSublinks = (sublinks: LinkType[]) => sublinks && sublinks.length > 0;
 
   return (
@@ -25,7 +29,7 @@ export const Header = () => {
       <div className={styles.headerContent}>
         <div className={styles.utilityContainer}>
           <Socials
-            socials={socials}
+            socials={sortedSocials}
             backgroundColor={SOCIALS_STYLES.BACKGROUND_COLOR}
             color={SOCIALS_STYLES.COLOR}
           />
@@ -39,24 +43,26 @@ export const Header = () => {
 
           <nav className={styles.nav}>
             <ul className={styles.linksContainer}>
-              {links?.map(({ href, title, sublinks }: LinkType) => (
-                <li key={title}>
-                  <Link href={`/${locale}/${href}`} className="h6">
-                    {title}
+              {sortedLinks?.map(({ href, title, sublinks, isHidden }: LinkType) => (
+                !isHidden && (
+                  <li key={title}>
+                    <Link href={`/${locale}/${href}`} className="h6">
+                      {title}
 
-                    {hasSublinks(sublinks) && <ArrowDown />}
-                  </Link>
+                      {hasSublinks(sublinks) && <ArrowDown />}
+                    </Link>
 
-                  {hasSublinks(sublinks) && (
-                    <ul className={styles.sublinks}>
-                      {sublinks.map((sublink: LinkType) => (
-                        <li key={sublink.title}>
-                          <Link href={`/${locale}/${href}/${sublink.href}`}>{sublink.title}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
+                    {hasSublinks(sublinks) && (
+                      <ul className={styles.sublinks}>
+                        {sublinks.map((sublink: LinkType) => (
+                          <li key={sublink.title}>
+                            <Link href={`/${locale}/${href}/${sublink.href}`}>{sublink.title}</Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                )
               ))}
             </ul>
           </nav>

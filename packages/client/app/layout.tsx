@@ -37,8 +37,6 @@ export default async function RootLayout({
   const { data: socialLinks }: any = await fetchAPI({ path: "/socials" });
   const { data: contact }: any = await fetchAPI({ path: "/contact" });
 
-  console.log({ contact });
-
   const links = extractAttributes(navigations);
   const socials = extractAttributes(socialLinks);
   const contacts = extractAttributes(contact);

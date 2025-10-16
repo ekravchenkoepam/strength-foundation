@@ -6,6 +6,7 @@ import { PageProps } from '../../types';
 
 import { Tab, Accordion, Loading } from '@/app/components/shared';
 import { extractAttributes } from '@/app/utils/api-helpers';
+import { sortByPosition } from '@/app/helpers';
 
 import styles from '../../../page.module.scss'
 
@@ -33,8 +34,6 @@ export const ReportsPage: FC<PageProps> = () => {
 
         const updatedReports = extractAttributes(data.data)
 
-        console.log({ updatedReports });
-
         setReportsByType(updatedReports);
       } catch (error) {
         console.error(error);
@@ -58,6 +57,8 @@ export const ReportsPage: FC<PageProps> = () => {
     setOpenYearId((prevId) => (prevId === yearId ? null : yearId));
   };
 
+  const sortedReports = sortByPosition(reportsByType)
+
   const sortedYears = sortYears(reportsByType[activeTab].years);
 
   return (
@@ -66,13 +67,15 @@ export const ReportsPage: FC<PageProps> = () => {
         <div className="h2">Звіти</div>
       </div>
       <div className={styles.tabs}>
-        {reportsByType.map((report: any, i: number) => (
-          <Tab
-            key={report.id}
-            name={report.name}
-            isActive={i === activeTab}
-            onClick={() => handleTabClick(i)}
-          />
+        {sortedReports.map((report: any, i: number) => (
+          !report.isHidden && (
+            <Tab
+              key={report.id}
+              name={report.name}
+              isActive={i === activeTab}
+              onClick={() => handleTabClick(i)}
+            />
+          )
         ))}
       </div>
 

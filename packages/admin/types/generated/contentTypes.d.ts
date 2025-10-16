@@ -334,8 +334,23 @@ export interface ApiNavigationNavigation extends Schema.CollectionType {
           localized: true;
         };
       }>;
+    isHidden: Attribute.Boolean &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<false>;
     locale: Attribute.String;
     localizations: Attribute.Relation<'api::navigation.navigation', 'oneToMany', 'api::navigation.navigation'>;
+    position: Attribute.Integer &
+      Attribute.Unique &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<0>;
     publishedAt: Attribute.DateTime;
     sublinks: Attribute.Component<'shared.link', true> &
       Attribute.SetPluginOptions<{
@@ -418,6 +433,13 @@ export interface ApiReportTypeReportType extends Schema.CollectionType {
   attributes: {
     createdAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::report-type.report-type', 'oneToOne', 'admin::user'> & Attribute.Private;
+    isHidden: Attribute.Boolean &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Attribute.DefaultTo<false>;
     locale: Attribute.String;
     localizations: Attribute.Relation<'api::report-type.report-type', 'oneToMany', 'api::report-type.report-type'>;
     name: Attribute.String &
@@ -426,6 +448,13 @@ export interface ApiReportTypeReportType extends Schema.CollectionType {
           localized: true;
         };
       }>;
+    position: Attribute.Integer &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Attribute.DefaultTo<0>;
     publishedAt: Attribute.DateTime;
     reports: Attribute.Component<'reports.report', true> &
       Attribute.SetPluginOptions<{
@@ -460,6 +489,7 @@ export interface ApiSocialSocial extends Schema.CollectionType {
     createdBy: Attribute.Relation<'api::social.social', 'oneToOne', 'admin::user'> & Attribute.Private;
     link: Attribute.String;
     name: Attribute.String;
+    position: Attribute.Integer & Attribute.Unique & Attribute.DefaultTo<0>;
     publishedAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     updatedBy: Attribute.Relation<'api::social.social', 'oneToOne', 'admin::user'> & Attribute.Private;

@@ -36,7 +36,7 @@ export async function fetchAPI({
     };
 
     if (!mergedOptions.next && !mergedOptions.cache) {
-      mergedOptions.next = { revalidate: 60 };
+      mergedOptions.next = { revalidate: 10 };
     }
 
     const queryString = qs.stringify(mergedUrlParams);
