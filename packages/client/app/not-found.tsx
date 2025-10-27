@@ -2,10 +2,15 @@
 
 import Link from 'next/link';
 import { Button, ButtonTypeEnum } from '@/app/components/shared';
+import { useApp } from '@/app/context/AppContext';
 
 import styles from './page.module.scss';
 
 export default function NotFound() {
+  const { locale } = useApp()
+
+  const href = `/${locale || 'uk'}`;
+
   return (
     <div className={styles.homePage} style={{ height: '100vh', display: 'flex', justifyContent: 'center', flexDirection: 'column', textAlign: 'center' }}>
       <div>
@@ -14,7 +19,7 @@ export default function NotFound() {
         <p style={{ marginBottom: '2rem' }}>
           Sorry, the page you are looking for does not exist.
         </p>
-        <Link href="/">
+        <Link href={href}>
           <Button label="Повернутись на головну" type={ButtonTypeEnum.Secondary} />
         </Link>
       </div>

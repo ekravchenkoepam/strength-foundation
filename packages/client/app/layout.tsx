@@ -12,15 +12,24 @@ import { AppContextProvider } from '@/app/context/AppProvider';
 import "./globals.css";
 
 const eUkraine = localFont({
-  src: "./fonts/e-Ukraine-Regular.otf",
+  src: [
+    { path: "./fonts/e-Ukraine-Thin.otf", weight: "100", style: "normal" },
+    { path: "./fonts/e-Ukraine-UltraLight.otf", weight: "200", style: "normal" },
+    { path: "./fonts/e-Ukraine-Light.otf", weight: "300", style: "normal" },
+    { path: "./fonts/e-Ukraine-Regular.otf", weight: "400", style: "normal" },
+    { path: "./fonts/e-Ukraine-Medium.otf", weight: "500", style: "normal" },
+    { path: "./fonts/e-Ukraine-Bold.otf", weight: "700", style: "normal" },
+  ],
   variable: "--font-e-ukraine",
-  weight: "300 900",
+  display: "swap",
 });
 
 const eUkraineHead = localFont({
-  src: "./fonts/e-UkraineHead-Regular.otf",
+  src: [
+    { path: "./fonts/e-UkraineHead-Regular.otf", weight: "400", style: "normal" },
+  ],
   variable: "--font-e-ukraine-head",
-  weight: "100 700 900",
+  display: "swap",
 });
 
 export const metadata: Metadata = {

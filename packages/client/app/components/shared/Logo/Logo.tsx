@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useApp } from '@/app/context/AppContext';
 
 export enum LogoVariant {
   Main = 'main',
@@ -15,8 +16,12 @@ const LOGO_SRC: Record<LogoVariant, string> = {
 };
 
 export const Logo = ({ type = LogoVariant.Main }: LogoProps) => {
+  const { locale } = useApp()
+
+  const href = `/${locale || 'uk'}`;
+
   return (
-    <Link href="/">
+    <Link href={href}>
       <img src={LOGO_SRC[type]} alt="logo" />
     </Link>
   );

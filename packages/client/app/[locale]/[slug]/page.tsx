@@ -1,7 +1,7 @@
 'use client';
 
 import React, { FC } from 'react';
-import { useParams } from 'next/navigation';
+import { notFound, useParams } from 'next/navigation';
 
 import {
   AboutPage,
@@ -25,6 +25,10 @@ export default function Page() {
   }
 
   const PageComponent = pageMap[slug];
+
+  if (!PageComponent) {
+    notFound();
+  }
 
   return (
     <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
