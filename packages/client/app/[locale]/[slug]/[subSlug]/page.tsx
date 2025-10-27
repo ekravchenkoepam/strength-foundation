@@ -1,7 +1,7 @@
 'use client';
 
 import React, { FC } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, notFound } from 'next/navigation';
 
 import { ReportsPage, DocumentsPage, TeamPage } from './components';
 
@@ -17,6 +17,10 @@ export default function SubPage() {
   };
 
   const PageComponent = pageMap[subSlug as string];
+
+  if (!PageComponent) {
+    notFound();
+  }
 
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>

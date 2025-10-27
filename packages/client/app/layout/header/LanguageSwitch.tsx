@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { usePathname, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import { useApp } from '@/app/context/AppContext';
 
 import styles from './header.module.scss';
@@ -12,7 +12,8 @@ const LOCALE_LABELS: Record<string, string> = {
 };
 
 export const LanguageSwitch = () => {
-  const { locale, setLocale } = useApp();
+  const { setLocale } = useApp();
+  const { locale } = useParams();
   const pathname = usePathname();
   const router = useRouter();
 

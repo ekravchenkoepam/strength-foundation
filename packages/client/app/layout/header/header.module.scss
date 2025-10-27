@@ -10,6 +10,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    font-weight: 500;
 
     .utilityContainer {
       display: flex;
@@ -44,13 +45,14 @@
     margin: 0 65px;
 
     .linksContainer {
+      width: 100%;
       display: flex;
-      gap: 40px;
+      justify-content: center;
+      gap: 48px;
       align-items: center;
       list-style: none;
       padding: 0;
       overflow: visible;
-      margin: 0 138px;
 
       li {
         position: relative;
@@ -58,7 +60,6 @@
         a {
           display: flex;
           align-items: center;
-          padding: 8px 12px;
           text-decoration: none;
           color: var(--black-100);
           background: transparent;
@@ -75,23 +76,27 @@
           top: 100%;
           left: 0;
           z-index: 1000;
-          min-width: 180px;
-          background: var(--black-100);
-          border: 1px solid var(--black-100);
+          background: var(--white-100);
+          border-radius: var(--border-radius);
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          padding: 4px 0;
+          padding: 12px;
+          width: max-content;
+          min-width: 100%;
 
           li {
             a {
               display: block;
               padding: 8px 12px;
               white-space: nowrap;
-              color: var(--white-100);
-              background: var(--black-100);
+              color: var(--black-100);
+              font-weight: 400;
+              text-underline-offset: 3px;
+              text-decoration-thickness: 1px;
             }
 
             a:hover {
-              text-decoration: none;
+              text-decoration: underline;
+              text-decoration-color: currentColor;
               border: none;
             }
           }
