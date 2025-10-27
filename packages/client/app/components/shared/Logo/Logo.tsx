@@ -4,6 +4,7 @@ import { useApp } from '@/app/context/AppContext';
 export enum LogoVariant {
   Main = 'main',
   Alt = 'alt',
+  Extended = 'extended',
 }
 
 type LogoProps = {
@@ -13,6 +14,7 @@ type LogoProps = {
 const LOGO_SRC: Record<LogoVariant, string> = {
   [LogoVariant.Main]: '/images/logo.svg',
   [LogoVariant.Alt]: '/images/logo-alt.svg',
+  [LogoVariant.Extended]: '/images/logo-extended.svg',
 };
 
 export const Logo = ({ type = LogoVariant.Main }: LogoProps) => {
