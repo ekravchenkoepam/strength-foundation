@@ -32,13 +32,36 @@ export const Footer = ({ contacts }: FooterProps) => {
       <div className={styles.footerWrapper}>
         <div className={styles.logoContainer}>
           <div className={styles.logo}>
-            <Logo type={LogoVariant.Alt} />
+            <Logo type={LogoVariant.Extended} />
           </div>
         </div>
 
         <div className={styles.contactsContainer}>
-          <div className="h5">Наші контакти</div>
+          <div className="h5">Адреса реєстрації</div>
           <ul className={styles.contacts}>
+            <li>
+              <img src="/images/marker.svg" alt="mail" />
+              <div className={styles.address}>
+                <div className={styles.registration}>
+                  <p>Україна, 14007,</p>
+                  <p>Чернігівська обл., місто Чернігів,</p>
+                  <p>пр. Миру, будинок 261, 12</p>
+                </div>
+                <div>ЄДРПОУ 45698398</div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div className={styles.contactsContainer}>
+          <div className="h5">Контакти</div>
+          <ul className={styles.contacts}>
+            {email && (
+              <li>
+                <img src="/images/mail.svg" alt="mail" />
+                <a href={`mailto:${email}`}>{email}</a>
+              </li>
+            )}
             {!!phones.length && (
               <li>
                 <img src="/images/phone.svg" alt="phone" />
@@ -55,12 +78,6 @@ export const Footer = ({ contacts }: FooterProps) => {
                 </div>
               </li>
             )}
-            {email && (
-              <li>
-                <img src="/images/mail.svg" alt="mail" />
-                <a href={`mailto:${email}`}>{email}</a>
-              </li>
-            )}
           </ul>
         </div>
       </div>
@@ -69,6 +86,7 @@ export const Footer = ({ contacts }: FooterProps) => {
         <div className={styles.copyrightText}>
           © {copyright} {currentYear}.
         </div>
+        <a className={styles.publicOffer}>Договір публічної оферти</a>
       </div>
     </footer>
   );
