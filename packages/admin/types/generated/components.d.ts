@@ -24,6 +24,44 @@ export interface ContactsPhone extends Schema.Component {
   };
 }
 
+export interface MissionMissionContent extends Schema.Component {
+  collectionName: 'components_mission_mission_contents';
+  info: {
+    description: '';
+    displayName: 'MissionContent';
+  };
+  attributes: {
+    content: Attribute.RichText &
+      Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'default';
+        }
+      >;
+    image: Attribute.Media<'images'>;
+    title: Attribute.String;
+  };
+}
+
+export interface MissionPrinciple extends Schema.Component {
+  collectionName: 'components_mission_principles';
+  info: {
+    description: '';
+    displayName: 'Principle';
+  };
+  attributes: {
+    content: Attribute.RichText &
+      Attribute.CustomField<
+        'plugin::ckeditor5.CKEditor',
+        {
+          preset: 'default';
+        }
+      >;
+    icon: Attribute.Enumeration<['hands', 'pigeon', 'libra', 'search', 'earth', 'lock']>;
+    title: Attribute.String;
+  };
+}
+
 export interface ReportsReport extends Schema.Component {
   collectionName: 'components_reports_reports';
   info: {
@@ -97,6 +135,8 @@ declare module '@strapi/types' {
     export interface Components {
       'blocks.header-block': BlocksHeaderBlock;
       'contacts.phone': ContactsPhone;
+      'mission.mission-content': MissionMissionContent;
+      'mission.principle': MissionPrinciple;
       'reports.report': ReportsReport;
       'reports.report-year': ReportsReportYear;
       'shared.button': SharedButton;

@@ -329,6 +329,59 @@ export interface ApiDocumentDocument extends Schema.CollectionType {
   };
 }
 
+export interface ApiMissionPageMissionPage extends Schema.SingleType {
+  collectionName: 'mission_pages';
+  info: {
+    description: '';
+    displayName: 'MissionPage';
+    pluralName: 'mission-pages';
+    singularName: 'mission-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::mission-page.mission-page', 'oneToOne', 'admin::user'> & Attribute.Private;
+    locale: Attribute.String;
+    localizations: Attribute.Relation<'api::mission-page.mission-page', 'oneToMany', 'api::mission-page.mission-page'>;
+    missionBlock: Attribute.Component<'mission.mission-content', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    principles: Attribute.Component<'mission.principle', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    principlesTitle: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    publishedAt: Attribute.DateTime;
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::mission-page.mission-page', 'oneToOne', 'admin::user'> & Attribute.Private;
+  };
+}
+
 export interface ApiNavigationNavigation extends Schema.CollectionType {
   collectionName: 'navigations';
   info: {
@@ -842,6 +895,7 @@ declare module '@strapi/types' {
       'admin::user': AdminUser;
       'api::contact.contact': ApiContactContact;
       'api::document.document': ApiDocumentDocument;
+      'api::mission-page.mission-page': ApiMissionPageMissionPage;
       'api::navigation.navigation': ApiNavigationNavigation;
       'api::page.page': ApiPagePage;
       'api::report-type.report-type': ApiReportTypeReportType;

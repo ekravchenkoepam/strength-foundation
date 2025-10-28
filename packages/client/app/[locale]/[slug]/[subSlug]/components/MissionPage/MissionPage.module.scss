@@ -1,0 +1,116 @@
+.missionPage {
+  .pageTitle {
+    text-align: center;
+    margin: 32px 0 74px;
+  }
+
+  .missionBlock {
+    padding: 0 52px;
+
+    .missionSection {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+      gap: 33px;
+      margin-bottom: 80px;
+    }
+
+    .reversed {
+      direction: rtl;
+    }
+
+    .reversed > * {
+      direction: ltr;
+    }
+
+    .missionImage {
+      flex: 1;
+
+      & img {
+        width: 100%;
+        height: 490px;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+    }
+
+    .missionContent {
+      flex: 1;
+
+      & h2 {
+        font-size: 38px;
+        font-weight: 500;
+        margin-bottom: 32px;
+      }
+
+      .missionText {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #444;
+      }
+    }
+  }
+
+  .principlesBlock {
+    background-color: rgba(72, 72, 56, 1);
+    background-image: url('/images/asphalt-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: auto;
+    padding: 100px 52px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .principlesTitle {
+      font-size: 38px;
+      font-weight: 500;
+      text-align: center;
+      color: var(--white-100);
+      margin-bottom: 80px;
+    }
+
+    .principlesList {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: start;
+      gap: 32px;
+
+      .principleItem {
+        backdrop-filter: blur(3px);
+        height: 352px;
+        color: var(--white-100);
+        border: 1px solid var(--white-100);
+        border-radius: var(--border-radius);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 24px;
+        padding: 24px;
+
+        .principleIcon {
+          width: 48px;
+          height: 48px;
+          background-color: var(--white-100);
+          border-radius: 100px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+          }
+        }
+
+        .principleContent {
+          line-height: 24px;
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,8 @@
 'use client';
 
 import React, { FC, useEffect, useState } from 'react';
+import clsx from 'clsx';
+
 import { fetchAPI } from '@/app/utils/fetch-api';
 import { PageProps } from '../../types';
 
@@ -25,6 +27,8 @@ export const ReportsPage: FC<PageProps> = () => {
   const [openYearId, setOpenYearId] = useState<number | null>(null);
 
   useEffect(() => {
+    setLoading(true);
+
     const fetchReports = async () => {
       try {
         const data = await fetchAPI({
@@ -64,7 +68,7 @@ export const ReportsPage: FC<PageProps> = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div className="h2">Звіти</div>
+        <div className={clsx('h1', styles.pageTitle)}>Звіти</div>
       </div>
       <div className={styles.tabs}>
         {sortedReports.map((report: any, i: number) => (
