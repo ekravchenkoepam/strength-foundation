@@ -11,6 +11,7 @@
     "deploy": "strapi deploy"
   },
   "dependencies": {
+    "@_sh/strapi-plugin-ckeditor": "^3.0.9",
     "@retikolo/drag-drop-content-types": "^1.7.1",
     "@strapi/plugin-cloud": "4.25.16",
     "@strapi/plugin-i18n": "4.25.16",

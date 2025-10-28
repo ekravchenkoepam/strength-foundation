@@ -3,7 +3,12 @@
 import React, { FC } from 'react';
 import { useParams, notFound } from 'next/navigation';
 
-import { ReportsPage, DocumentsPage, TeamPage } from './components';
+import {
+  ReportsPage,
+  DocumentsPage,
+  TeamPage,
+  MissionPage
+} from './components';
 
 import { PageProps } from '../types';
 
@@ -14,6 +19,7 @@ export default function SubPage() {
     reports: ReportsPage,
     documents: DocumentsPage,
     team: TeamPage,
+    mission: MissionPage
   };
 
   const PageComponent = pageMap[subSlug as string];
