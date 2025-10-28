@@ -84,7 +84,7 @@ export const Footer = ({ contacts }: FooterProps) => {
 
       <div className={styles.copyrightContainer}>
         <div className={styles.copyrightText}>
-          © {copyright} {currentYear}.
+          © {copyright} {currentYear}
         </div>
         <a className={styles.publicOffer}>Договір публічної оферти</a>
       </div>
