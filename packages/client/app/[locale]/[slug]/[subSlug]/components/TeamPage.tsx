@@ -13,8 +13,22 @@ export const TeamPage = ({ locale, slug, subSlug }: PageProps) => {
         setLoading(true)
         const data = await fetchAPI({
           path: '/team-page',
-          urlParams: { populate: 'members.socials,images' }
+          urlParams: {
+            populate: {
+              images: {
+                populate: '*',
+              },
+              members: {
+                populate: {
+                  socials: {
+                    populate: '*',
+                  },
+                },
+              },
+            },
+          },
         })
+
         setTeamPage(data.data)
       } catch (error) {
         console.error(error)

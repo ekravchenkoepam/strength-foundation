@@ -24,16 +24,6 @@
         }
       }
     },
-    "images": {
-      "type": "component",
-      "repeatable": true,
-      "component": "shared.image",
-      "pluginOptions": {
-        "i18n": {
-          "localized": true
-        }
-      }
-    },
     "motto": {
       "type": "text",
       "pluginOptions": {
@@ -51,6 +41,18 @@
         }
       },
       "component": "team.member"
+    },
+    "images": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true,
+      "pluginOptions": {
+        "i18n": {
+          "localized": false
+        }
+      }
     }
   }
 }
