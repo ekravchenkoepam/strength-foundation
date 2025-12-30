@@ -1,16 +1,9 @@
 {
   "collectionName": "components_shared_images",
   "info": {
-    "displayName": "image"
+    "displayName": "image",
+    "description": ""
   },
   "options": {},
-  "attributes": {
-    "image": {
-      "allowedTypes": [
-        "images"
-      ],
-      "type": "media",
-      "multiple": true
-    }
-  }
+  "attributes": {}
 }

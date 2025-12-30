@@ -99,11 +99,10 @@ export interface SharedButton extends Schema.Component {
 export interface SharedImage extends Schema.Component {
   collectionName: 'components_shared_images';
   info: {
+    description: '';
     displayName: 'image';
   };
-  attributes: {
-    image: Attribute.Media<'images', true>;
-  };
+  attributes: {};
 }
 
 export interface SharedLink extends Schema.Component {

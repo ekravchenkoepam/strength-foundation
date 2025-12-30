@@ -588,10 +588,10 @@ export interface ApiTeamPageTeamPage extends Schema.SingleType {
   attributes: {
     createdAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::team-page.team-page', 'oneToOne', 'admin::user'> & Attribute.Private;
-    images: Attribute.Component<'shared.image', true> &
+    images: Attribute.Media<'images', true> &
       Attribute.SetPluginOptions<{
         i18n: {
-          localized: true;
+          localized: false;
         };
       }>;
     locale: Attribute.String;
