@@ -130,6 +130,35 @@ export interface SharedVideo extends Schema.Component {
   };
 }
 
+export interface SocialsSocial extends Schema.Component {
+  collectionName: 'components_socials_socials';
+  info: {
+    description: '';
+    displayName: 'Social';
+    icon: 'earth';
+  };
+  attributes: {
+    icon: Attribute.Enumeration<['telegram', 'linkedin', 'facebook', 'instagram', 'tiktok', 'youtube', 'spotify']>;
+    link: Attribute.String;
+  };
+}
+
+export interface TeamMember extends Schema.Component {
+  collectionName: 'components_team_members';
+  info: {
+    description: '';
+    displayName: 'Member';
+    icon: 'archive';
+  };
+  attributes: {
+    description: Attribute.Blocks;
+    image: Attribute.Media<'images'>;
+    name: Attribute.String;
+    role: Attribute.String;
+    socials: Attribute.Component<'socials.social', true>;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
@@ -143,6 +172,8 @@ declare module '@strapi/types' {
       'shared.image': SharedImage;
       'shared.link': SharedLink;
       'shared.video': SharedVideo;
+      'socials.social': SocialsSocial;
+      'team.member': TeamMember;
     }
   }
 }

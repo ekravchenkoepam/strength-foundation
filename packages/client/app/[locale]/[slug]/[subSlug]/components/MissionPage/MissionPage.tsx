@@ -18,7 +18,6 @@ export const MissionPage = () => {
           path: '/mission-page',
           urlParams: { populate: 'missionBlock.image,principles' }
         })
-        console.log({ data })
         setMissionPage(data.data)
       } catch (error) {
         console.error(error)
@@ -30,11 +29,9 @@ export const MissionPage = () => {
     void fetchMissionPage()
   }, [])
 
-  if (loading) return <Loading headerText="Звіти" />
+  if (loading) return <Loading headerText="Місія та цінності" />
 
   if (!missionPage) return null
-
-  console.log({ missionPage })
 
   return (
     <div className={styles.missionPage}>

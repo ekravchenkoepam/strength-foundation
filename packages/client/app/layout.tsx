@@ -43,7 +43,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const { data: navigations }: any = await fetchAPI({ path: "/navigations" });
-  const { data: socialLinks }: any = await fetchAPI({ path: "/socials" });
+  const { data: socialLinks }: any = await fetchAPI({ path: "/socials?=*" });
   const { data: contact }: any = await fetchAPI({ path: "/contact" });
 
   const links = extractAttributes(navigations);

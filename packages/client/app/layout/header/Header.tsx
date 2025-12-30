@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 
-import { Button, ButtonTypeEnum, Logo } from '@/app/components/shared';
-import { Socials} from '@/app/components/shared';
+import { Button, ButtonTypeEnum, Logo, Socials } from '@/app/components/shared';
 import { ArrowDown } from '@/app/components/icons';
 import { LanguageSwitch } from '@/app/layout/header/LanguageSwitch';
 
