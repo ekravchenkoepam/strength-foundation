@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_socials_socials",
+  "info": {
+    "displayName": "Social",
+    "icon": "earth",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "link": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "enumeration",
+      "enum": [
+        "telegram",
+        "linkedin",
+        "facebook",
+        "instagram",
+        "tiktok",
+        "youtube",
+        "spotify"
+      ]
+    }
+  }
+}

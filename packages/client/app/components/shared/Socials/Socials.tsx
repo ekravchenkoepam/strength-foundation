@@ -57,21 +57,22 @@ export const Socials: FC<SocialsProps> = ({
 
   return (
     <div className={styles.socialsContainer}>
-      {socials?.map(({ link, name }) => {
-        const isHovered = hovered === name;
+      {socials?.map(({ socialInfo }) => {
+        const { link, icon } = socialInfo || {};
+        const isHovered = hovered === icon;
 
         return (
           <a
-            key={name}
+            key={icon}
             href={link}
-            aria-label={name}
+            aria-label={icon}
             target='_blank'
             rel='noopener noreferrer'
             className='social-link'
-            onMouseEnter={() => setHovered(name)}
+            onMouseEnter={() => setHovered(icon)}
             onMouseLeave={() => setHovered(null)}
           >
-            {renderIcon(name, isHovered)}
+            {renderIcon(icon, isHovered)}
           </a>
         );
       })}

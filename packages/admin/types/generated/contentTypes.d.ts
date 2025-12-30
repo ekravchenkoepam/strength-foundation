@@ -561,12 +561,62 @@ export interface ApiSocialSocial extends Schema.CollectionType {
   attributes: {
     createdAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::social.social', 'oneToOne', 'admin::user'> & Attribute.Private;
-    link: Attribute.String;
-    name: Attribute.String;
     position: Attribute.Integer & Attribute.Unique & Attribute.DefaultTo<0>;
     publishedAt: Attribute.DateTime;
+    socialInfo: Attribute.Component<'socials.social'>;
     updatedAt: Attribute.DateTime;
     updatedBy: Attribute.Relation<'api::social.social', 'oneToOne', 'admin::user'> & Attribute.Private;
+  };
+}
+
+export interface ApiTeamPageTeamPage extends Schema.SingleType {
+  collectionName: 'team_pages';
+  info: {
+    description: '';
+    displayName: 'TeamPage';
+    pluralName: 'team-pages';
+    singularName: 'team-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::team-page.team-page', 'oneToOne', 'admin::user'> & Attribute.Private;
+    images: Attribute.Component<'shared.image', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    locale: Attribute.String;
+    localizations: Attribute.Relation<'api::team-page.team-page', 'oneToMany', 'api::team-page.team-page'>;
+    members: Attribute.Component<'team.member', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    motto: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    publishedAt: Attribute.DateTime;
+    title: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::team-page.team-page', 'oneToOne', 'admin::user'> & Attribute.Private;
   };
 }
 
@@ -900,6 +950,7 @@ declare module '@strapi/types' {
       'api::page.page': ApiPagePage;
       'api::report-type.report-type': ApiReportTypeReportType;
       'api::social.social': ApiSocialSocial;
+      'api::team-page.team-page': ApiTeamPageTeamPage;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
