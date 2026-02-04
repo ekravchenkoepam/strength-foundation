@@ -1,7 +1,7 @@
 'use client';
 
 import React, { FC } from 'react';
-import { notFound, useParams } from 'next/navigation';
+import { notFound, useParams, redirect } from 'next/navigation';
 
 import {
   AboutPage,
@@ -13,15 +13,27 @@ import {
 
 import { PageProps } from './types';
 
+const redirectMap: Record<string, string> = {
+  about: 'mission',
+  partnership: 'become-partner',
+  'documents-and-reports': 'documents',
+};
+
+const pageMap: Record<string, FC<PageProps>> = {
+  about: AboutPage,
+  projects: ProjectsPage,
+  partnership: PartnershipPage,
+  news: NewsPage,
+  'documents-and-reports': DocumentsAndReportsPage,
+}
+
 export default function Page() {
   const { locale, slug } = useParams() as PageProps;
 
-  const pageMap: Record<string, FC<PageProps>> = {
-    about: AboutPage,
-    projects: ProjectsPage,
-    partnership: PartnershipPage,
-    news: NewsPage,
-    'documents-and-reports': DocumentsAndReportsPage,
+  const subSlug = redirectMap[slug];
+
+  if (subSlug) {
+    redirect(`/${locale}/${slug}/${subSlug}`);
   }
 
   const PageComponent = pageMap[slug];
