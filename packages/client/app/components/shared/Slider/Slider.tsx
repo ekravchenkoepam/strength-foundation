@@ -7,7 +7,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import Image from "next/image";
 import { getStrapiMedia } from '@/app/utils/api-helpers';
 
 interface SliderProps {
@@ -37,13 +36,12 @@ export const Slider = ({ images = [] }: SliderProps) => {
             {images.map((image, index) => (
               <CarouselItem key={image.id}>
                 <div className="relative w-full h-[650px] rounded-xl overflow-hidden">
-                  <Image
+                  <img
                     src={getStrapiMedia(image.attributes.url)}
                     alt={image.attributes.alternativeText || image.attributes.name}
-                    fill
-                    className="object-cover"
-                    priority={index === 0}
+                    className="object-cover w-full h-full"
                   />
+
 
                   {/* INDICATORS (INSIDE SLIDE) */}
                   <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3">

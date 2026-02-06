@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import {
   Card,
   CardContent,
@@ -84,10 +83,9 @@ export const MemberCard = ({ member }: MemberCardProps) => {
   return (
     <Card className="bg-[#ffffff] border-0 rounded-xl overflow-hidden flex flex-col p-0 w-full">
       <div className="relative w-full h-[425px]">
-        <Image
+        <img
           src={imgUrl}
           alt={member.name}
-          fill
           className="object-cover"
         />
 
