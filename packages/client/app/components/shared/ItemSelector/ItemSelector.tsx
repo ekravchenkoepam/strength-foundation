@@ -14,7 +14,7 @@ export const ItemSelector: FC<AccordionProps> = ({ text, callbackHandler }) => {
         {text}
         <div className={styles.arrowContainer}>
           <span>Переглянути</span>
-          <img src="/images/arrow-right.svg" className={styles.arrow} alt="arrwo"/>
+          <img src="/images/pointer-right.svg" className={styles.arrow} alt="arrwo"/>
         </div>
       </div>
     </div>
