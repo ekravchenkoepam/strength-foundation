@@ -31,9 +31,8 @@ export default function SubPage() {
   }
 
   return (
-    <div className="p-[50px]">
+    <div className="w-full">
       <PageComponent locale={locale} slug={slug} subSlug={subSlug} />
     </div>
   )
 }
-
