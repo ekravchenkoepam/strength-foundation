@@ -7,7 +7,8 @@ import {
   ReportsPage,
   DocumentsPage,
   TeamPage,
-  MissionPage
+  MissionPage,
+  PartnerPage
 } from './components';
 
 import { PageProps } from '../types';
@@ -19,7 +20,8 @@ export default function SubPage() {
     reports: ReportsPage,
     documents: DocumentsPage,
     team: TeamPage,
-    mission: MissionPage
+    mission: MissionPage,
+    'become-partner': PartnerPage,
   };
 
   const PageComponent = pageMap[subSlug as string];
@@ -29,7 +31,7 @@ export default function SubPage() {
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+    <div className="p-[50px]">
       <PageComponent locale={locale} slug={slug} subSlug={subSlug} />
     </div>
   )

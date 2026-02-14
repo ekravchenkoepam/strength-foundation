@@ -7,3 +7,4 @@ export { Accordion } from './Accordion';
 export { Loading } from './Loading';
 export { Slider } from './Slider';
 export { MemberCard } from './MemeberCard';
+export { Collapse } from './Collapse';
