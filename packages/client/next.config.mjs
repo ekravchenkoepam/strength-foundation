@@ -12,6 +12,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "images.pexels.com",
       },
+      {
+        protocol: "https",
+        hostname: "**.media.strapiapp.com",
+        pathname: "/**",
+      },
     ],
   },
   async redirects() {
