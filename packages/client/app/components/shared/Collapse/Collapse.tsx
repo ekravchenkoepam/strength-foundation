@@ -15,24 +15,26 @@ interface CollapseProps {
 }
 
 export function Collapse({
-                           trigger,
-                           children,
-                           className,
-                           triggerClassName,
-                           contentClassName
-                         }: CollapseProps) {
+ trigger,
+ children,
+ className,
+ triggerClassName,
+ contentClassName
+}: CollapseProps) {
   return (
     <Accordion type="single" collapsible className={`w-full ${className || ''}`}>
       <AccordionItem
         value="item-1"
-        className="border-2 border-[#EFCB4C] rounded-lg border-b-2"
+        className="border-0"
       >
         <AccordionTrigger
-          className={`px-6 py-4 hover:bg-[#F5E094] transition-colors [&[data-state=open]]:bg-[#F5E094] ${triggerClassName || ''}`}
+          className={`py-[32px] px-[24px] border-2 border-[#EFCB4C] rounded-lg hover:bg-[#F5E094] transition-colors data-[state=open]:bg-[#F5E094] data-[state=open]:rounded-b-none ${triggerClassName || ''}`}
         >
           {trigger}
         </AccordionTrigger>
-        <AccordionContent className={`px-6 py-4 ${contentClassName || ''}`}>
+        <AccordionContent
+          className={`py-[32px] px-[24px] border-2 border-t-0 border-[#EFCB4C] rounded-b-lg bg-white shadow-[0_-10px_18px_rgba(0,0,0,0.08)] ${contentClassName || ''}`}
+        >
           {children}
         </AccordionContent>
       </AccordionItem>

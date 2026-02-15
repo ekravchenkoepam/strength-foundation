@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { Button, ButtonTypeEnum, Logo, Socials } from '@/app/components/shared';
 import { ArrowDown } from '@/app/components/icons';
@@ -17,6 +18,7 @@ import styles from './header.module.scss';
 
 export const Header = () => {
   const { links, socials, locale } = useApp()
+  const router = useRouter();
 
   const sortedLinks = sortByPosition(links)
   const sortedSocials = sortByPosition(socials)
@@ -33,7 +35,11 @@ export const Header = () => {
             color={SOCIALS_STYLES.COLOR}
           />
           <div className={styles.supportButtonsContainer}>
-            <Button label="Звернутись по допомогу" type={ButtonTypeEnum.Secondary} />
+            <Button
+              label="Звернутись по допомогу"
+              type={ButtonTypeEnum.Secondary}
+              onClick={() => router.push(`/${locale}/faq`)}
+            />
             <Button label="Підтримати нас" type={ButtonTypeEnum.Primary} />
           </div>
         </div>

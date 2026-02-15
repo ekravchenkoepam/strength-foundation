@@ -9,6 +9,7 @@ import {
   NewsPage,
   PartnershipPage,
   ProjectsPage,
+  FaqPage,
 } from './components';
 
 import { PageProps } from './types';
@@ -25,6 +26,7 @@ const pageMap: Record<string, FC<PageProps>> = {
   partnership: PartnershipPage,
   news: NewsPage,
   'documents-and-reports': DocumentsAndReportsPage,
+  faq: FaqPage,
 }
 
 export default function Page() {
@@ -40,6 +42,10 @@ export default function Page() {
 
   if (!PageComponent) {
     notFound();
+  }
+
+  if (slug === 'faq') {
+    return <PageComponent locale={locale} slug={slug} />;
   }
 
   return (
