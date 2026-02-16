@@ -55,7 +55,7 @@ export const TeamPage = ({ locale, slug, subSlug }: PageProps) => {
 
   return (
     <>
-      <div className="text-[44px] font-bold mt-[32px] mb-[74px]">{title}</div>
+      <div className="text-[44px] text-center font-bold mt-[32px] mb-[74px]">{title}</div>
       <Slider images={images} />
       <div className="flex items-center gap-8 p-[84px] px-[280px] text-[16px]">
         {motto}
