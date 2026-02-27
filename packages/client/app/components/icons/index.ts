@@ -6,3 +6,5 @@ export { TiktokIcon } from './TiktokIcon';
 export { YoutubeIcon } from './YoutubeIcon';
 export { SpotifyIcon } from './SpotifyIcon';
 export { ArrowDown } from './ArrowDown';
+export { ViberIcon } from './ViberIcon';
+export { WhatsappIcon } from './WhatsappIcon';
