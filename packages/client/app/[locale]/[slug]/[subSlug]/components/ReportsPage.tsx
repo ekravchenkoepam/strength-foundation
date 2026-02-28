@@ -1,16 +1,16 @@
 'use client';
 
-import React, { FC, useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
+import React, { FC, useState } from 'react';
 
-import { fetchAPI } from '@/app/utils/fetch-api';
+import styles from '../../../page.module.scss';
 import { PageProps } from '../../types';
 
 import { Tab, Accordion, Loading } from '@/app/components/shared';
-import { extractAttributes } from '@/app/utils/api-helpers';
 import { sortByPosition } from '@/app/helpers';
-
-import styles from '../../../page.module.scss'
+import { extractAttributes } from '@/app/utils/api-helpers';
+import { fetchAPI } from '@/app/utils/fetch-api';
 
 const sortYears = (years: any[]) => {
   return [...years].sort((a, b) => {
@@ -21,35 +21,22 @@ const sortYears = (years: any[]) => {
 };
 
 export const ReportsPage: FC<PageProps> = () => {
-  const [reportsByType, setReportsByType] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
   const [openYearId, setOpenYearId] = useState<number | null>(null);
 
-  useEffect(() => {
-    setLoading(true);
+  const { data: reportsByType = [], isLoading: loading } = useQuery<any[]>({
+    queryKey: ['report-types'],
+    queryFn: async () => {
+      const data = await fetchAPI({
+        path: '/report-types',
+        urlParams: { populate: 'years.reports.file,reports' },
+      });
 
-    const fetchReports = async () => {
-      try {
-        const data = await fetchAPI({
-          path: '/report-types',
-          urlParams: { populate: 'years.reports.file,reports' },
-        });
+      return extractAttributes(data.data);
+    },
+  });
 
-        const updatedReports = extractAttributes(data.data)
-
-        setReportsByType(updatedReports);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    void fetchReports();
-  }, []);
-
-  if (loading) return <Loading headerText="Звіти"/>;
+  if (loading) return <Loading headerText="Звіти" />;
   if (!reportsByType.length) return <p>Звітів не знайдено</p>;
 
   const handleTabClick = (index: number) => {
@@ -58,10 +45,10 @@ export const ReportsPage: FC<PageProps> = () => {
   };
 
   const handleToggleYear = (yearId: number) => () => {
-    setOpenYearId((prevId) => (prevId === yearId ? null : yearId));
+    setOpenYearId(prevId => (prevId === yearId ? null : yearId));
   };
 
-  const sortedReports = sortByPosition(reportsByType)
+  const sortedReports = sortByPosition(reportsByType);
 
   const sortedYears = sortYears(reportsByType[activeTab].years);
 
@@ -71,26 +58,17 @@ export const ReportsPage: FC<PageProps> = () => {
         <div className={clsx('h1', styles.pageTitle)}>Звіти</div>
       </div>
       <div className={styles.tabs}>
-        {sortedReports.map((report: any, i: number) => (
-          !report.isHidden && (
-            <Tab
-              key={report.id}
-              name={report.name}
-              isActive={i === activeTab}
-              onClick={() => handleTabClick(i)}
-            />
-          )
-        ))}
+        {sortedReports.map(
+          (report: any, i: number) =>
+            !report.isHidden && (
+              <Tab key={report.id} name={report.name} isActive={i === activeTab} onClick={() => handleTabClick(i)} />
+            )
+        )}
       </div>
 
       <div className={styles.content}>
         {sortedYears.map((year: any) => (
-          <Accordion
-            key={year.id}
-            year={year}
-            isOpen={year.id === openYearId}
-            onToggle={handleToggleYear(year.id)}
-          />
+          <Accordion key={year.id} year={year} isOpen={year.id === openYearId} onToggle={handleToggleYear(year.id)} />
         ))}
       </div>
     </div>

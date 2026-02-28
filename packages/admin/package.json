@@ -10,7 +10,11 @@
     "strapi": "strapi",
     "deploy": "strapi deploy",
     "seed:faq": "node scripts/seed-faq.js",
-    "seed:faq:admin": "node scripts/seed-faq-admin.js"
+    "seed:faq:admin": "node scripts/seed-faq-admin.js",
+    "seed:questionnaire": "node scripts/seed-questionnaire.js",
+    "seed:questionnaire:admin": "node scripts/seed-questionnaire-admin.js",
+    "seed:testimonial": "node scripts/seed-testimonial.js",
+    "seed:testimonial:admin": "node scripts/seed-testimonial-admin.js"
   },
   "dependencies": {
     "@_sh/strapi-plugin-ckeditor": "^3.0.9",

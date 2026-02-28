@@ -1,0 +1,25 @@
+{
+  "questionnaires": [
+    {
+      "title": "Анкета для психологів",
+      "url": "https://airtable.com/embed/app2Yg2dKMat5z8CI/pagYCW0ABHs1VuPO0/form",
+      "position": 1,
+      "description": "",
+      "isExternal": true
+    },
+    {
+      "title": "Анкета для юристів",
+      "url": "https://airtable.com/embed/app2Yg2dKMat5z8CI/pagclRlxONpig92p7/form",
+      "position": 2,
+      "description": "",
+      "isExternal": true
+    },
+    {
+      "title": "Анкета для волонтерів",
+      "url": "https://airtable.com/embed/appHf0wEp7PWiSv01/pag9HuYfS2PTVVyeD/form",
+      "position": 3,
+      "description": "",
+      "isExternal": true
+    }
+  ]
+}

@@ -585,6 +585,59 @@ export interface ApiPagePage extends Schema.CollectionType {
   };
 }
 
+export interface ApiQuestionnaireQuestionnaire extends Schema.CollectionType {
+  collectionName: 'questionnaires';
+  info: {
+    description: 'Questionnaire links for Volunteer page';
+    displayName: 'Questionnaire';
+    pluralName: 'questionnaires';
+    singularName: 'questionnaire';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::questionnaire.questionnaire', 'oneToOne', 'admin::user'> & Attribute.Private;
+    description: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    isExternal: Attribute.Boolean & Attribute.DefaultTo<true>;
+    locale: Attribute.String;
+    localizations: Attribute.Relation<
+      'api::questionnaire.questionnaire',
+      'oneToMany',
+      'api::questionnaire.questionnaire'
+    >;
+    position: Attribute.Integer &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<0>;
+    publishedAt: Attribute.DateTime;
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::questionnaire.questionnaire', 'oneToOne', 'admin::user'> & Attribute.Private;
+    url: Attribute.String & Attribute.Required;
+  };
+}
+
 export interface ApiReportTypeReportType extends Schema.CollectionType {
   collectionName: 'report_types';
   info: {
@@ -714,6 +767,61 @@ export interface ApiTeamPageTeamPage extends Schema.SingleType {
       }>;
     updatedAt: Attribute.DateTime;
     updatedBy: Attribute.Relation<'api::team-page.team-page', 'oneToOne', 'admin::user'> & Attribute.Private;
+  };
+}
+
+export interface ApiTestimonialTestimonial extends Schema.CollectionType {
+  collectionName: 'testimonials';
+  info: {
+    description: 'Volunteer testimonials for the volunteer page';
+    displayName: 'Testimonial';
+    pluralName: 'testimonials';
+    singularName: 'testimonial';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::testimonial.testimonial', 'oneToOne', 'admin::user'> & Attribute.Private;
+    locale: Attribute.String;
+    localizations: Attribute.Relation<'api::testimonial.testimonial', 'oneToMany', 'api::testimonial.testimonial'>;
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    position: Attribute.Integer &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }> &
+      Attribute.DefaultTo<0>;
+    publishedAt: Attribute.DateTime;
+    role: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    text: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::testimonial.testimonial', 'oneToOne', 'admin::user'> & Attribute.Private;
   };
 }
 
@@ -1047,9 +1155,11 @@ declare module '@strapi/types' {
       'api::mission-page.mission-page': ApiMissionPageMissionPage;
       'api::navigation.navigation': ApiNavigationNavigation;
       'api::page.page': ApiPagePage;
+      'api::questionnaire.questionnaire': ApiQuestionnaireQuestionnaire;
       'api::report-type.report-type': ApiReportTypeReportType;
       'api::social.social': ApiSocialSocial;
       'api::team-page.team-page': ApiTeamPageTeamPage;
+      'api::testimonial.testimonial': ApiTestimonialTestimonial;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

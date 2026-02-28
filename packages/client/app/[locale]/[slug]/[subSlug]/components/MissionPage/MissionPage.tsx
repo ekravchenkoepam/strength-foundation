@@ -1,37 +1,28 @@
-import React, { useEffect, useState } from 'react'
-import clsx from 'clsx'
-import { fetchAPI } from '@/app/utils/fetch-api'
-import { Loading } from '@/app/components/shared'
-import { getStrapiMedia } from '@/app/utils/api-helpers'
+import { useQuery } from '@tanstack/react-query';
+import clsx from 'clsx';
+import React from 'react';
 
-import styles from './MissionPage.module.scss'
+import styles from './MissionPage.module.scss';
+
+import { Loading } from '@/app/components/shared';
+import { getStrapiMedia } from '@/app/utils/api-helpers';
+import { fetchAPI } from '@/app/utils/fetch-api';
 
 export const MissionPage = () => {
-  const [missionPage, setMissionPage] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
+  const { data: missionPage, isLoading: loading } = useQuery({
+    queryKey: ['mission-page'],
+    queryFn: async () => {
+      const data = await fetchAPI({
+        path: '/mission-page',
+        urlParams: { populate: 'missionBlock.image,principles' },
+      });
+      return data.data;
+    },
+  });
 
-  useEffect(() => {
-    const fetchMissionPage = async () => {
-      try {
-        setLoading(true)
-        const data = await fetchAPI({
-          path: '/mission-page',
-          urlParams: { populate: 'missionBlock.image,principles' }
-        })
-        setMissionPage(data.data)
-      } catch (error) {
-        console.error(error)
-      } finally {
-        setLoading(false)
-      }
-    }
+  if (loading) return <Loading headerText="Місія та цінності" />;
 
-    void fetchMissionPage()
-  }, [])
-
-  if (loading) return <Loading headerText="Місія та цінності" />
-
-  if (!missionPage) return null
+  if (!missionPage) return null;
 
   return (
     <div className={styles.missionPage}>
@@ -39,33 +30,27 @@ export const MissionPage = () => {
 
       <div className={styles.missionBlock}>
         {missionPage.attributes.missionBlock.map((block: any, index: number) => {
-          const isEven = index % 2 !== 0
+          const isEven = index % 2 !== 0;
 
           return (
             <div
               key={block.id}
               className={clsx(styles.missionSection, {
-                [styles.reversed]: isEven
+                [styles.reversed]: isEven,
               })}
             >
               <div className={styles.missionImage}>
                 {block?.image?.data && (
-                  <img
-                    src={getStrapiMedia(block.image.data.attributes.url)}
-                    alt={block.image.data.attributes.name}
-                  />
+                  <img src={getStrapiMedia(block.image.data.attributes.url)} alt={block.image.data.attributes.name} />
                 )}
               </div>
 
               <div className={styles.missionContent}>
                 <h2>{block.title}</h2>
-                <div
-                  className={styles.missionText}
-                  dangerouslySetInnerHTML={{ __html: block.content }}
-                />
+                <div className={styles.missionText} dangerouslySetInnerHTML={{ __html: block.content }} />
               </div>
             </div>
-          )
+          );
         })}
       </div>
       <div className={styles.principlesBlock}>
@@ -74,20 +59,14 @@ export const MissionPage = () => {
           {missionPage.attributes.principles.map((principle: any) => (
             <div key={principle.id} className={styles.principleItem}>
               <div className={styles.principleIcon}>
-                <img
-                  src={`/images/icons/${principle.icon}.svg`}
-                  alt={principle.title}
-                />
+                <img src={`/images/icons/${principle.icon}.svg`} alt={principle.title} />
               </div>
               <h3>{principle.title}</h3>
-              <div
-                className={styles.principleContent}
-                dangerouslySetInnerHTML={{ __html: principle.content }}
-              ></div>
+              <div className={styles.principleContent} dangerouslySetInnerHTML={{ __html: principle.content }}></div>
             </div>
           ))}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

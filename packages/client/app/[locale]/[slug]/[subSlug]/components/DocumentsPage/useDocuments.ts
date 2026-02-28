@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
-import { fetchAPI } from '@/app/utils/fetch-api';
-import { getStrapiMedia } from '@/app/utils/api-helpers';
+import { useQuery } from '@tanstack/react-query';
 
-interface  DocumentsFile {
+import { getStrapiMedia } from '@/app/utils/api-helpers';
+import { fetchAPI } from '@/app/utils/fetch-api';
+
+interface DocumentsFile {
   data: {
     id: number;
     attributes: {
@@ -21,8 +22,8 @@ interface  DocumentsFile {
       size: number | null;
       updatedAt: string;
       url: string | null;
-    }
-  }
+    };
+  };
 }
 
 interface DocumentsAttributes {
@@ -45,38 +46,29 @@ export interface ParsedDocs {
 }
 
 export const useDocuments = () => {
-  const [documentsList, setDocumentsList] =  useState<ParsedDocs[]>([]);
-
   const parseDocuments = (documentsRes: DocumentsResponse[]): ParsedDocs[] => {
     return documentsRes.map((doc: DocumentsResponse) => ({
       id: doc.id,
       name: doc.attributes.name,
-      url: getStrapiMedia(doc.attributes.file.data.attributes.url ?? '')
-    }))
-  }
+      url: getStrapiMedia(doc.attributes.file.data.attributes.url ?? ''),
+    }));
+  };
 
-  useEffect(() => {
-    const fetchReports = async () => {
-      try {
-        const { data } = await fetchAPI({
-          path: '/documents',
-          urlParams: { populate: '*' },
-        });
+  const { data: documentsList = [], isLoading } = useQuery<ParsedDocs[]>({
+    queryKey: ['documents'],
+    queryFn: async () => {
+      const { data } = await fetchAPI({
+        path: '/documents',
+        urlParams: { populate: '*' },
+      });
 
-        setDocumentsList(parseDocuments(data));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    void fetchReports();
-  }, []);
-
+      return parseDocuments(data || []);
+    },
+  });
 
   const openInNewTab = (link: string) => () => {
     window.open(link, '_blank');
   };
 
-
-  return { documentsList, openInNewTab };
-}
+  return { documentsList, openInNewTab, isLoading };
+};
