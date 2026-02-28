@@ -1,15 +1,14 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-
-import { getStrapiMedia } from '@/app/utils/api-helpers';
-import { getPageBySlug } from '@/app/services/pageService';
-
-import { useApp } from '@/app/context/AppContext';
+import { useQuery } from '@tanstack/react-query';
+import clsx from 'clsx';
 
 import styles from '../page.module.scss';
-import clsx from 'clsx';
-import { Button, ButtonTypeEnum } from '@/app/components/shared';
+
+import { Button, ButtonTypeEnum, Loading } from '@/app/components/shared';
+import { useApp } from '@/app/context/AppContext';
+import { getPageBySlug } from '@/app/services/pageService';
+import { getStrapiMedia } from '@/app/utils/api-helpers';
 
 type Block = {
   __component: string;
@@ -18,7 +17,7 @@ type Block = {
   text?: string;
   title?: string;
   description?: string;
-}
+};
 
 type Video = {
   id: string;
@@ -26,7 +25,7 @@ type Video = {
     url: string;
     mime: string;
   };
-}
+};
 
 type Image = {
   id: string;
@@ -34,22 +33,20 @@ type Image = {
     url: string;
     alternativeText?: string;
   };
-}
+};
 
 type Homepage = {
   attributes: {
     blocks: Block[];
   };
-}
+};
 
 export default function Home() {
   const { locale } = useApp();
-  const [homepage, setHomepage] = useState<Homepage | null>(null);
-
-  useEffect(() => {
-    async function fetchPage() {
-      if (!locale) return;
-
+  const { data: homepage, isLoading } = useQuery<Homepage | null>({
+    queryKey: ['home-page', locale],
+    enabled: Boolean(locale),
+    queryFn: async () => {
       const page = await getPageBySlug({
         slug: 'home',
         populate: {
@@ -57,46 +54,47 @@ export default function Home() {
         },
         locale,
       });
-      setHomepage(page);
-    }
-    void fetchPage();
-  }, [locale]);
+
+      return page || null;
+    },
+  });
+
+  if (isLoading) {
+    return <Loading headerText="Головна" />;
+  }
 
   return (
     <div className={styles.homePage}>
       <div className={styles.headerBlock}>
         {homepage?.attributes?.blocks?.map((block: Block, index: number) => {
           switch (block.__component) {
-            case "blocks.video":
+            case 'blocks.video':
               return (
                 <div key={index}>
-                  {block.video?.data?.map((video) => (
+                  {block.video?.data?.map(video => (
                     <video key={video.id} controls width="600">
-                      <source
-                        src={getStrapiMedia(video.attributes?.url)}
-                        type={video.attributes?.mime}
-                      />
+                      <source src={getStrapiMedia(video.attributes?.url)} type={video.attributes?.mime} />
                       Your browser does not support the video tag.
                     </video>
                   ))}
                 </div>
               );
 
-            case "blocks.image":
+            case 'blocks.image':
               return (
                 <div key={index}>
-                  {block.image?.data?.map((img) => (
+                  {block.image?.data?.map(img => (
                     <img
                       key={img.id}
                       src={getStrapiMedia(img.attributes?.url)}
-                      alt={img.attributes?.alternativeText || ""}
+                      alt={img.attributes?.alternativeText || ''}
                       width="500"
                     />
                   ))}
                 </div>
               );
 
-            case "blocks.header-block":
+            case 'blocks.header-block':
               return (
                 <div key={index} className={styles.headerBlockContainer}>
                   <div className={styles.text}>{block.text}</div>
@@ -117,21 +115,18 @@ export default function Home() {
           <div className={styles.description}>
             <div className={styles.text}>
               <p>
-                Наша місія — сприяння звільненню військовополонених
-                та надання допомоги їхнім родинам, а також героям, що
-                повернулися з полону.
+                Наша місія — сприяння звільненню військовополонених та надання допомоги їхнім родинам, а також героям,
+                що повернулися з полону.
               </p>
-              <br/>
+              <br />
               <p>
-                Ми прагнемо повернути героїв додому, підтримати їхніх
-                близьких і привернути увагу суспільства до цієї проблеми.
+                Ми прагнемо повернути героїв додому, підтримати їхніх близьких і привернути увагу суспільства до цієї
+                проблеми.
               </p>
-              <br/>
+              <br />
               <p>
-                Ми створили фонд, об’єднавши наші навички та досвід,
-                бо неможливо залишатися осторонь, коли наші герої щодня
-                перебувають у полоні, а їхні родини стукають у всі двері,
-                шукаючи підтримки.
+                Ми створили фонд, об’єднавши наші навички та досвід, бо неможливо залишатися осторонь, коли наші герої
+                щодня перебувають у полоні, а їхні родини стукають у всі двері, шукаючи підтримки.
               </p>
             </div>
             <div className={styles.buttons}>
@@ -159,10 +154,8 @@ export default function Home() {
                 <div className={styles.name}>Анастасія Артемова</div>
                 <div className={styles.role}>Співзасновниця</div>
                 <div className={styles.extraInfo}>
-                  Координаторка проєктів
-                  "Історії сильних", “Допомога родинам
-                  військовополонених”, а також організаторка
-                  власної фотовиставки фонду.
+                  Координаторка проєктів &quot;Історії сильних&quot;, “Допомога родинам військовополонених”, а також
+                  організаторка власної фотовиставки фонду.
                 </div>
               </div>
             </div>
@@ -175,9 +168,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className={clsx(styles.activitiesBlockContainer, styles.container)}>
-
-      </section>
+      <section className={clsx(styles.activitiesBlockContainer, styles.container)}></section>
     </div>
   );
 }
