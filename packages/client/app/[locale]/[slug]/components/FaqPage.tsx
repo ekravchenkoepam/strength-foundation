@@ -96,7 +96,7 @@ export const FaqPage = () => {
 
   return (
     <div className="w-full text-[16px] text-[var(--color-dark)]">
-      <section className="-mx-[50px] bg-[var(--color-light)] px-[52px] pt-[32px] pb-[90px]">
+      <section className="-mx-[50px] bg-[var(--white-80)] px-[52px] pt-[32px] pb-[90px]">
         <div className="mx-auto flex w-full flex-col items-center text-center">
           <div className="h1 mb-[74px]">Потрібна допомога?</div>
           <div className="max-w-[760px] text-[16px] text-left leading-7 text-[var(--black-80)]">
@@ -146,7 +146,7 @@ export const FaqPage = () => {
           {normalizedCategories.map(category => (
             <div
               key={category.id}
-              className="rounded-[16px] bg-[var(--color-light)] p-[40px] shadow-[0_10px_32px_rgba(0,0,0,0.08)] last:mb-0"
+              className="rounded-[16px] bg-[var(--white-80)] p-[40px] shadow-[0_10px_32px_rgba(0,0,0,0.08)] last:mb-0"
             >
               <div className="mb-[32px] text-[28px] font-semibold">{category.title}</div>
               <div className="flex flex-col gap-[32px]">

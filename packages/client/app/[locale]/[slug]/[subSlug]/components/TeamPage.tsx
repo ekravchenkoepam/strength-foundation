@@ -36,8 +36,6 @@ export const TeamPage = () => {
 
   if (loading) return <Loading headerText="Наша команда" />;
 
-  console.log({ teamPage });
-
   const title = teamPage?.attributes?.title || '';
   const images = teamPage?.attributes?.images?.data || [];
   const motto = teamPage?.attributes?.motto || '';
@@ -45,25 +43,27 @@ export const TeamPage = () => {
 
   return (
     <>
-      <div className="text-[44px] text-center font-bold mt-[32px] mb-[74px]">{title}</div>
+      <div className="h1 mt-6 mb-8 text-center md:mt-8 md:mb-12">{title}</div>
       <Slider images={images} />
-      <div className="flex items-center gap-8 p-[84px] px-[280px] text-[16px]">{motto}</div>
+      <div className="px-4 py-10 text-[16px] leading-[24px] md:px-8 md:py-14 lg:px-[120px] xl:px-[220px]">
+        {motto}
+      </div>
       <div
         className="
-        relative
-        flex justify-center gap-[32px]
         bg-[rgb(72,72,56)]
         bg-[url('/images/asphalt-bg.png')]
         bg-cover bg-center bg-no-repeat
-        w-full px-[52px] pt-[100px] pb-[200px]
+        w-full px-4 pt-12 pb-14 md:px-6 md:pt-16 md:pb-20 lg:px-[52px] lg:pt-[100px] lg:pb-[120px]
       "
       >
-        <div className="flex justify-center gap-[32px] relative max-w-[1200px] w-full">
-          {members.map((member: any) => (
-            <MemberCard key={member.id} member={member} />
-          ))}
+        <div className="mx-auto w-full max-w-[1200px]">
+          <div className="flex w-full flex-col gap-4 pb-3 md:gap-6 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-8">
+            {members.map((member: any) => (
+              <MemberCard key={member.id} member={member} />
+            ))}
+          </div>
 
-          <div className="absolute -bottom-[80px] right-0">
+          <div className="mt-6 flex justify-end md:mt-8 lg:mt-10">
             <button className="flex items-center gap-2 text-white hover:underline transition-colors text-[16px]">
               <div className="text-[16px]">Переглянути усіх членів команди</div>
               <Image src="/images/pointer-right.svg" alt="arrow" width={20} height={20} className="invert" />
@@ -71,7 +71,7 @@ export const TeamPage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full bg-white text-center py-[120px] px-4">
+      <div className="w-full bg-[var(--white-80)] text-center py-[120px] px-4">
         <h2 className="text-[44px] font-bold mb-8">Хочеш бути частиною змін?</h2>
 
         <div className="text-left">

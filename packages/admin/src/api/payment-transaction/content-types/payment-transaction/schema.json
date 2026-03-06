@@ -1,0 +1,87 @@
+{
+  "kind": "collectionType",
+  "collectionName": "payment_transactions",
+  "info": {
+    "singularName": "payment-transaction",
+    "pluralName": "payment-transactions",
+    "displayName": "Payment Transaction"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "eventKey": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": ["callback", "status_api", "checkout_init", "system"],
+      "default": "callback"
+    },
+    "eventType": {
+      "type": "enumeration",
+      "enum": ["payment", "subscription", "intent", "unknown"],
+      "default": "unknown"
+    },
+    "eventAt": {
+      "type": "datetime"
+    },
+    "orderId": {
+      "type": "string"
+    },
+    "liqpayOrderId": {
+      "type": "string"
+    },
+    "paymentId": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "senderPhone": {
+      "type": "string"
+    },
+    "paymentType": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "mode": {
+      "type": "string"
+    },
+    "periodicity": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "decimal"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "subscribeId": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "signatureValid": {
+      "type": "boolean"
+    },
+    "payload": {
+      "type": "json"
+    },
+    "requestMeta": {
+      "type": "json"
+    }
+  }
+}

@@ -10,12 +10,14 @@ type BreadcrumbsProps = {
 }
 
 export const Breadcrumbs: FC<BreadcrumbsProps> = ({ breadcrumbs, locale }) => {
+  const buildHref = (href: string) => (href === '/' ? `/${locale}` : `/${locale}/${href}`);
+
   return (
     <div className={styles.container}>
       <ul className={styles.breadcrumbs}>
         {breadcrumbs.slice(0, -1).map(({ href, title }) => (
           <li key={title} className={styles.breadcrumb}>
-            <Link href={`/${locale}/${href}`}>{title}</Link>
+            <Link href={buildHref(href)}>{title}</Link>
             <img src="/images/breadcrumb-arrow.svg" alt="breadcrumb-arrow" />
           </li>
         ))}
@@ -29,4 +31,3 @@ export const Breadcrumbs: FC<BreadcrumbsProps> = ({ breadcrumbs, locale }) => {
     </div>
   );
 };
-
