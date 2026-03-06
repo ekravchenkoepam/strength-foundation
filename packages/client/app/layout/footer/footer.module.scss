@@ -5,11 +5,24 @@
   .footerWrapper {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 32px;
     justify-content: space-between;
     padding: 80px 52px 40px;
 
+    .logoContainer {
+      .logo {
+        img {
+          display: block;
+          max-width: 180px;
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+
     .contactsContainer {
+      min-width: 0;
+
       .contacts {
         display: flex;
         flex-direction: column;
@@ -24,22 +37,26 @@
           gap: 16px;
           font-size: var(--h9-size);
           line-height: var(--h9-line);
+          min-width: 0;
 
           .address, .registration {
             display: flex;
             flex-direction: column;
             gap: 18px;
+            min-width: 0;
           }
 
           .phones {
             display: flex;
             flex-direction: column;
             gap: 5px;
+            min-width: 0;
           }
 
           a {
             color: var(--white-100);
             text-decoration: none;
+            overflow-wrap: anywhere;
 
             &:hover {
               text-decoration: underline;
@@ -74,6 +91,80 @@
       text-underline-offset: 3px;
       text-decoration: underline;
       cursor: pointer;
+    }
+  }
+}
+
+@media (max-width: 1023px) {
+  .footer {
+    .footerWrapper {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 32px 36px;
+      padding: 56px 40px 32px;
+      align-items: start;
+
+      .logoContainer {
+        grid-column: 1 / 2;
+      }
+
+      > .contactsContainer:last-child {
+        grid-column: 2 / 3;
+      }
+
+      .contactsContainer {
+        .contacts {
+          margin-top: 16px;
+          gap: 10px;
+
+          li {
+            gap: 12px;
+          }
+        }
+      }
+    }
+
+    .copyrightContainer {
+      padding: 24px 40px;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .footer {
+    .footerWrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      padding: 36px 20px 24px;
+
+      .logoContainer {
+        .logo {
+          img {
+            max-width: 168px;
+          }
+        }
+      }
+
+      .contactsContainer {
+        width: 100%;
+
+        .contacts {
+          margin-top: 12px;
+          gap: 8px;
+
+          li {
+            font-size: 15px;
+            line-height: 22px;
+            gap: 10px;
+          }
+        }
+      }
+    }
+
+    .copyrightContainer {
+      padding: 16px 20px;
+      gap: 4px;
     }
   }
 }

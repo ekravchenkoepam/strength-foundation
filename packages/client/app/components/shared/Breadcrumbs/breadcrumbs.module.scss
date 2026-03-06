@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   font-size: 16px;
   padding: 48px 52px 0;
@@ -10,6 +10,8 @@
 .breadcrumbs {
   display: flex;
   gap: 8px;
+  align-items: center;
+  padding: 0;
 }
 
 .breadcrumb {
@@ -24,4 +26,55 @@
   &.inactive {
     color: var(--black-100);
   }
+}
+
+@media (max-width: 1023px) {
+  .container {
+    justify-content: flex-start;
+    padding: 22px 20px 0;
+    font-size: 16px;
+  }
+
+  .breadcrumbs {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+
+  .breadcrumb {
+    text-align: left;
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    justify-content: flex-start;
+    padding: 16px 16px 0;
+    font-size: 14px;
+  }
+
+  .breadcrumbs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+    justify-content: flex-start;
+    white-space: nowrap;
+    scrollbar-width: none;
+    gap: 6px;
+  }
+
+  .breadcrumbs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .breadcrumb {
+    flex-shrink: 0;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 420px) {
+  .breadcrumbs { gap: 4px; }
+  .breadcrumb { gap: 4px; }
 }

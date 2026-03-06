@@ -1,142 +1,85 @@
-.headerContainer {
+.desktopLinksContainer {
   width: 100%;
   display: flex;
-  justify-content: space-between;
-  gap: 24px;
+  justify-content: center;
+  gap: 48px;
+  align-items: center;
+  padding: 0;
   overflow: visible;
 
-  .headerContent {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    font-weight: 500;
+  li {
+    position: relative;
 
-    .utilityContainer {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      justify-content: space-between;
-      width: 100%;
-      padding: 15px 52px 20px;
-      background: var(--green-100);
+    > a {
+      transition: background 0.2s, color 0.2s;
 
-      .supportButtonsContainer {
-        display: flex;
-        gap: 24px;
+      &:hover {
+        border-bottom: 2px solid var(--black-100);
       }
+    }
+
+    &:hover .sublinks {
+      display: block;
     }
   }
 }
 
-.navigationContainer {
-  width: 100%;
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  justify-content: center;
-  padding: 22px 70px;
-  border-bottom: 2px solid var(--yellow-100);
+.sublinks {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  background: var(--white-100);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  width: max-content;
+  min-width: 100%;
 
-  .nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 65px;
-
-    .linksContainer {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      gap: 48px;
-      align-items: center;
-      list-style: none;
-      padding: 0;
-      overflow: visible;
-
-      li {
-        position: relative;
-
-        a {
-          display: flex;
-          align-items: center;
-          text-decoration: none;
-          color: var(--black-100);
-          background: transparent;
-          transition: background 0.2s, color 0.2s;
-
-          &:hover {
-            border-bottom: 2px solid var(--black-100);
-          }
-        }
-
-        .sublinks {
-          display: none;
-          position: absolute;
-          top: 100%;
-          left: 0;
-          z-index: 1000;
-          background: var(--white-100);
-          border-radius: var(--border-radius);
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          padding: 12px;
-          width: max-content;
-          min-width: 100%;
-
-          li {
-            a {
-              display: block;
-              padding: 8px 12px;
-              white-space: nowrap;
-              color: var(--black-100);
-              font-weight: 400;
-              text-underline-offset: 3px;
-              text-decoration-thickness: 1px;
-            }
-
-            a:hover {
-              text-decoration: underline;
-              text-decoration-color: currentColor;
-              border: none;
-            }
-          }
-        }
-
-        &:hover .sublinks {
-          display: block;
-        }
-      }
-    }
-
-  }
-
-  .languages {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .language {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    padding: 4px 0;
-    color: var(--grey-50);
-    cursor: pointer;
-    position: relative;
-
-    &:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      right: -6px;
-      top: 20%;
-      height: 60%;
-      width: 1px;
-      background-color: var(--grey-50);
-    }
-  }
-
-  .currentLang {
+  li a {
+    display: block;
+    padding: 8px 12px;
+    white-space: nowrap;
     color: var(--black-100);
+    font-weight: 400;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+
+    &:hover {
+      text-decoration: underline;
+      text-decoration-color: currentColor;
+      border: none;
+    }
   }
+}
+
+.languages {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.language {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 0;
+  color: var(--grey-50);
+  cursor: pointer;
+  position: relative;
+
+  &:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 20%;
+    height: 60%;
+    width: 1px;
+    background-color: var(--grey-50);
+  }
+}
+
+.currentLang {
+  color: var(--black-100);
 }

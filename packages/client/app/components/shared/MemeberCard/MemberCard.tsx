@@ -82,13 +82,13 @@ export const MemberCard = ({ member }: MemberCardProps) => {
     .join('\n\n');
 
   return (
-    <Card className="bg-[#ffffff] border-0 rounded-xl overflow-hidden flex flex-col p-0 w-full">
+    <Card className="bg-[#ffffff] border-0 rounded-xl overflow-hidden flex flex-col p-0 w-full min-w-0 lg:min-w-0 lg:w-full">
       <div className="relative w-full h-[425px]">
         <Image
           src={imgUrl}
           alt={member.name}
           fill
-          className="object-cover"
+          className="object-cover object-top lg:object-center"
         />
 
         <div className="absolute bottom-0 left-0 right-0 p-6">
@@ -113,7 +113,7 @@ export const MemberCard = ({ member }: MemberCardProps) => {
         </div>
       </div>
 
-      <CardContent className="text-sm text-black leading-relaxed whitespace-pre-line p-8">
+      <CardContent className="text-sm text-black leading-relaxed whitespace-pre-line p-5 md:p-6 lg:p-8">
         {descriptionText}
       </CardContent>
     </Card>

@@ -33,13 +33,13 @@ export default function SlugLayout({ children }: SlugLayoutProps) {
 
   const breadcrumbs = buildBreadcrumbs(links, slug as string, subSlug as string)
 
-  const isReportPage = subSlug === 'reports';
+  const isDocumentsAndReportsPage = subSlug === 'reports' || subSlug === 'documents';
 
   return (
     <div
       className={clsx(
         styles.layout,
-        isReportPage && styles.reportPage
+        isDocumentsAndReportsPage && styles.reportPage
       )}
     >
       {!!breadcrumbs.length && (

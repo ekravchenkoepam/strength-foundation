@@ -191,7 +191,7 @@ body {
 
 body {
   color: var(--color-dark);
-  background: var(--color-light);
+  background: var(--white-80);
   font-family: var(--font-e-ukraine);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -143,7 +143,7 @@ export const VolunteerPage = (_: PageProps) => {
                       'h-[44px] w-[44px] rounded-full',
                       'text-[length:var(--h6-size)] leading-[1]',
                       activeReviewIndex === index
-                        ? 'border border-[var(--white-100)] bg-[var(--white-100)] text-[color:var(--green-100)]'
+                        ? 'border border-[var(--white-80)] bg-[var(--white-80)] text-[color:var(--green-100)]'
                         : 'border border-white/65 bg-transparent text-[color:var(--white-100)]'
                     )}
                   >

@@ -585,6 +585,49 @@ export interface ApiPagePage extends Schema.CollectionType {
   };
 }
 
+export interface ApiPaymentTransactionPaymentTransaction extends Schema.CollectionType {
+  collectionName: 'payment_transactions';
+  info: {
+    displayName: 'Payment Transaction';
+    pluralName: 'payment-transactions';
+    singularName: 'payment-transaction';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    action: Attribute.String;
+    amount: Attribute.Decimal;
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::payment-transaction.payment-transaction', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    currency: Attribute.String;
+    description: Attribute.String;
+    email: Attribute.Email;
+    eventAt: Attribute.DateTime;
+    eventKey: Attribute.String & Attribute.Required & Attribute.Unique;
+    eventType: Attribute.Enumeration<['payment', 'subscription', 'intent', 'unknown']> & Attribute.DefaultTo<'unknown'>;
+    liqpayOrderId: Attribute.String;
+    mode: Attribute.String;
+    orderId: Attribute.String;
+    payload: Attribute.JSON;
+    paymentId: Attribute.String;
+    paymentType: Attribute.String;
+    periodicity: Attribute.String;
+    requestMeta: Attribute.JSON;
+    senderPhone: Attribute.String;
+    signatureValid: Attribute.Boolean;
+    source: Attribute.Enumeration<['callback', 'status_api', 'checkout_init', 'system']> &
+      Attribute.DefaultTo<'callback'>;
+    status: Attribute.String;
+    subscribeId: Attribute.String;
+    type: Attribute.String;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::payment-transaction.payment-transaction', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
 export interface ApiQuestionnaireQuestionnaire extends Schema.CollectionType {
   collectionName: 'questionnaires';
   info: {
@@ -716,6 +759,39 @@ export interface ApiSocialSocial extends Schema.CollectionType {
     socialInfo: Attribute.Component<'socials.social'>;
     updatedAt: Attribute.DateTime;
     updatedBy: Attribute.Relation<'api::social.social', 'oneToOne', 'admin::user'> & Attribute.Private;
+  };
+}
+
+export interface ApiSubscriptionSubscription extends Schema.CollectionType {
+  collectionName: 'subscriptions';
+  info: {
+    displayName: 'Subscription';
+    pluralName: 'subscriptions';
+    singularName: 'subscription';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    action: Attribute.String;
+    amount: Attribute.Decimal;
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::subscription.subscription', 'oneToOne', 'admin::user'> & Attribute.Private;
+    currency: Attribute.String;
+    customer: Attribute.String;
+    email: Attribute.Email;
+    isActive: Attribute.Boolean & Attribute.DefaultTo<false>;
+    lastEventAt: Attribute.DateTime;
+    lastPaymentId: Attribute.String;
+    orderId: Attribute.String & Attribute.Required & Attribute.Unique;
+    payload: Attribute.JSON;
+    periodicity: Attribute.String;
+    source: Attribute.Enumeration<['callback', 'status_api', 'checkout_init', 'system']> &
+      Attribute.DefaultTo<'callback'>;
+    status: Attribute.String;
+    subscribeId: Attribute.String;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::subscription.subscription', 'oneToOne', 'admin::user'> & Attribute.Private;
   };
 }
 
@@ -1155,9 +1231,11 @@ declare module '@strapi/types' {
       'api::mission-page.mission-page': ApiMissionPageMissionPage;
       'api::navigation.navigation': ApiNavigationNavigation;
       'api::page.page': ApiPagePage;
+      'api::payment-transaction.payment-transaction': ApiPaymentTransactionPaymentTransaction;
       'api::questionnaire.questionnaire': ApiQuestionnaireQuestionnaire;
       'api::report-type.report-type': ApiReportTypeReportType;
       'api::social.social': ApiSocialSocial;
+      'api::subscription.subscription': ApiSubscriptionSubscription;
       'api::team-page.team-page': ApiTeamPageTeamPage;
       'api::testimonial.testimonial': ApiTestimonialTestimonial;
       'plugin::content-releases.release': PluginContentReleasesRelease;

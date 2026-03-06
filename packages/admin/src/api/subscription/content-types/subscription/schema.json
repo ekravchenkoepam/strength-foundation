@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "subscriptions",
+  "info": {
+    "singularName": "subscription",
+    "pluralName": "subscriptions",
+    "displayName": "Subscription"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "orderId": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "subscribeId": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "customer": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": false
+    },
+    "amount": {
+      "type": "decimal"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "periodicity": {
+      "type": "string"
+    },
+    "lastEventAt": {
+      "type": "datetime"
+    },
+    "lastPaymentId": {
+      "type": "string"
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": ["callback", "status_api", "checkout_init", "system"],
+      "default": "callback"
+    },
+    "payload": {
+      "type": "json"
+    }
+  }
+}

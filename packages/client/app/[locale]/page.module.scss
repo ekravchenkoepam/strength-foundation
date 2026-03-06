@@ -29,3 +29,43 @@
   display: flex;
   flex-direction: column;
 }
+
+@media (max-width: 1023px) {
+  .container {
+    padding: 0 24px 72px;
+  }
+
+  .header {
+    margin: 24px 0 36px;
+  }
+
+  .tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    gap: 10px;
+    padding-bottom: 2px;
+    scrollbar-width: thin;
+  }
+}
+
+@media (max-width: 480px) {
+  .tabs {
+    overflow-x: visible;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 420px) {
+  .container {
+    padding: 0 16px 56px;
+  }
+
+  .header {
+    margin: 18px 0 26px;
+  }
+
+  .tabs {
+    overflow-x: visible;
+    gap: 6px;
+  }
+}
