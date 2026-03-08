@@ -53,6 +53,16 @@
           "localized": false
         }
       }
+    },
+    "joinTeamSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.cta-section",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
     }
   }
 }
