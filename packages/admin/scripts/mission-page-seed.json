@@ -1,0 +1,96 @@
+{
+  "locales": {
+    "uk": {
+      "title": "Місія та цінності",
+      "principlesTitle": "Наші принципи",
+      "missionBlock": [
+        {
+          "title": "Наша місія",
+          "content": "<p>Підтримуємо родини військовополонених через системну допомогу, адвокацію та об'єднання спільноти.</p>"
+        },
+        {
+          "title": "Наш підхід",
+          "content": "<p>Працюємо прозоро, довгостроково та в партнерстві з людьми, які поділяють наші цінності.</p>"
+        }
+      ],
+      "principles": [
+        {
+          "icon": "hands",
+          "title": "Повага",
+          "content": "<p>Ставимо гідність людини в основу кожного рішення.</p>"
+        },
+        {
+          "icon": "pigeon",
+          "title": "Гуманність",
+          "content": "<p>Діємо з турботою та емпатією у складних обставинах.</p>"
+        },
+        {
+          "icon": "libra",
+          "title": "Справедливість",
+          "content": "<p>Відстоюємо права родин та рівний доступ до підтримки.</p>"
+        },
+        {
+          "icon": "search",
+          "title": "Відкритість",
+          "content": "<p>Пояснюємо, як працюємо, і звітуємо про результати.</p>"
+        },
+        {
+          "icon": "earth",
+          "title": "Співпраця",
+          "content": "<p>Об'єднуємо людей, організації та ініціативи заради спільної мети.</p>"
+        },
+        {
+          "icon": "lock",
+          "title": "Відповідальність",
+          "content": "<p>Дотримуємось зобов'язань і бережемо довіру спільноти.</p>"
+        }
+      ]
+    },
+    "en": {
+      "title": "Mission and Values",
+      "principlesTitle": "Our Principles",
+      "missionBlock": [
+        {
+          "title": "Our Mission",
+          "content": "<p>We support families of prisoners of war through consistent aid, advocacy, and strong community ties.</p>"
+        },
+        {
+          "title": "Our Approach",
+          "content": "<p>We work transparently, long-term, and in partnership with people who share our values.</p>"
+        }
+      ],
+      "principles": [
+        {
+          "icon": "hands",
+          "title": "Respect",
+          "content": "<p>Human dignity is at the center of every decision we make.</p>"
+        },
+        {
+          "icon": "pigeon",
+          "title": "Humanity",
+          "content": "<p>We act with care and empathy in difficult circumstances.</p>"
+        },
+        {
+          "icon": "libra",
+          "title": "Justice",
+          "content": "<p>We advocate for families' rights and equal access to support.</p>"
+        },
+        {
+          "icon": "search",
+          "title": "Transparency",
+          "content": "<p>We explain how we work and report on outcomes openly.</p>"
+        },
+        {
+          "icon": "earth",
+          "title": "Collaboration",
+          "content": "<p>We unite people, organizations, and initiatives around one shared goal.</p>"
+        },
+        {
+          "icon": "lock",
+          "title": "Accountability",
+          "content": "<p>We honor commitments and protect the trust of our community.</p>"
+        }
+      ]
+    }
+  }
+}

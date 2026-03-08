@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
+
+import { PageProps } from '../types';
 
 import { Collapse, Loading } from '@/app/components/shared';
 import { fetchAPI } from '@/app/utils/fetch-api';
@@ -9,114 +11,157 @@ type FaqItem = {
   answer: string;
 };
 
-type FaqCategory = {
+type ContactItem = {
+  title: string;
+  highlight: string;
+  href: string;
+};
+
+type FaqCategoryItem = {
+  id: number;
+  title: string;
+  faqs: FaqItem[];
+};
+
+type FaqPageData = {
   id: number;
   attributes: {
     title: string;
-    slug?: string;
-    position?: number;
-    faqs?: {
-      data: Array<{
-        id: number;
-        attributes: {
-          question: string;
-          answer: string;
-          position?: number;
-        };
-      }>;
-    };
+    description: string;
+    contactsTitle: string;
+    faqTitle: string;
+    contacts?: Array<{
+      id: number;
+      title: string;
+      highlight?: string;
+      href?: string;
+    }>;
+    faqSection?: Array<{
+      id: number;
+      title?: string;
+      items?: {
+        data?: Array<{
+          id: number;
+          attributes?: {
+            question?: string;
+            answer?: string;
+            position?: number;
+          };
+        }>;
+      };
+    }>;
   };
 };
 
-const contacts = [
-  {
-    title: 'Напишіть нам в директ у наш Instagram',
-    highlight: 'Instagram',
-    href: 'https://instagram.com/strength.foundation',
-    icon: '/images/number-1.svg',
-  },
-  {
-    title: 'На електронну пошту:',
-    highlight: 'info@strength.foundation',
-    href: 'mailto:info@strength.foundation',
-    icon: '/images/number-2.svg',
-  },
-  {
-    title: 'У Viber/Telegram:',
-    highlight: '+380 00 000 00 00',
-    href: 'tel:+380000000000',
-    icon: '/images/number-3.svg',
-  },
-  {
-    title: 'Або ж заповніть форму за посиланням. Ми зв’яжемось із вами протягом 1–2 днів.',
-    highlight: '',
-    href: '#',
-    icon: '/images/number-4.svg',
-  },
-];
+type FaqPageContent = {
+  title: string;
+  description: string;
+  contactsTitle: string;
+  faqTitle: string;
+  contacts: ContactItem[];
+  categories: FaqCategoryItem[];
+};
 
-export const FaqPage = () => {
+const defaultFaqPageContent: FaqPageContent = {
+  title: '',
+  description: '',
+  contactsTitle: '',
+  faqTitle: '',
+  contacts: [],
+  categories: [],
+};
+
+export const FaqPage: FC<PageProps> = ({ locale }) => {
   const getQuestionIndex = (index: number) => `${index + 1}.`;
-  const { data: categories = [], isLoading: loading } = useQuery<FaqCategory[]>({
-    queryKey: ['faq-categories'],
+  const { data: faqPage, isLoading: loading } = useQuery<FaqPageData | null>({
+    queryKey: ['faq-page', locale],
     queryFn: async () => {
       const data = await fetchAPI({
-        path: '/faq-categories',
+        path: '/faq-page',
         urlParams: {
+          locale,
           populate: {
-            faqs: {
-              sort: ['position:asc'],
+            contacts: '*',
+            faqSection: {
+              populate: {
+                items: {
+                  sort: ['position:asc'],
+                },
+              },
             },
           },
-          sort: ['position:asc'],
         },
       });
 
-      return data?.data || [];
+      return data?.data || null;
     },
   });
 
-  const normalizedCategories = useMemo(() => {
-    return categories.map(category => {
-      const faqs: FaqItem[] =
-        category.attributes?.faqs?.data?.map(faq => ({
-          question: faq.attributes.question,
-          answer: faq.attributes.answer || '',
-        })) || [];
+  const normalizedFaqPage = useMemo<FaqPageContent>(() => {
+    if (!faqPage?.attributes) {
+      return defaultFaqPageContent;
+    }
+
+    const contacts: ContactItem[] = (faqPage.attributes.contacts || []).map(contact => ({
+      title: contact.title || '',
+      highlight: contact.highlight || '',
+      href: contact.href || '#',
+    }));
+
+    const categories: FaqCategoryItem[] = (faqPage.attributes.faqSection || []).map((category, categoryIndex) => {
+      const faqs: FaqItem[] = (category.items?.data || []).map(faq => ({
+        question: faq.attributes?.question || '',
+        answer: faq.attributes?.answer || '',
+      }));
 
       return {
-        id: category.id,
-        title: category.attributes?.title || '',
+        id: category.id || categoryIndex,
+        title: category.title || '',
         faqs,
       };
     });
-  }, [categories]);
+
+    return {
+      title: faqPage.attributes.title || '',
+      description: faqPage.attributes.description || '',
+      contactsTitle: faqPage.attributes.contactsTitle || '',
+      faqTitle: faqPage.attributes.faqTitle || '',
+      contacts,
+      categories,
+    };
+  }, [faqPage]);
 
   if (loading) return <Loading headerText="Найчастіше задавані питання" />;
 
+  const { title, description, contactsTitle, faqTitle, contacts, categories } = normalizedFaqPage;
+
   return (
     <div className="w-full text-[16px] text-[var(--color-dark)]">
-      <section className="-mx-[50px] bg-[var(--white-80)] px-[52px] pt-[32px] pb-[90px]">
+      <section className="bg-[var(--white-80)] px-4 pt-8 pb-10 md:px-8 md:pt-10 md:pb-14 lg:px-[52px] lg:pt-[32px] lg:pb-[90px]">
         <div className="mx-auto flex w-full flex-col items-center text-center">
-          <div className="h1 mb-[74px]">Потрібна допомога?</div>
-          <div className="max-w-[760px] text-[16px] text-left leading-7 text-[var(--black-80)]">
-            Наш фонд підтримує родини військовополонених та зниклих безвісти. Ми надаємо юридичні консультації,
-            психологічну підтримку, а також проводимо зустрічі, заходи й активності для родин та дітей. Якщо вам
-            потрібна допомога — звертайтесь у зручний для вас спосіб.
+          <div className="h1 mb-8 md:mb-12 lg:mb-[74px]">{title}</div>
+          <div className="max-w-[760px] text-left text-[18px] leading-8 text-[var(--black-80)] md:text-[16px] md:leading-7">
+            {description}
           </div>
         </div>
       </section>
 
-      <section className="bg-[var(--green-100)] bg-[url('/images/asphalt-bg.png')] bg-cover bg-center py-[100px] px-[50px] text-[var(--color-light)]">
+      <section
+        className="
+          bg-[var(--green-100)] bg-[url('/images/asphalt-bg.png')] bg-cover bg-center
+          px-4 py-10 text-[var(--color-light)] md:px-8 md:py-14 lg:px-[50px] lg:py-[100px]
+        "
+      >
         <div className="mx-auto">
-          <div className="h2 text-center text-[var(--color-light)] pb-[80px]">Як з нами зв’язатися</div>
+          <div className="h2 pb-8 text-center text-[var(--color-light)] md:pb-12 lg:pb-[80px]">{contactsTitle}</div>
           <div className="grid grid-cols-1 gap-[32px] md:grid-cols-2">
             {contacts.map((item, index) => (
               <div
-                key={item.title}
+                key={`${item.title}-${index}`}
                 className="
                   flex flex-col gap-[24px]
-                  rounded-[14px] border border-[rgba(255,255,255,0.25)] bg-[rgba(255,255,255,0.04)] p-[24px] text-[24px]
+                  rounded-[14px] border border-[rgba(255,255,255,0.25)] bg-[rgba(255,255,255,0.04)]
+                  p-5 text-[16px] leading-[24px] md:p-[24px] md:text-[24px] md:leading-[28px]
                 "
               >
                 <div className="">
@@ -129,10 +174,18 @@ export const FaqPage = () => {
                   </div>
                 </div>
                 <div className="leading-6 text-[var(--color-light)]">
-                  {item.title}{' '}
-                  <a className="underline decoration-[var(--yellow-100)] underline-offset-4" href={item.href}>
-                    {item.highlight}
-                  </a>
+                  {item.title}
+                  {item.highlight ? (
+                    <>
+                      {' '}
+                      <a
+                        className="underline decoration-[var(--yellow-100)] underline-offset-4 break-words"
+                        href={item.href}
+                      >
+                        {item.highlight}
+                      </a>
+                    </>
+                  ) : null}
                 </div>
               </div>
             ))}
@@ -140,21 +193,23 @@ export const FaqPage = () => {
         </div>
       </section>
 
-      <section className="-mx-[50px] bg-[var(--white-80)] px-[50px] py-[72px]">
-        <div className="h2 mb-[46px] text-center">Найчастіше задавані питання</div>
-        <div className="flex flex-col gap-[72px] mx-auto w-full px-[50px]">
-          {normalizedCategories.map(category => (
+      <section className="bg-[var(--white-80)] px-4 py-10 md:px-8 md:py-12 lg:px-[50px] lg:py-[72px]">
+        <div className="h2 mb-8 text-center md:mb-10 lg:mb-[46px]">{faqTitle}</div>
+        <div className="mx-auto flex w-full flex-col gap-8 md:gap-10 lg:gap-[72px] lg:px-[50px]">
+          {categories.map(category => (
             <div
               key={category.id}
-              className="rounded-[16px] bg-[var(--white-80)] p-[40px] shadow-[0_10px_32px_rgba(0,0,0,0.08)] last:mb-0"
+              className="rounded-[16px] bg-[var(--white-80)] p-5 shadow-[0_10px_32px_rgba(0,0,0,0.08)] md:p-8 lg:p-[40px] last:mb-0"
             >
-              <div className="mb-[32px] text-[28px] font-semibold">{category.title}</div>
-              <div className="flex flex-col gap-[32px]">
+              <div className="mb-5 text-[24px] leading-[32px] font-semibold md:mb-7 md:text-[28px] md:leading-[38px]">
+                {category.title}
+              </div>
+              <div className="flex flex-col gap-4 md:gap-6 lg:gap-[32px]">
                 {category.faqs.map((item, index) => (
                   <Collapse
                     key={`${category.id}-${item.question}`}
                     trigger={
-                      <div className="flex w-full items-center justify-between gap-4 text-left text-[16px] font-semibold">
+                      <div className="flex w-full items-center justify-between gap-3 text-left text-[16px] leading-[22px] font-semibold md:gap-4">
                         <span>
                           {getQuestionIndex(index)} {item.question}
                         </span>
@@ -162,12 +217,12 @@ export const FaqPage = () => {
                     }
                     className="rounded-[12px]"
                     triggerClassName="
-                      text-[16px] font-semibold
+                      px-4 py-4 md:px-6 md:py-5 text-[16px] leading-[22px] font-semibold
                       data-[state=open]:border-b-2 data-[state=open]:border-[#EFCB4C] data-[state=open]:rounded-b-none
                     "
-                    contentClassName="text-[15px] leading-6 text-[var(--black-80)]"
+                    contentClassName="px-4 pb-4 md:px-6 md:pb-5 text-[15px] leading-6 text-[var(--black-80)]"
                   >
-                    {item.answer}
+                    <div dangerouslySetInnerHTML={{ __html: item.answer }} />
                   </Collapse>
                 ))}
               </div>

@@ -1,17 +1,9 @@
 'use client';
 
-import React, { FC } from 'react';
 import { notFound, useParams, redirect } from 'next/navigation';
+import React, { FC } from 'react';
 
-import {
-  AboutPage,
-  DocumentsAndReportsPage,
-  NewsPage,
-  PartnershipPage,
-  ProjectsPage,
-  FaqPage,
-} from './components';
-
+import { AboutPage, DocumentsAndReportsPage, NewsPage, PartnershipPage, ProjectsPage, FaqPage } from './components';
 import { PageProps } from './types';
 
 const redirectMap: Record<string, string> = {
@@ -27,7 +19,7 @@ const pageMap: Record<string, FC<PageProps>> = {
   news: NewsPage,
   'documents-and-reports': DocumentsAndReportsPage,
   faq: FaqPage,
-}
+};
 
 export default function Page() {
   const { locale, slug } = useParams() as PageProps;
@@ -49,7 +41,15 @@ export default function Page() {
   }
 
   return (
-    <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+    <div
+      style={{
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+      }}
+    >
       <PageComponent locale={locale} slug={slug} />
     </div>
   );

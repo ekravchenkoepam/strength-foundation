@@ -1,22 +1,48 @@
-/* eslint-disable no-console */
 'use strict';
 
 const fs = require('fs');
 const path = require('path');
 
 const SEED_PATH = path.join(__dirname, 'faq-seed.json');
-const DEFAULT_LOCALE = 'uk';
+const REQUIRED_LOCALES = ['uk', 'en'];
 
 const BASE_URL = process.env.STRAPI_URL;
 const ADMIN_EMAIL = process.env.STRAPI_ADMIN_EMAIL;
 const ADMIN_PASSWORD = process.env.STRAPI_ADMIN_PASSWORD;
 
-const toSlug = (value) =>
+const toSlug = value =>
   value
     .toLowerCase()
     .trim()
     .replace(/[^a-z0-9а-яіїєґ\- ]/gi, '')
     .replace(/\s+/g, '-');
+
+const toLocalizedSlug = (baseSlug, locale) => {
+  if (locale === 'uk') return baseSlug;
+  const suffix = `-${locale}`;
+  return baseSlug.endsWith(suffix) ? baseSlug : `${baseSlug}${suffix}`;
+};
+
+function parseSeedData() {
+  const raw = fs.readFileSync(SEED_PATH, 'utf8');
+  const data = JSON.parse(raw);
+
+  if (data?.locales) {
+    for (const locale of REQUIRED_LOCALES) {
+      if (!Array.isArray(data.locales?.[locale]?.categories)) {
+        throw new Error(`Missing locales.${locale}.categories in faq-seed.json`);
+      }
+    }
+
+    return data.locales;
+  }
+
+  if (Array.isArray(data?.categories)) {
+    return { uk: { categories: data.categories } };
+  }
+
+  throw new Error('Invalid faq-seed.json format.');
+}
 
 async function login() {
   const res = await fetch(`${BASE_URL}/admin/login`, {
@@ -34,7 +60,7 @@ async function login() {
   return json?.data?.token;
 }
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 async function requestAdmin(urlPath, token, options = {}, attempt = 1) {
   const res = await fetch(`${BASE_URL}${urlPath}`, {
@@ -62,11 +88,9 @@ async function requestAdmin(urlPath, token, options = {}, attempt = 1) {
 
 async function publishEntry(token, uid, id) {
   try {
-    return await requestAdmin(
-      `/content-manager/collection-types/${uid}/${id}/actions/publish`,
-      token,
-      { method: 'POST' }
-    );
+    return await requestAdmin(`/content-manager/collection-types/${uid}/${id}/actions/publish`, token, {
+      method: 'POST',
+    });
   } catch (error) {
     const message = String(error?.message || '');
     if (message.includes('already.published')) {
@@ -76,38 +100,41 @@ async function publishEntry(token, uid, id) {
   }
 }
 
-async function upsertCategory(token, category, position) {
-  const slug = category.slug || toSlug(category.title);
-  const existing = await requestAdmin(
-    `/content-manager/collection-types/api::faq-category.faq-category?filters[slug][$eq]=${encodeURIComponent(
-      slug
-    )}&page=1&pageSize=1`,
-    token
-  );
+async function upsertCategory(token, category, position, locale, localizationId) {
+  const baseSlug = category.slug || toSlug(category.title);
+  const slug = toLocalizedSlug(baseSlug, locale);
+  const categoryQuery =
+    '/content-manager/collection-types/api::faq-category.faq-category' +
+    `?filters[position][$eq]=${position}` +
+    `&filters[locale][$eq]=${locale}` +
+    '&page=1&pageSize=1';
+  const existing = await requestAdmin(categoryQuery, token);
 
   const payload = {
     title: category.title,
     slug,
     position,
-    locale: DEFAULT_LOCALE,
+    locale,
   };
+
+  if (localizationId) {
+    payload.localizations = [localizationId];
+  }
 
   if (existing?.results?.[0]) {
     const id = existing.results[0].id;
-    const res = await requestAdmin(
-      `/content-manager/collection-types/api::faq-category.faq-category/${id}`,
-      token,
-      { method: 'PUT', body: JSON.stringify(payload) }
-    );
+    const res = await requestAdmin(`/content-manager/collection-types/api::faq-category.faq-category/${id}`, token, {
+      method: 'PUT',
+      body: JSON.stringify(payload),
+    });
     await publishEntry(token, 'api::faq-category.faq-category', id);
     return res;
   }
 
-  const created = await requestAdmin(
-    `/content-manager/collection-types/api::faq-category.faq-category`,
-    token,
-    { method: 'POST', body: JSON.stringify(payload) }
-  );
+  const created = await requestAdmin('/content-manager/collection-types/api::faq-category.faq-category', token, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
   const createdId = created?.id || created?.data?.id;
   if (createdId) {
     await publishEntry(token, 'api::faq-category.faq-category', createdId);
@@ -115,21 +142,26 @@ async function upsertCategory(token, category, position) {
   return created;
 }
 
-async function upsertFaq(token, faq, categoryId, position) {
-  const existing = await requestAdmin(
-    `/content-manager/collection-types/api::faq.faq?filters[question][$eq]=${encodeURIComponent(
-      faq.question
-    )}&filters[category][id][$eq]=${categoryId}&page=1&pageSize=1`,
-    token
-  );
+async function upsertFaq(token, faq, categoryId, position, locale, localizationId) {
+  const faqQuery =
+    '/content-manager/collection-types/api::faq.faq' +
+    `?filters[category][id][$eq]=${categoryId}` +
+    `&filters[position][$eq]=${position}` +
+    `&filters[locale][$eq]=${locale}` +
+    '&page=1&pageSize=1';
+  const existing = await requestAdmin(faqQuery, token);
 
   const payload = {
     question: faq.question,
     answer: faq.answer,
     position,
     category: categoryId,
-    locale: DEFAULT_LOCALE,
+    locale,
   };
+
+  if (localizationId) {
+    payload.localizations = [localizationId];
+  }
 
   if (existing?.results?.[0]) {
     const id = existing.results[0].id;
@@ -141,7 +173,7 @@ async function upsertFaq(token, faq, categoryId, position) {
     return res;
   }
 
-  const created = await requestAdmin(`/content-manager/collection-types/api::faq.faq`, token, {
+  const created = await requestAdmin('/content-manager/collection-types/api::faq.faq', token, {
     method: 'POST',
     body: JSON.stringify(payload),
   });
@@ -157,31 +189,52 @@ async function run() {
     throw new Error('Missing STRAPI_URL / STRAPI_ADMIN_EMAIL / STRAPI_ADMIN_PASSWORD');
   }
 
-  const raw = fs.readFileSync(SEED_PATH, 'utf8');
-  const data = JSON.parse(raw);
+  const localizedData = parseSeedData();
+  const ukCategories = localizedData.uk?.categories || [];
+  const enCategories = localizedData.en?.categories || [];
 
-  if (!data?.categories?.length) {
+  if (!ukCategories.length) {
     console.log('No categories found in seed file.');
     return;
   }
 
   const token = await login();
 
-  for (let cIndex = 0; cIndex < data.categories.length; cIndex += 1) {
-    const category = data.categories[cIndex];
-    const categoryRes = await upsertCategory(token, category, cIndex + 1);
-    const categoryId = categoryRes?.id || categoryRes?.data?.id;
+  for (let cIndex = 0; cIndex < ukCategories.length; cIndex += 1) {
+    const ukCategory = ukCategories[cIndex];
+    const enCategory = enCategories[cIndex];
+    const position = cIndex + 1;
 
-    const faqs = category.faqs || [];
-    for (let fIndex = 0; fIndex < faqs.length; fIndex += 1) {
-      await upsertFaq(token, faqs[fIndex], categoryId, fIndex + 1);
+    const ukCategoryRes = await upsertCategory(token, ukCategory, position, 'uk');
+    const ukCategoryId = ukCategoryRes?.id || ukCategoryRes?.data?.id;
+
+    let enCategoryId = null;
+    if (enCategory) {
+      const enCategoryRes = await upsertCategory(token, enCategory, position, 'en', ukCategoryId);
+      enCategoryId = enCategoryRes?.id || enCategoryRes?.data?.id;
+    }
+
+    const ukFaqs = ukCategory.faqs || [];
+    const enFaqs = enCategory?.faqs || [];
+
+    for (let fIndex = 0; fIndex < ukFaqs.length; fIndex += 1) {
+      const ukFaq = ukFaqs[fIndex];
+      const enFaq = enFaqs[fIndex];
+      const faqPosition = fIndex + 1;
+
+      const ukFaqRes = await upsertFaq(token, ukFaq, ukCategoryId, faqPosition, 'uk');
+      const ukFaqId = ukFaqRes?.id || ukFaqRes?.data?.id;
+
+      if (enFaq && enCategoryId) {
+        await upsertFaq(token, enFaq, enCategoryId, faqPosition, 'en', ukFaqId);
+      }
     }
   }
 
-  console.log('FAQ seed complete.');
+  console.log('FAQ seed complete for locales: uk, en');
 }
 
-run().catch((err) => {
+run().catch(err => {
   console.error(err);
   process.exit(1);
 });
