@@ -2,95 +2,61 @@
   "locales": {
     "uk": {
       "title": "Наша команда",
-      "motto": "Ми об'єднуємо досвід, емпатію та системний підхід, щоб підтримувати родини військовополонених.",
+      "motto": "Ми — команда людей, яких об'єднало одне: бажання бути поруч. Бути підтримкою для тих, хто переживає, чекає, шукає відповіді, не здається. Ми працюємо для героїв, які повернулись з полону і їх близьких, а також родин військовополонених і зниклих безвісти. Ми працюємо з ними і для них — кожен день, з повагою, теплом і щирістю.\n\nУ нашій команді є фахівці з психологічної підтримки, юристи та волонтери, які віддають свій час і серце, аби допомога дійшла саме туди, де її потребують найбільше.\n\nМи не обіцяємо неможливого. Але ми чесно говоримо про те, що можемо зробити. Ми не даємо порожніх надій, але завжди є поруч, коли боляче і коли вже здається, що сил немає. Ми віримо, що підтримка — це не завжди відповіді. Іноді це просто теплий голос на іншому кінці телефону, лист із турботою, конкретна дія у потрібний момент.\n\nНаші принципи — це чесність, відкритість, людяність і гнучкість. Ми слухаємо. Ми чуємо. Ми не оцінюємо і не вимагаємо. Ми разом — у всіх емоціях, станах, етапах.\n\nЦе не просто команда — це простір підтримки. Тут можна говорити відверто. Тут вас розуміють без слів. Ми створили фонд, якого самі колись потребували — щоб ті, хто сьогодні шукає опори, знали: вони не одні.\n\nЯкщо ви тут — значить, вам важко. Але ми поряд.",
+      "joinTeamSection": {
+        "title": "Хочеш бути частиною змін?",
+        "description": "Фонд “Сила для Сильних” шукає людей із великим серцем та відкритою душею.\n\nЯкщо ти хочеш допомагати родинам військовополонених, безвісти зниклих та героям, які повернулися з полону, працювати з командою однодумців, та втілювати соціальні ініціативи — ми чекаємо саме на тебе.",
+        "buttonText": "Долучитися до нашої команди",
+        "buttonLink": "#"
+      },
       "members": [
         {
-          "name": "Ім'я Прізвище",
-          "role": "Керівниця напряму підтримки",
-          "description": "Координує програми допомоги родинам військовополонених.\nПрацює з партнерами та волонтерами для швидкого реагування.",
-          "socials": [
-            {
-              "icon": "linkedin",
-              "link": "https://www.linkedin.com/"
-            }
-          ]
+          "name": "Анастасія Чакубаш",
+          "role": "Співзасновниця",
+          "description": "Анастасія Чакубаш — співзасновниця, яка має багаторічний досвід у розвитку бізнесу, організації процесів та управлінні командами.\nПрофесійний шлях Анастасії охоплює створення і впровадження різноманітних проєктів, керівництво компаніями та побудову ефективних систем роботи.\nЇї навички планування та систематизації допомагають планувати стратегічні ініціативи, чітко визначати пріоритети та структурувати діяльність фонду, щоб він працював як злагоджений механізм.",
+          "socials": []
         },
         {
-          "name": "Ім'я Прізвище",
-          "role": "Координаторка комунікацій",
-          "description": "Відповідає за публічні комунікації фонду.\nПояснює ініціативи та результати роботи для спільноти.",
-          "socials": [
-            {
-              "icon": "facebook",
-              "link": "https://www.facebook.com/"
-            },
-            {
-              "icon": "instagram",
-              "link": "https://www.instagram.com/"
-            }
-          ]
+          "name": "Владислава Карцан",
+          "role": "Співзасновниця та ініціаторка створення фонду",
+          "description": "Владислава Карцан — співзасновниця та ініціаторка створення фонду.\nЇї досвід роботи в сфері управління персоналом і підтримці військовополонених та їхніх родин став фундаментом для заснування \"Сили для Сильних\".\nІдея заснування фонду народилася під час роботи, пов’язаної з поверненням військовополонених: участь в акціях, написанні звернень, спілкуванні з родинами та звільненими, а також організації зустрічей із представниками влади.\nЦілеспрямованість Владислави та вміння об’єднувати людей стали основою для створення фонду \"Сила для Сильних\".",
+          "socials": []
         },
         {
-          "name": "Ім'я Прізвище",
-          "role": "Координаторка комунікацій",
-          "description": "Відповідає за публічні комунікації фонду.\nПояснює ініціативи та результати роботи для спільноти.",
-          "socials": [
-            {
-              "icon": "facebook",
-              "link": "https://www.facebook.com/"
-            },
-            {
-              "icon": "instagram",
-              "link": "https://www.instagram.com/"
-            }
-          ]
+          "name": "Анастасія Артемова",
+          "role": "Співзасновниця",
+          "description": "Анастасія Артемова — співзасновниця, яка знаходить натхнення у взаємодії з людьми та роботі з інформацією.\nБагаторічний досвід Анастасії у сфері управління комунікаціями включає повний цикл роботи з партнерами, координування міжнародних проєктів та вирішення складних організаційних завдань.\nЇї прагнення до спілкування, уважність до деталей і здатність працювати з великими обсягами даних стали важливим елементом у реалізації проєктів фонду.",
+          "socials": []
         }
       ]
     },
     "en": {
       "title": "Our Team",
-      "motto": "We bring together experience, empathy, and a systematic approach to support families of prisoners of war.",
+      "motto": "We are a team of people, united by one thing — the willingness to be by your side. To be a support for those who are worried, waiting, looking for answers, not giving up. We work for the heroes who have returned from captivity and their relatives, as well as for the families of prisoners of war and those missing in action. We work for them and with them — every day, with respect, warmth, and sincerity.\n\nAmong us there are psychological support specialists, lawyers, and volunteers who put their time and hearts to ensure that help reaches those who need it the most.\n\nWe don’t promise the impossible. But we are open about what we are capable of doing. We don't give false hopes, but we are always there for you, when it hurts and when it feels like you’re running out of strength. We believe that support is not always about answers. Sometimes, it’s just a warm voice on the other end of the phone, a letter with care, a decisive action at the right moment.\n\nOur principles are honesty, openness, humanity, and resilience. We listen. We hear. We do not judge or demand. We are together — in all emotions, conditions, at all stages.\n\nIt’s not just a team — it’s a space of support. The space where you can speak openly. The space where you will be understood — even without words. We created a foundation we ourselves once needed — so that anyone searching for support today knows they are not alone.\n\nIf you are here, it means you are having a hard time. But we are with you.",
+      "joinTeamSection": {
+        "title": "Do you want to be part of the change?",
+        "description": "The Strength for the Strong Foundation is looking for people with big hearts and open souls. \n\nIf you want to support the families of prisoners of war, those missing in action, and the heroes who have returned from captivity; work with a team of like-minded people; and help bring social initiatives to life — we’re waiting for you.",
+        "buttonText": "Join our team",
+        "buttonLink": "#"
+      },
       "members": [
         {
-          "name": "First Last Name",
-          "role": "Support Program Lead",
-          "description": "Coordinates support programs for families of prisoners of war.\nWorks with partners and volunteers to ensure timely response.",
-          "socials": [
-            {
-              "icon": "linkedin",
-              "link": "https://www.linkedin.com/"
-            }
-          ]
+          "name": "Anastasiia Chakubash",
+          "role": "Co-founder",
+          "description": "Anastasiia Chakubash — co-founder with extensive experience in business development, process management, and team leadership.\nHer career includes creating and implementing diverse projects, leading companies, and building efficient ways of working.\nHer planning skills and structured approach help shape strategic initiatives, set clear priorities, and organize the Foundation’s work so it runs as a cohesive, well-functioning system.",
+          "socials": []
         },
         {
-          "name": "First Last Name",
-          "role": "Communications Coordinator",
-          "description": "Leads public communications for the foundation.\nExplains initiatives and outcomes clearly for the community.",
-          "socials": [
-            {
-              "icon": "facebook",
-              "link": "https://www.facebook.com/"
-            },
-            {
-              "icon": "instagram",
-              "link": "https://www.instagram.com/"
-            }
-          ]
+          "name": "Vladyslava Kartsan",
+          "role": "Co-founder and initiator of the Foundation’s creation",
+          "description": "Vladyslava Kartsan — co-founder and initiator of the Foundation’s creation.\nHer background in HR management, together with hands-on experience supporting prisoners of war and their families, laid the groundwork for founding “Strength for the Strong.”\nThe idea for the Foundation grew out of work connected to the return of prisoners of war: taking part in public actions, drafting formal appeals, communicating with families and those who have been released from captivity, and organizing meetings with government officials.\nVladyslava’s determination and her ability to unite people became the cornerstone of the Strength for the Strong Foundation.",
+          "socials": []
         },
         {
-          "name": "First Last Name",
-          "role": "Communications Coordinator",
-          "description": "Leads public communications for the foundation.\nExplains initiatives and outcomes clearly for the community.",
-          "socials": [
-            {
-              "icon": "facebook",
-              "link": "https://www.facebook.com/"
-            },
-            {
-              "icon": "instagram",
-              "link": "https://www.instagram.com/"
-            }
-          ]
+          "name": "Anastasiia Artemova",
+          "role": "Co-founder",
+          "description": "Anastasiia Artemova — co-founder who finds inspiration in interacting with people and working with information.\nAnastasiia has extensive communications management experience, spanning full-cycle partner engagement, international project coordination, and complex organizational delivery.\nHer commitment to communication, attention to detail, and ability to work with large volumes of data have become an important element in implementing the Foundation’s projects.",
+          "socials": []
         }
       ]
     }

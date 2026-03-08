@@ -121,6 +121,20 @@ export interface SharedButton extends Schema.Component {
   };
 }
 
+export interface SharedCtaSection extends Schema.Component {
+  collectionName: 'components_shared_cta_sections';
+  info: {
+    description: '';
+    displayName: 'CTA Section';
+  };
+  attributes: {
+    buttonLink: Attribute.String;
+    buttonText: Attribute.String & Attribute.Required;
+    description: Attribute.Text;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
 export interface SharedImage extends Schema.Component {
   collectionName: 'components_shared_images';
   info: {
@@ -195,6 +209,7 @@ declare module '@strapi/types' {
       'reports.report': ReportsReport;
       'reports.report-year': ReportsReportYear;
       'shared.button': SharedButton;
+      'shared.cta-section': SharedCtaSection;
       'shared.image': SharedImage;
       'shared.link': SharedLink;
       'shared.video': SharedVideo;

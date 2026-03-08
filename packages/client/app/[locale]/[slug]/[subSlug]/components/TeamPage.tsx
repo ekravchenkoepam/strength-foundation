@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { FC } from 'react';
 
 import { PageProps } from '@/app/[locale]/[slug]/types';
@@ -16,6 +17,9 @@ export const TeamPage: FC<PageProps> = ({ locale }) => {
           locale,
           populate: {
             images: {
+              populate: '*',
+            },
+            joinTeamSection: {
               populate: '*',
             },
             members: {
@@ -42,6 +46,13 @@ export const TeamPage: FC<PageProps> = ({ locale }) => {
   const images = teamPage?.attributes?.images?.data || [];
   const motto = teamPage?.attributes?.motto || '';
   const members = teamPage?.attributes?.members || [];
+  const joinTeamSection = teamPage?.attributes?.joinTeamSection || null;
+  const ctaDescription = String(joinTeamSection?.description || '')
+    .split('\n')
+    .map((line: string) => line.trim())
+    .filter(Boolean);
+  const ctaButtonText = joinTeamSection?.buttonText || '';
+  const ctaButtonLink = joinTeamSection?.buttonLink || '#';
 
   return (
     <>
@@ -71,24 +82,28 @@ export const TeamPage: FC<PageProps> = ({ locale }) => {
           </div>
         </div>
       </div>
-      <div className="w-full bg-[var(--white-80)] text-center py-[120px] px-4">
-        <h2 className="text-[44px] font-bold mb-8">Хочеш бути частиною змін?</h2>
+      {joinTeamSection && (
+        <div className="w-full bg-[var(--white-80)] text-center py-[120px] px-4">
+          <h2 className="text-[44px] font-bold mb-8">{joinTeamSection.title}</h2>
 
-        <div className="text-left">
-          <p className="text-[16px] max-w-[820px] mx-auto mb-6">
-            Фонд &quot;Сила для Сильних&quot; зростає і шукає людей із великим серцем та відкритою душею.
-          </p>
+          <div className="text-left max-w-[820px] mx-auto mb-10">
+            {ctaDescription.map((paragraph: string, index: number) => (
+              <p key={`${paragraph}-${index}`} className="text-[16px] mb-6 last:mb-0">
+                {paragraph}
+              </p>
+            ))}
+          </div>
 
-          <p className="text-[16px] max-w-[820px] mx-auto mb-10">
-            Якщо ти хочеш допомагати родинам військовополонених, працювати з командою однодумців, втілювати соціальні
-            ініціативи та вкладатися у справді важливе - ми чекаємо саме на тебе.
-          </p>
+          {ctaButtonText && (
+            <Link
+              href={ctaButtonLink}
+              className="inline-block bg-[#F2C94C] hover:bg-[#e6ba42] transition-colors text-black font-semibold py-4 px-10 rounded-[12px]"
+            >
+              {ctaButtonText}
+            </Link>
+          )}
         </div>
-
-        <button className="bg-[#F2C94C] hover:bg-[#e6ba42] transition-colors text-black font-semibold py-4 px-10 rounded-[12px]">
-          Долучитися до нашої команди
-        </button>
-      </div>
+      )}
     </>
   );
 };

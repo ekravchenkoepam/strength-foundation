@@ -887,6 +887,12 @@ export interface ApiTeamPageTeamPage extends Schema.SingleType {
           localized: false;
         };
       }>;
+    joinTeamSection: Attribute.Component<'shared.cta-section'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     locale: Attribute.String;
     localizations: Attribute.Relation<'api::team-page.team-page', 'oneToMany', 'api::team-page.team-page'>;
     members: Attribute.Component<'team.member', true> &

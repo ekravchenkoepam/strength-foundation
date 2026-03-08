@@ -61,6 +61,7 @@ function normalizePayload(localePayload, locale) {
     locale,
     title: localePayload.title,
     motto: localePayload.motto,
+    joinTeamSection: localePayload.joinTeamSection || null,
     members: (localePayload.members || []).map(normalizeMember),
     publishedAt: new Date().toISOString(),
   };
