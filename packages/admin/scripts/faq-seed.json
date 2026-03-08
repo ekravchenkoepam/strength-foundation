@@ -1,134 +1,336 @@
 {
-  "categories": [
-    {
-      "title": "Найчастіше задавані питання",
-      "slug": "faq",
-      "faqs": [
+  "locales": {
+    "uk": {
+      "faqPage": {
+        "title": "Потрібна допомога?",
+        "description": "Наш фонд підтримує родини військовополонених, зниклих безвісти та героїв, які повернулись з полону. Ми надаємо юридичні консультації, психологічну підтримку, а також проводимо зустрічі, заходи й активності для родин та дітей. Якщо вам потрібна допомога — звертайтесь у зручний для вас спосіб.",
+        "contactsTitle": "Як з нами зв’язатися",
+        "contacts": [
+          {
+            "title": "Напишіть нам у Direct в Instagram",
+            "highlight": "Instagram",
+            "href": "https://instagram.com/strength.foundation"
+          },
+          {
+            "title": "На електронну пошту:",
+            "highlight": "info@strength.foundation",
+            "href": "mailto:info@strength.foundation"
+          },
+          {
+            "title": "У Viber/Telegram:",
+            "highlight": "+380 00 000 00 00",
+            "href": "tel:+380000000000"
+          },
+          {
+            "title": "Або заповніть коротку форму — ми зв’яжемось із вами протягом 1–2 днів.",
+            "highlight": "",
+            "href": "#"
+          }
+        ],
+        "faqTitle": "Найчастіше задавані питання"
+      },
+      "categories": [
         {
-          "question": "Яку допомогу я можу отримати від фонду?",
-          "answer": ""
+          "title": "Найчастіше задавані питання",
+          "slug": "faq",
+          "faqs": [
+            {
+              "question": "Яку допомогу я можу отримати від фонду?",
+              "answer": "Ми пропонуємо юридичні консультації, психологічну підтримку, а також проводимо заходи та зустрічі для родин військовополонених і зниклих безвісти. Якщо вам потрібна інша форма допомоги — напишіть нам, і ми спробуємо підказати або направити."
+            },
+            {
+              "question": "Чи можу я звернутись, якщо я не є родичем військовополоненого особисто?",
+              "answer": "Так. Якщо ви опікуєтесь людиною, підтримуєте родину або є довіреною особою — ми також можемо надати консультацію й порадити подальші кроки."
+            },
+            {
+              "question": "Як швидко мені дадуть відповідь?",
+              "answer": "Зазвичай протягом 1–2 робочих днів. У пікові періоди відповіді можуть займати трохи більше часу."
+            },
+            {
+              "question": "Чи працюєте ви з дітьми військовополонених?",
+              "answer": "Так. Ми проводимо психологічні консультації та дружні заходи для дітей."
+            },
+            {
+              "question": "Чи займається фонд пошуком зниклих безвісти?",
+              "answer": "Ні. Ми не проводимо пошукові операції, але можемо пояснити порядок дій, підказати, до яких установ звернутись та які документи підготувати."
+            },
+            {
+              "question": "У мене немає всіх документів. Чи можу я звернутись?",
+              "answer": "Так. Надішліть те, що маєте. Ми скажемо, чого не вистачає і як це отримати."
+            },
+            {
+              "question": "Я живу не в Києві. Мені все одно допоможуть?",
+              "answer": "Так. Ми працюємо з родинами з усієї України."
+            },
+            {
+              "question": "Чи можу я звернутись, якщо не знаю, де саме зараз людина?",
+              "answer": "Так. Ми пояснимо, що робити в ситуації невідомості."
+            },
+            {
+              "question": "Чи можете ви просто «підказати, до кого йти»?",
+              "answer": "Так. Якщо питання виходить за межі нашої діяльності, ми порадимо, куди звернутись далі."
+            }
+          ]
         },
         {
-          "question": "Чи можу я звернутися, якщо я не є родичем військовополоненого особисто?",
-          "answer": ""
+          "title": "Програма “Об’єднані силою”",
+          "slug": "project-strong-united",
+          "faqs": [
+            {
+              "question": "Як стати бенефіціаром фонду?",
+              "answer": "Заповніть анкету. Команда перегляне її та зв’яжеться з вами для уточнення деталей."
+            },
+            {
+              "question": "Я отримав(ла) запрошення на захід, але не можу прийти. Що робити?",
+              "answer": "Подзвоніть нам за номером +380 66 714 48 38."
+            },
+            {
+              "question": "Як отримати квиток або забронювати участь у заході?",
+              "answer": "На сторінці кожного заходу є кнопка реєстрації. Після реєстрації ви отримаєте підтвердження на пошту або у месенджер."
+            },
+            {
+              "question": "Хочете долучитись до участі у фотовиставці?",
+              "answer": "Поділіться своєю історією за посиланням: https://airtable.com/app2Yg2dKMat5z8CI/paglfUAUYOYaeVgri/form"
+            }
+          ]
         },
         {
-          "question": "Як швидко мені дадуть відповідь?",
-          "answer": ""
+          "title": "Юридична допомога",
+          "slug": "legal-help",
+          "faqs": [
+            {
+              "question": "Чи можу я отримати допомогу з оформленням документів?",
+              "answer": "Так. Наші юристи допомагають розібратись, які документи потрібні, куди звернутись та які кроки зробити."
+            },
+            {
+              "question": "Як отримати статус “члена сім’ї зниклого безвісти”?",
+              "answer": "Напишіть нам — ми пояснимо, які документи підготувати та куди їх подати."
+            },
+            {
+              "question": "Чи допомагає фонд із оформленням одноразових державних виплат після повернення з полону?",
+              "answer": "Так. Ми можемо підказати порядок оформлення та проконсультувати щодо вимог."
+            },
+            {
+              "question": "Чи є державні або місцеві виплати для дітей полонених?",
+              "answer": "Так, такі програми існують. Ми допоможемо розібратись, чи має право ваша сім’я на ці виплати."
+            },
+            {
+              "question": "Чи можу я отримати консультацію, якщо у мене складний випадок?",
+              "answer": "Так. Якщо питання стосується полону або зникнення безвісти — ми надамо консультацію або скеруємо до партнерів."
+            },
+            {
+              "question": "Чи можете ви допомогти з оскарженням рішення суду про визнання людини зниклою?",
+              "answer": "Ми не супроводжуємо справи в суді, але можемо роз’яснити, як працює процес, і порадити, куди звернутись по правову допомогу."
+            }
+          ]
         },
         {
-          "question": "Чи працюєте ви з дітьми військовополонених?",
-          "answer": ""
+          "title": "Психологічна допомога",
+          "slug": "psychological-help",
+          "faqs": [
+            {
+              "question": "Як записатись на консультацію до психолога?",
+              "answer": "Напишіть нам у будь-який канал зв’язку або заповніть форму. Координатор запропонує вільні дати."
+            },
+            {
+              "question": "Чи є психологічна допомога безоплатною?",
+              "answer": "Так, для родин військовополонених і зниклих безвісти всі консультації безкоштовні."
+            },
+            {
+              "question": "Чи проводите ви консультації для дітей?",
+              "answer": "Так. Наші спеціалісти працюють із запитами, що стосуються дітей."
+            },
+            {
+              "question": "З якими запитами можна звертатись?",
+              "answer": "З будь-якими переживаннями, пов’язаними з невизначеністю, тривожністю, емоційним виснаженням або труднощами у дітей."
+            }
+          ]
         },
         {
-          "question": "Чи займається фонд пошуком зниклих безвісти?",
-          "answer": ""
-        },
-        {
-          "question": "У мене немає всіх документів. Чи можу я звернутись?",
-          "answer": ""
-        },
-        {
-          "question": "Я живу не в Києві. Мені все одно допоможуть?",
-          "answer": ""
-        },
-        {
-          "question": "Чи можу я звернутись, якщо не знаю, де саме зараз людина?",
-          "answer": ""
-        },
-        {
-          "question": "Чи можете ви просто «підказати, до кого йти»?",
-          "answer": ""
+          "title": "Питання від проєкту “Вдома чекали” (для звільнених з полону)",
+          "slug": "project-waited-at-home",
+          "faqs": [
+            {
+              "question": "Яку допомогу я можу отримати після звільнення?",
+              "answer": "Ми надаємо юридичні консультації, допомагаємо зорієнтуватись у перших кроках, працюємо з документами, а також пропонуємо психологічну підтримку."
+            },
+            {
+              "question": "До кого звернутись, якщо мені потрібна юридична інформація?",
+              "answer": "Напишіть у будь-який із наших каналів. Вас скерують до юриста, який спеціалізується на питаннях полону."
+            },
+            {
+              "question": "Як отримати консультацію щодо державних виплат після повернення?",
+              "answer": "Заповніть анкету — і з вами зв’яжеться спеціаліст, який пояснить порядок оформлення."
+            }
+          ]
         }
       ]
     },
-    {
-      "title": "Проект “Об’єднані силою”",
-      "slug": "project-strong-united",
-      "faqs": [
+    "en": {
+      "faqPage": {
+        "title": "Need help?",
+        "description": "Our foundation supports the families of prisoners of war, those missing in action, and the heroes who have returned from captivity. We provide legal advice, psychological support, as well as meetings, events, and activities for families and children. If you need help, please contact us in a convenient way.",
+        "contactsTitle": "How to Contact Us",
+        "contacts": [
+          {
+            "title": "Write to us on Direct on Instagram",
+            "highlight": "Instagram",
+            "href": "https://instagram.com/strength.foundation"
+          },
+          {
+            "title": "By e-mail:",
+            "highlight": "info@strength.foundation",
+            "href": "mailto:info@strength.foundation"
+          },
+          {
+            "title": "Viber/Telegram:",
+            "highlight": "+380 00 000 00 00",
+            "href": "tel:+380000000000"
+          },
+          {
+            "title": "Or fill out a short form — we will contact you within 1–2 days.",
+            "highlight": "",
+            "href": "#"
+          }
+        ],
+        "faqTitle": "Frequently Asked Questions"
+      },
+      "categories": [
         {
-          "question": "Як стати бенефіціаром фонду?",
-          "answer": ""
+          "title": "Top Questions",
+          "slug": "faq",
+          "faqs": [
+            {
+              "question": "What help can I get from the fund?",
+              "answer": "We offer legal advice, psychological support, as well as events and meetings for families of prisoners of war and missing heroes. If you need another form of help, write to us and we will try to prompt or direct you."
+            },
+            {
+              "question": "Can I apply if I am not a relative of a prisoner of war personally?",
+              "answer": "Yes. If you care for a person, support a family, or are a trustee, we can also provide advice and guidance on next steps."
+            },
+            {
+              "question": "How quickly will I be answered?",
+              "answer": "Usually within 1–2 business days. During peak periods, responses may take a little longer."
+            },
+            {
+              "question": "Do you work with children of prisoners of war?",
+              "answer": "Yes. We provide psychological counseling and friendly activities for children."
+            },
+            {
+              "question": "Does the foundation search for missing heroes?",
+              "answer": "No. We do not conduct search operations, but we can explain the procedure, suggest which institutions to contact, and which documents to prepare."
+            },
+            {
+              "question": "I do not have all the documents. Can I apply?",
+              "answer": "Yes. Submit what you have. We will tell you what is missing and how to get it."
+            },
+            {
+              "question": "I do not live in Kyiv. Will you help me anyway?",
+              "answer": "Yes. We work with families from all over Ukraine."
+            },
+            {
+              "question": "Can I contact you if I do not know where the person is right now?",
+              "answer": "Yes. We will explain what to do in an unknown situation."
+            },
+            {
+              "question": "Can you just tell me who to go to?",
+              "answer": "Yes. If the question goes beyond our activities, we will advise where to turn next."
+            }
+          ]
         },
         {
-          "question": "Я отримав(ла) запрошення на захід, але не можу прийти. Що робити?",
-          "answer": ""
+          "title": "United by Force Program",
+          "slug": "project-strong-united",
+          "faqs": [
+            {
+              "question": "How to become a beneficiary of the fund?",
+              "answer": "Fill out the survey form. The team will review it and contact you to clarify the details."
+            },
+            {
+              "question": "I received an invitation to the event, but I cannot come. What to do?",
+              "answer": "Call us at +380 66 714 48 38."
+            },
+            {
+              "question": "How do I get a ticket or book an event?",
+              "answer": "Each event page has a sign-up button. After registration, you will receive confirmation by email or messenger."
+            },
+            {
+              "question": "Would you like to participate in the photo exhibition?",
+              "answer": "Share your story using the link: https://airtable.com/app2Yg2dKMat5z8CI/paglfUAUYOYaeVgri/form"
+            }
+          ]
         },
         {
-          "question": "Як отримати квиток або забронювати участь у заході?",
-          "answer": ""
-        }
-      ]
-    },
-    {
-      "title": "Юридична допомога",
-      "slug": "legal-help",
-      "faqs": [
-        {
-          "question": "Чи можу я отримати допомогу з оформленням документів?",
-          "answer": ""
+          "title": "Legal Assistance",
+          "slug": "legal-help",
+          "faqs": [
+            {
+              "question": "Can I get help with paperwork?",
+              "answer": "Yes. Our lawyers help to understand what documents are needed, where to apply, and what steps to take."
+            },
+            {
+              "question": "How to obtain the status of a family member of a missing hero?",
+              "answer": "Write to us — we will explain what documents to prepare and where to submit them."
+            },
+            {
+              "question": "Does the fund help with one-time state payments after returning from captivity?",
+              "answer": "Yes. We can suggest the order of registration and advise on requirements."
+            },
+            {
+              "question": "Are there state or local payments for children of prisoners?",
+              "answer": "Yes, such programs exist. We will help you understand whether your family is eligible."
+            },
+            {
+              "question": "Can I get advice if I have a difficult case?",
+              "answer": "Yes. If the question concerns captivity or disappearance, we will provide advice or refer you to partners."
+            },
+            {
+              "question": "Can you help with appealing a court decision to declare a person missing?",
+              "answer": "We do not represent cases in court, but we can explain how the process works and advise where to get legal assistance."
+            }
+          ]
         },
         {
-          "question": "Як отримати статус “члена сім’ї зниклого безвісти”?",
-          "answer": ""
+          "title": "Psychological Assistance",
+          "slug": "psychological-help",
+          "faqs": [
+            {
+              "question": "How to make an appointment with a psychologist?",
+              "answer": "Write to us in any communication channel or fill out the form. The coordinator will suggest available dates."
+            },
+            {
+              "question": "Is psychological assistance free of charge?",
+              "answer": "Yes, for families of prisoners of war and missing persons all consultations are free of charge."
+            },
+            {
+              "question": "Do you provide consultations for children?",
+              "answer": "Yes. Our specialists work with requests related to children."
+            },
+            {
+              "question": "What requests can I make?",
+              "answer": "Any experiences related to uncertainty, anxiety, emotional exhaustion, or difficulties experienced by children."
+            }
+          ]
         },
         {
-          "question": "Чи допомагає фонд із оформленням одноразових державних виплат після повернення з полону?",
-          "answer": ""
-        },
-        {
-          "question": "Чи є державні або місцеві виплати для дітей полонених?",
-          "answer": ""
-        },
-        {
-          "question": "Чи можу я отримати консультацію, якщо у мене складний випадок?",
-          "answer": ""
-        },
-        {
-          "question": "Чи можете ви допомогти з оскарженням рішення суду про визнання людини зниклою?",
-          "answer": ""
-        }
-      ]
-    },
-    {
-      "title": "Психологічна допомога",
-      "slug": "psychological-help",
-      "faqs": [
-        {
-          "question": "Як записатись на консультацію до психолога?",
-          "answer": ""
-        },
-        {
-          "question": "Чи є психологічна допомога безоплатною?",
-          "answer": ""
-        },
-        {
-          "question": "Чи проводите ви консультації для дітей?",
-          "answer": ""
-        },
-        {
-          "question": "З якими запитами можна звертатись?",
-          "answer": ""
-        }
-      ]
-    },
-    {
-      "title": "Питання від проекту “Вдома чекали” (для звільнених з полону)",
-      "slug": "project-waited-at-home",
-      "faqs": [
-        {
-          "question": "Яку допомогу я можу отримати після звільнення?",
-          "answer": ""
-        },
-        {
-          "question": "До кого звернутись, якщо мені потрібна юридична інформація?",
-          "answer": ""
-        },
-        {
-          "question": "Як отримати консультацію щодо державних виплат після повернення?",
-          "answer": ""
+          "title": "Questions from the We're Waiting at Home Project (for those released from captivity)",
+          "slug": "project-waited-at-home",
+          "faqs": [
+            {
+              "question": "What help can I get after my release?",
+              "answer": "We provide legal advice, help you navigate the first steps, work with documents, and also offer psychological support."
+            },
+            {
+              "question": "Who should I contact if I need legal information?",
+              "answer": "Write to any of our channels. You will be referred to a lawyer who specializes in captivity issues."
+            },
+            {
+              "question": "How do I get advice on government benefits upon return?",
+              "answer": "Fill out the questionnaire — and you will be contacted by a specialist who will explain the registration procedure."
+            }
+          ]
         }
       ]
     }
-  ]
+  }
 }

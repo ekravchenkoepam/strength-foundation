@@ -1,24 +1,30 @@
 import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
-import React from 'react';
+import React, { FC } from 'react';
 
 import styles from './MissionPage.module.scss';
 
+import { PageProps } from '@/app/[locale]/[slug]/types';
 import { Loading } from '@/app/components/shared';
 import { getStrapiMedia } from '@/app/utils/api-helpers';
 import { fetchAPI } from '@/app/utils/fetch-api';
 
-export const MissionPage = () => {
+export const MissionPage: FC<PageProps> = ({ locale }) => {
   const { data: missionPage, isLoading: loading } = useQuery({
-    queryKey: ['mission-page'],
+    queryKey: ['mission-page', locale],
     queryFn: async () => {
       const data = await fetchAPI({
         path: '/mission-page',
-        urlParams: { populate: 'missionBlock.image,principles' },
+        urlParams: {
+          locale,
+          populate: 'missionBlock.image,principles',
+        },
       });
       return data.data;
     },
   });
+
+  console.log({ missionPage });
 
   if (loading) return <Loading headerText="Місія та цінності" />;
 

@@ -24,6 +24,31 @@ export interface ContactsPhone extends Schema.Component {
   };
 }
 
+export interface FaqContactItem extends Schema.Component {
+  collectionName: 'components_faq_contact_items';
+  info: {
+    description: '';
+    displayName: 'Contact Item';
+  };
+  attributes: {
+    highlight: Attribute.String;
+    href: Attribute.String;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface FaqFaqSection extends Schema.Component {
+  collectionName: 'components_faq_faq_sections';
+  info: {
+    description: '';
+    displayName: 'Faq Section';
+  };
+  attributes: {
+    items: Attribute.Relation<'faq.faq-section', 'oneToMany', 'api::faq.faq'>;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
 export interface MissionMissionContent extends Schema.Component {
   collectionName: 'components_mission_mission_contents';
   info: {
@@ -163,6 +188,8 @@ declare module '@strapi/types' {
     export interface Components {
       'blocks.header-block': BlocksHeaderBlock;
       'contacts.phone': ContactsPhone;
+      'faq.contact-item': FaqContactItem;
+      'faq.faq-section': FaqFaqSection;
       'mission.mission-content': MissionMissionContent;
       'mission.principle': MissionPrinciple;
       'reports.report': ReportsReport;

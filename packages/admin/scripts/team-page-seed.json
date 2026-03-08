@@ -1,0 +1,98 @@
+{
+  "locales": {
+    "uk": {
+      "title": "Наша команда",
+      "motto": "Ми об'єднуємо досвід, емпатію та системний підхід, щоб підтримувати родини військовополонених.",
+      "members": [
+        {
+          "name": "Ім'я Прізвище",
+          "role": "Керівниця напряму підтримки",
+          "description": "Координує програми допомоги родинам військовополонених.\nПрацює з партнерами та волонтерами для швидкого реагування.",
+          "socials": [
+            {
+              "icon": "linkedin",
+              "link": "https://www.linkedin.com/"
+            }
+          ]
+        },
+        {
+          "name": "Ім'я Прізвище",
+          "role": "Координаторка комунікацій",
+          "description": "Відповідає за публічні комунікації фонду.\nПояснює ініціативи та результати роботи для спільноти.",
+          "socials": [
+            {
+              "icon": "facebook",
+              "link": "https://www.facebook.com/"
+            },
+            {
+              "icon": "instagram",
+              "link": "https://www.instagram.com/"
+            }
+          ]
+        },
+        {
+          "name": "Ім'я Прізвище",
+          "role": "Координаторка комунікацій",
+          "description": "Відповідає за публічні комунікації фонду.\nПояснює ініціативи та результати роботи для спільноти.",
+          "socials": [
+            {
+              "icon": "facebook",
+              "link": "https://www.facebook.com/"
+            },
+            {
+              "icon": "instagram",
+              "link": "https://www.instagram.com/"
+            }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Our Team",
+      "motto": "We bring together experience, empathy, and a systematic approach to support families of prisoners of war.",
+      "members": [
+        {
+          "name": "First Last Name",
+          "role": "Support Program Lead",
+          "description": "Coordinates support programs for families of prisoners of war.\nWorks with partners and volunteers to ensure timely response.",
+          "socials": [
+            {
+              "icon": "linkedin",
+              "link": "https://www.linkedin.com/"
+            }
+          ]
+        },
+        {
+          "name": "First Last Name",
+          "role": "Communications Coordinator",
+          "description": "Leads public communications for the foundation.\nExplains initiatives and outcomes clearly for the community.",
+          "socials": [
+            {
+              "icon": "facebook",
+              "link": "https://www.facebook.com/"
+            },
+            {
+              "icon": "instagram",
+              "link": "https://www.instagram.com/"
+            }
+          ]
+        },
+        {
+          "name": "First Last Name",
+          "role": "Communications Coordinator",
+          "description": "Leads public communications for the foundation.\nExplains initiatives and outcomes clearly for the community.",
+          "socials": [
+            {
+              "icon": "facebook",
+              "link": "https://www.facebook.com/"
+            },
+            {
+              "icon": "instagram",
+              "link": "https://www.instagram.com/"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

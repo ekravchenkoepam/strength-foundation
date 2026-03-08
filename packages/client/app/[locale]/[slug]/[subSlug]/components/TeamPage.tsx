@@ -1,17 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
-import React from 'react';
+import React, { FC } from 'react';
 
+import { PageProps } from '@/app/[locale]/[slug]/types';
 import { Loading, MemberCard, Slider } from '@/app/components/shared';
 import { fetchAPI } from '@/app/utils/fetch-api';
 
-export const TeamPage = () => {
+export const TeamPage: FC<PageProps> = ({ locale }) => {
   const { data: teamPage, isLoading: loading } = useQuery({
-    queryKey: ['team-page'],
+    queryKey: ['team-page', locale],
     queryFn: async () => {
       const data = await fetchAPI({
         path: '/team-page',
         urlParams: {
+          locale,
           populate: {
             images: {
               populate: '*',
@@ -45,9 +47,7 @@ export const TeamPage = () => {
     <>
       <div className="h1 mt-6 mb-8 text-center md:mt-8 md:mb-12">{title}</div>
       <Slider images={images} />
-      <div className="px-4 py-10 text-[16px] leading-[24px] md:px-8 md:py-14 lg:px-[120px] xl:px-[220px]">
-        {motto}
-      </div>
+      <div className="px-4 py-10 text-[16px] leading-[24px] md:px-8 md:py-14 lg:px-[120px] xl:px-[220px]">{motto}</div>
       <div
         className="
         bg-[rgb(72,72,56)]
