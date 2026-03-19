@@ -1,52 +1,149 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
+
+import { getPageBySlug } from '@/app/services/pageService';
+import {
+  Carousel,
+  CarouselApi,
+  CarouselContent,
+  CarouselItem,
+} from '@/components/ui/carousel';
+import { Button, ButtonTypeEnum } from '@/app/components/shared';
+import {
+  FacebookIcon,
+  InstagramIcon,
+  LinkedinIcon,
+} from '@/app/components/icons';
+import { useApp } from '@/app/context/AppContext';
 
 import styles from '../page.module.scss';
 
-import { Button, ButtonTypeEnum, Loading } from '@/app/components/shared';
-import { useApp } from '@/app/context/AppContext';
-import { getPageBySlug } from '@/app/services/pageService';
-import { getStrapiMedia } from '@/app/utils/api-helpers';
-
-type Block = {
+type HomeBlock = {
   __component: string;
-  video?: { data: Video[] };
-  image?: { data: Image[] };
   text?: string;
   title?: string;
   description?: string;
 };
 
-type Video = {
-  id: string;
-  attributes: {
-    url: string;
-    mime: string;
-  };
-};
-
-type Image = {
-  id: string;
-  attributes: {
-    url: string;
-    alternativeText?: string;
-  };
-};
-
 type Homepage = {
-  attributes: {
-    blocks: Block[];
+  attributes?: {
+    blocks?: HomeBlock[];
   };
 };
+
+type ActivityCard = {
+  id: number;
+  title: string;
+  description: string;
+  image?: string;
+};
+
+type MediaCard = {
+  id: number;
+  date: string;
+  title: string;
+};
+
+type PartnerCard = {
+  id: number;
+  title: string;
+  isHighlight?: boolean;
+};
+
+type AmbassadorCard = {
+  id: number;
+  name: string;
+  role: string;
+  description: string;
+};
+
+const ACTIVITIES: ActivityCard[] = [
+  {
+    id: 1,
+    title: 'Соціальні проєкти',
+    description:
+      'Ми реалізуємо ініціативи для родин військовополонених та звільнених героїв: гуманітарні збори, адресну підтримку, локальні події та інформування суспільства.',
+    image: '/images/hands.jpg',
+  },
+  {
+    id: 2,
+    title: 'Психологічна допомога',
+    description:
+      'Організовуємо індивідуальні консультації, групи підтримки та практичні зустрічі для тих, хто проживає складний період очікування або повернення близьких.',
+    image: '/images/hands.jpg',
+  },
+  {
+    id: 3,
+    title: 'Консультаційний напрямок',
+    description:
+      'Надаємо базову юридичну та організаційну підтримку, допомагаємо сформувати подальші кроки та супроводжуємо в комунікації з профільними структурами.',
+  },
+];
+
+const MEDIA_ITEMS: MediaCard[] = [
+  {
+    id: 1,
+    date: '15.09.2025',
+    title: 'Заголовок може бути максимально на три рядки',
+  },
+  {
+    id: 2,
+    date: '15.09.2025',
+    title: 'Заголовок може бути максимально на три рядки',
+  },
+  {
+    id: 3,
+    date: '15.09.2025',
+    title: 'Заголовок може бути максимально на три рядки',
+  },
+];
+
+const PARTNERS: PartnerCard[] = [
+  { id: 1, title: 'Логотип' },
+  { id: 2, title: 'Логотип' },
+  { id: 3, title: 'Логотип' },
+  { id: 4, title: 'Логотип' },
+  { id: 5, title: 'Логотип' },
+  { id: 6, title: 'Логотип' },
+  { id: 7, title: 'Місце для вашої компанії', isHighlight: true },
+];
+
+const AMBASSADORS: AmbassadorCard[] = [
+  {
+    id: 1,
+    name: 'Імʼя Прізвище',
+    role: 'Посада',
+    description: 'Короткий опис',
+  },
+  {
+    id: 2,
+    name: 'Анастасія Чакабуш',
+    role: 'Голова фонду',
+    description: 'Короткий опис',
+  },
+  {
+    id: 3,
+    name: 'Анастасія Чакабуш',
+    role: 'Голова фонду',
+    description: 'Короткий опис',
+  },
+];
 
 export default function Home() {
   const { locale } = useApp();
-  const { data: homepage, isLoading } = useQuery<Homepage | null>({
-    queryKey: ['home-page', locale],
-    enabled: Boolean(locale),
-    queryFn: async () => {
+  const router = useRouter();
+
+  const [homepage, setHomepage] = useState<Homepage | null>(null);
+  const [activitiesApi, setActivitiesApi] = useState<CarouselApi | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  useEffect(() => {
+    async function fetchPage() {
+      if (!locale) return;
+
       const page = await getPageBySlug({
         slug: 'home',
         populate: {
@@ -55,120 +152,272 @@ export default function Home() {
         locale,
       });
 
-      return page || null;
-    },
-  });
+      setHomepage(page ?? null);
+    }
 
-  if (isLoading) {
-    return <Loading headerText="Головна" />;
-  }
+    void fetchPage();
+  }, [locale]);
+
+  useEffect(() => {
+    if (!activitiesApi) return;
+
+    const syncSlide = () => {
+      setCurrentSlide(activitiesApi.selectedScrollSnap());
+    };
+
+    syncSlide();
+    activitiesApi.on('select', syncSlide);
+    activitiesApi.on('reInit', syncSlide);
+
+    return () => {
+      activitiesApi.off('select', syncSlide);
+      activitiesApi.off('reInit', syncSlide);
+    };
+  }, [activitiesApi]);
+
+  const currentLocale = locale || 'uk';
+
+  const heroBlock = useMemo(
+    () =>
+      homepage?.attributes?.blocks?.find(
+        (block) => block.__component === 'blocks.header-block'
+      ),
+    [homepage]
+  );
+
+  const heroText = heroBlock?.text || 'Благодійний фонд';
+  const heroTitle = heroBlock?.title || 'Сила для сильних';
+  const heroDescription =
+    heroBlock?.description ||
+    'Ми прагнемо повернути героїв додому, підтримати їхніх близьких і привернути увагу суспільства до цієї проблеми.';
+
+  const navigateTo = (path: string) => {
+    router.push(`/${currentLocale}/${path}`);
+  };
 
   return (
     <div className={styles.homePage}>
-      <div className={styles.headerBlock}>
-        {homepage?.attributes?.blocks?.map((block: Block, index: number) => {
-          switch (block.__component) {
-            case 'blocks.video':
-              return (
-                <div key={index}>
-                  {block.video?.data?.map(video => (
-                    <video key={video.id} controls width="600">
-                      <source src={getStrapiMedia(video.attributes?.url)} type={video.attributes?.mime} />
-                      Your browser does not support the video tag.
-                    </video>
-                  ))}
-                </div>
-              );
+      <section className={styles.heroSection}>
+        <div className={styles.container}>
+          <div className={styles.heroHeader}>
+            <h1 className={styles.heroTitle}>{heroTitle}</h1>
+            <p className={styles.heroText}>{heroText}</p>
+          </div>
 
-            case 'blocks.image':
-              return (
-                <div key={index}>
-                  {block.image?.data?.map(img => (
-                    <img
-                      key={img.id}
-                      src={getStrapiMedia(img.attributes?.url)}
-                      alt={img.attributes?.alternativeText || ''}
-                      width="500"
-                    />
-                  ))}
-                </div>
-              );
-
-            case 'blocks.header-block':
-              return (
-                <div key={index} className={styles.headerBlockContainer}>
-                  <div className={styles.text}>{block.text}</div>
-                  <div className={styles.title}>{block.title}</div>
-                  <div className={styles.description}>{block.description}</div>
-                </div>
-              );
-
-            default:
-              return null;
-          }
-        })}
-      </div>
-      <section className={clsx(styles.fundBlockContainer, styles.container)}>
-        <div className={styles.blockTitle}>Про фонд</div>
-        <div className={styles.content}>
-          <img className={styles.image} src="/images/hands.jpg" alt="" />
-          <div className={styles.description}>
-            <div className={styles.text}>
-              <p>
-                Наша місія — сприяння звільненню військовополонених та надання допомоги їхнім родинам, а також героям,
-                що повернулися з полону.
-              </p>
-              <br />
-              <p>
-                Ми прагнемо повернути героїв додому, підтримати їхніх близьких і привернути увагу суспільства до цієї
-                проблеми.
-              </p>
-              <br />
-              <p>
-                Ми створили фонд, об’єднавши наші навички та досвід, бо неможливо залишатися осторонь, коли наші герої
-                щодня перебувають у полоні, а їхні родини стукають у всі двері, шукаючи підтримки.
-              </p>
-            </div>
-            <div className={styles.buttons}>
-              <Button label="Наші проєкти" type={ButtonTypeEnum.Transparent} />
-              <Button label="Звітність організації" type={ButtonTypeEnum.Secondary} />
-            </div>
+          <div className={styles.heroMedia}>
+            <img
+              src="/images/hands.jpg"
+              alt="Підтримка родин військовополонених"
+              className={styles.heroImage}
+            />
+            <p className={styles.heroDescription}>{heroDescription}</p>
           </div>
         </div>
       </section>
-      <section className={clsx(styles.teamBlockContainer, styles.container)}>
-        <div className={styles.headerBlockContainer}>
-          <h2 className={styles.blockTitle}>Наша команда</h2>
-        </div>
-        <div className={styles.teamListContainer}>
-          <div className={styles.teamList}>
-            <div className={styles.teamMember}>
-              <div className={styles.bio}>
-                <div className={styles.name}>Владислава Карцан</div>
-                <div className={styles.role}>Голова фонду</div>
-              </div>
-            </div>
-            <div className={styles.teamMember}>
-              <div className={styles.bio}>
-                <img src="/images/quotes.svg" alt="quotes" className={styles.quotes} />
-                <div className={styles.name}>Анастасія Артемова</div>
-                <div className={styles.role}>Співзасновниця</div>
-                <div className={styles.extraInfo}>
-                  Координаторка проєктів &quot;Історії сильних&quot;, “Допомога родинам військовополонених”, а також
-                  організаторка власної фотовиставки фонду.
-                </div>
-              </div>
-            </div>
-            <div className={styles.teamMember}>
-              <div className={styles.bio}>
-                <div className={styles.name}>Анастасія Чакубаш</div>
-                <div className={styles.role}>Співзасновниця</div>
+
+      <section className={styles.aboutSection}>
+        <div className={styles.container}>
+          <h2 className={styles.sectionTitle}>Про фонд</h2>
+
+          <div className={styles.aboutGrid}>
+            <img
+              className={styles.aboutImage}
+              src="/images/hands.jpg"
+              alt="Команда фонду"
+            />
+
+            <div className={styles.aboutContent}>
+              <p>
+                Наша місія це сприяти звільненню військовополонених та підтримувати їхні родини у
+                складні періоди очікування.
+              </p>
+              <p>
+                Ми обʼєднуємо фахівців і волонтерів, щоб допомога була системною, своєчасною і
+                зрозумілою для кожної сімʼї.
+              </p>
+              <p>
+                Наші проєкти спрямовані на практичні рішення: інформаційний супровід, консультації,
+                психологічну підтримку та соціальні ініціативи.
+              </p>
+
+              <div className={styles.aboutActions}>
+                <Button
+                  label="Наші проєкти"
+                  type={ButtonTypeEnum.Primary}
+                  onClick={() => navigateTo('projects')}
+                />
+                <Button
+                  label="Звітність організації"
+                  type={ButtonTypeEnum.Secondary}
+                  onClick={() => navigateTo('documents-and-reports/reports')}
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
-      <section className={clsx(styles.activitiesBlockContainer, styles.container)}></section>
+
+      <section className={styles.activitiesSection}>
+        <div className={styles.container}>
+          <h2 className={clsx(styles.sectionTitle, styles.sectionTitleLight)}>
+            Напрямки діяльності
+          </h2>
+
+          <Carousel
+            setApi={setActivitiesApi}
+            opts={{ align: 'start' }}
+            className={styles.activitiesCarousel}
+          >
+            <CarouselContent>
+              {ACTIVITIES.map((activity) => (
+                <CarouselItem key={activity.id} className={styles.activitySlide}>
+                  <article className={styles.activityCard}>
+                    <div className={styles.activityContent}>
+                      <h3>{activity.title}</h3>
+                      <p>{activity.description}</p>
+                    </div>
+
+                    <div className={styles.activityMedia}>
+                      {activity.image ? (
+                        <img src={activity.image} alt={activity.title} />
+                      ) : (
+                        <div className={styles.activityPlaceholder} />
+                      )}
+                    </div>
+                  </article>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+
+          <div className={styles.pagination}>
+            {ACTIVITIES.map((activity, index) => (
+              <button
+                key={activity.id}
+                type="button"
+                className={clsx(
+                  styles.pageDot,
+                  index === currentSlide && styles.activeDot
+                )}
+                onClick={() => activitiesApi?.scrollTo(index)}
+                aria-label={`Перейти до слайда ${index + 1}`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.helpSection}>
+        <div className={styles.container}>
+          <h2 className={styles.sectionTitle}>Потрібна допомога?</h2>
+          <p className={styles.helpText}>
+            Фонд "Сила для Сильних" зростає і шукає людей із великим серцем та відкритою душею.
+          </p>
+          <p className={styles.helpText}>
+            Якщо ти хочеш допомагати родинам військовополонених, працювати з командою однодумців,
+            втілювати соціальні ініціативи та вкладатися у справді важливе.
+          </p>
+
+          <Button
+            label="Заповнити анкету"
+            type={ButtonTypeEnum.Secondary}
+            onClick={() => navigateTo('partnership/become-partner')}
+          />
+        </div>
+      </section>
+
+      <section className={styles.mediaSection}>
+        <div className={styles.container}>
+          <h2 className={clsx(styles.sectionTitle, styles.sectionTitleLight)}>
+            Ми в медіа
+          </h2>
+
+          <div className={styles.mediaGrid}>
+            {MEDIA_ITEMS.map((item) => (
+              <article key={item.id} className={styles.mediaCard}>
+                <div className={styles.mediaPreview} />
+                <div className={styles.mediaBody}>
+                  <p className={styles.mediaDate}>{item.date}</p>
+                  <h3 className={styles.mediaTitle}>{item.title}</h3>
+                  <button
+                    type="button"
+                    className={styles.moreButton}
+                    onClick={() => navigateTo('news')}
+                  >
+                    Детальніше
+                    <img src="/images/arrow-right.svg" alt="" aria-hidden />
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.partnersSection}>
+        <div className={styles.container}>
+          <h2 className={styles.sectionTitle}>Наші партнери</h2>
+
+          <div className={styles.partnersGrid}>
+            {PARTNERS.map((partner) => (
+              <div
+                key={partner.id}
+                className={clsx(
+                  styles.partnerCard,
+                  partner.isHighlight && styles.partnerCardHighlight
+                )}
+              >
+                {partner.title}
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.partnersAction}>
+            <Button
+              label="Стати партнером"
+              type={ButtonTypeEnum.Secondary}
+              onClick={() => navigateTo('partnership/become-partner')}
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.ambassadorsSection}>
+        <div className={styles.container}>
+          <h2 className={styles.sectionTitle}>Амбасадори фонду</h2>
+
+          <div className={styles.ambassadorsGrid}>
+            {AMBASSADORS.map((ambassador) => (
+              <article key={ambassador.id} className={styles.ambassadorCard}>
+                <div className={styles.ambassadorPhoto}>
+                  <div className={styles.ambassadorOverlay}>
+                    <div>
+                      <div className={styles.ambassadorName}>{ambassador.name}</div>
+                      <div className={styles.ambassadorRole}>{ambassador.role}</div>
+                    </div>
+
+                    <div className={styles.socials}>
+                      <a href="#" aria-label="linkedin">
+                        <LinkedinIcon width="18" height="18" color="#484838" />
+                      </a>
+                      <a href="#" aria-label="facebook">
+                        <FacebookIcon width="18" height="18" color="#484838" />
+                      </a>
+                      <a href="#" aria-label="instagram">
+                        <InstagramIcon width="18" height="18" color="#484838" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={styles.ambassadorDescription}>{ambassador.description}</div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

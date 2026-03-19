@@ -1,173 +1,733 @@
 .homePage {
+  background: var(--white-80);
+  color: var(--black-100);
+}
+
+.container {
+  width: min(1240px, calc(100% - 104px));
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(1.6rem, 2.3vw, 2.4rem);
+  line-height: 1.2;
+  font-weight: var(--font-bold);
+  font-family: var(--font-e-ukraine-head);
+}
+
+.sectionTitleLight {
+  color: var(--white-100);
+}
+
+.heroSection {
+  padding: 42px 0 52px;
+}
+
+.heroHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: clamp(2.3rem, 5vw, 5.4rem);
+  line-height: 1;
+  font-weight: 700;
+  font-family: var(--font-e-ukraine-head);
+  text-align: center;
+  width: 100%;
+  word-break: break-word;
+}
+
+.heroText {
+  margin: 0;
+  font-size: clamp(1.1rem, 1.8vw, 2rem);
+  line-height: 1.2;
+  font-weight: 500;
+  width: 100%;
+  text-align: right;
+  color: var(--black-60);
+}
+
+.heroMedia {
+  position: relative;
+  margin-top: 22px;
+  border-radius: 12px;
+  overflow: hidden;
+  height: clamp(260px, 34vw, 420px);
+  border: 1px solid #deded8;
+  background: #d5d5d5;
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 68%;
+}
+
+.heroDescription {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  max-width: 470px;
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.aboutSection {
+  padding: 46px 0 68px;
+}
+
+.aboutGrid {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 18px;
+}
+
+.aboutImage {
+  width: 100%;
+  height: clamp(260px, 24vw, 360px);
+  border-radius: 10px;
+  object-fit: cover;
+  object-position: center 62%;
+  background: #cfcfcf;
+}
+
+.aboutContent {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 16px;
+  line-height: 1.62;
+}
+
+.aboutContent p {
+  margin: 0;
+}
+
+.aboutActions {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.activitiesSection {
+  padding: 52px 0 60px;
+  background-color: var(--green-100);
+  background-image:
+    linear-gradient(rgba(72, 72, 56, 0.9), rgba(72, 72, 56, 0.9));
+  background-size: cover;
+  background-position: center;
+}
+
+.activitiesCarousel {
+  margin-top: 24px;
+}
+
+.activitiesCarousel :global([data-slot='carousel-content'] > div) {
+  margin-left: 0 !important;
+}
+
+.activitySlide {
+  padding-left: 0 !important;
+}
+
+.activityCard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 10px;
+  color: var(--white-100);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.activityContent h3 {
+  margin: 0;
+  font-size: 24px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.activityContent p {
+  margin: 12px 0 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.activityMedia {
+  border-radius: 8px;
+  overflow: hidden;
+  height: clamp(220px, 24vw, 320px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.activityMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.activityPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: #c8c8c8;
+}
+
+.pagination {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+}
+
+.pageDot {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 14px;
+  line-height: 1;
+}
+
+.activeDot {
+  background: var(--white-100);
+  color: var(--black-100);
+  border-color: var(--white-100);
+}
+
+.helpSection {
+  padding: 64px 0;
+}
+
+.helpSection .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.helpText {
+  margin: 16px 0 0;
+  max-width: 900px;
+  text-align: center;
+  color: var(--black-80);
+  font-size: 18px;
+  line-height: 1.65;
+  text-wrap: balance;
+}
+
+.helpSection :global(button) {
+  margin-top: 24px;
+}
+
+.mediaSection {
+  padding: 56px 0 72px;
+  background-color: var(--green-100);
+  background-image:
+    linear-gradient(rgba(72, 72, 56, 0.9), rgba(72, 72, 56, 0.9));
+  background-size: cover;
+  background-position: center;
+}
+
+.mediaGrid {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.mediaCard {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--white-100);
+}
+
+.mediaPreview {
+  height: 220px;
+  background: #c7c7c7;
+}
+
+.mediaBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 176px;
+  padding: 14px 14px 18px;
+}
+
+.mediaDate {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 12px;
+}
+
+.mediaTitle {
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.25;
+  font-weight: 600;
+}
+
+.moreButton {
+  margin-top: auto;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  color: var(--white-100);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.moreButton img {
+  width: 14px;
+  height: 14px;
+  filter: brightness(0) invert(1);
+}
+
+.partnersSection {
+  padding: 72px 0 78px;
+}
+
+.partnersGrid {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.partnerCard {
+  min-height: 100px;
+  border-radius: 10px;
+  border: 1px solid var(--yellow-100);
+  background: var(--white-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.partnerCardHighlight {
+  grid-column: span 2;
+  border-color: #b8b8b8;
+  color: #6e6e6e;
+  font-weight: 500;
+}
+
+.partnersAction {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.ambassadorsSection {
+  padding: 6px 0 86px;
+}
+
+.ambassadorsGrid {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.ambassadorCard {
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+
+.ambassadorPhoto {
+  position: relative;
+  height: 320px;
+  background: #c7c7c7;
+}
+
+.ambassadorOverlay {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  padding: 10px 10px 8px;
+  background: rgba(198, 198, 198, 0.55);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.ambassadorName {
+  color: var(--white-100);
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 600;
+}
+
+.ambassadorRole {
+  margin-top: 2px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+}
+
+.socials {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.socials a {
+  line-height: 0;
+}
+
+.ambassadorDescription {
+  padding: 12px 14px 14px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #444;
+}
+
+@media (max-width: 1200px) {
   .container {
-    padding: 52px;
+    width: min(1240px, calc(100% - 64px));
   }
 
-  .headerBlock {
-    background-image: linear-gradient(
-        rgba(102, 102, 77, 0.9),
-        rgba(102, 102, 77, 0.9)
-      ),
-      url('/images/hands.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-height: 700px;
-
-    .headerBlockContainer {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      color: white;
-      text-align: center;
-      padding: 250px 120px;
-
-      .title {
-        color: var(--color-yellow);
-        font-size: 90px;
-        font-weight: 900;
-      }
-
-      .text {
-        font-size: 48px;
-        font-weight: 600;
-      }
-
-      .description {
-        font-size: 24px;
-      }
-    }
+  .heroMedia {
+    height: clamp(240px, 36vw, 360px);
   }
 
-  .blockTitle {
-    font-size: 48px;
-    font-weight: 700;
+  .activityContent h3,
+  .mediaTitle {
+    font-size: 20px;
   }
 
-  .fundBlockContainer {
+  .partnerCard {
+    font-size: 22px;
+  }
+
+  .ambassadorName {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 960px) {
+  .container {
+    width: min(1240px, calc(100% - 40px));
+  }
+
+  .heroSection {
+    padding-top: 28px;
+    padding-bottom: 40px;
+  }
+
+  .heroHeader {
+    align-items: center;
+  }
+
+  .heroText {
+    font-size: 16px;
+    text-align: right;
+  }
+
+  .heroMedia {
+    height: clamp(220px, 42vw, 300px);
+  }
+
+  .heroDescription {
+    max-width: calc(100% - 24px);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .aboutGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutImage {
+    height: clamp(220px, 32vw, 300px);
+  }
+
+  .aboutSection {
+    padding-top: 38px;
+    padding-bottom: 50px;
+  }
+
+  .activitiesSection,
+  .mediaSection,
+  .partnersSection,
+  .ambassadorsSection {
+    padding-top: 44px;
+    padding-bottom: 50px;
+  }
+
+  .activityCard {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+
+  .activityMedia {
+    height: clamp(190px, 34vw, 250px);
+  }
+
+  .pagination {
+    justify-content: center;
+  }
+
+  .mediaGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .mediaBody {
+    min-height: 152px;
+  }
+
+  .partnersGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .partnerCardHighlight {
+    grid-column: span 2;
+  }
+
+  .ambassadorsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ambassadorPhoto {
+    height: 260px;
+  }
+
+  .helpSection {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+
+  .helpText {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    width: min(1240px, calc(100% - 24px));
+  }
+
+  .sectionTitle {
+    font-size: 30px;
+  }
+
+  .heroTitle {
+    font-size: clamp(2rem, 11vw, 2.5rem);
+  }
+
+  .heroMedia {
+    height: auto;
     display: flex;
     flex-direction: column;
-    gap: 40px;
-
-    .content {
-      display: flex;
-      gap: 60px;
-      align-items: flex-start;
-
-      .image {
-        flex-shrink: 0;
-        width: 590px;
-        height: 550px;
-        object-fit: cover;
-        border-radius: 28px;
-        background: #ccc;
-      }
-
-      .description {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-
-        .text {
-          font-size: 18px;
-          line-height: 1.6;
-          min-height: 450px;
-          max-width: 710px;
-        }
-
-        .buttons {
-          display: flex;
-          gap: 16px;
-          flex-wrap: wrap;
-        }
-      }
-    }
+    gap: 10px;
+    padding: 10px;
   }
 
-  .teamBlockContainer {
-    .headerBlockContainer {
-     display: flex;
-    }
+  .aboutSection,
+  .helpSection,
+  .mediaSection,
+  .partnersSection,
+  .ambassadorsSection {
+    padding-top: 44px;
+    padding-bottom: 52px;
+  }
 
-    .teamListContainer {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 0;
+  .heroSection {
+    padding-top: 22px;
+    padding-bottom: 28px;
+  }
 
-      .teamList {
-        display: flex;
-        gap: 32px;
+  .heroHeader {
+    gap: 4px;
+  }
 
-        .teamMember {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: flex-end;
-          padding: 24px;
-          background-color: var(--color-beige);
-          border-radius: var(--border-radius);
-          width: 425px;
-          height: 560px;
-          cursor: pointer;
+  .heroText {
+    text-align: center;
+    font-size: 14px;
+  }
 
-          .bio {
-            position: relative;
-            background-color: var(--color-light);
-            color: var(--color-dark);
-            border-radius: var(--border-radius);
-            padding: 28px 24px;
-            transition: height 0.4s ease;
+  .heroImage {
+    height: 220px;
+    border-radius: 10px;
+  }
 
-            .quotes {
-              opacity: 0;
-              position: absolute;
-              top: -12px;
-              right: 46px;
-              height: 36px;
-              width: 47px;
-            }
+  .heroDescription {
+    position: static;
+    max-width: 100%;
+    border: 1px solid #d7d7cf;
+    border-radius: 8px;
+    background: #efefeb;
+    backdrop-filter: none;
+    font-size: 12px;
+    line-height: 1.45;
+  }
 
-            .name {
-              font-size: 32px;
-              font-weight: 700;
-              margin-bottom: 12px
-            }
+  .aboutContent,
+  .helpText {
+    font-size: 15px;
+  }
 
-            .extraInfo {
-              opacity: 0;
-              max-height: 0;
-              overflow: hidden;
-              transform: translateY(10px);
-              transition:
-                opacity 0.3s ease 0.2s,
-                max-height 0.4s ease,
-                transform 0.3s ease;
-            }
-          }
+  .aboutActions {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-          &:hover {
-            .bio {
-              height: 100%;
-            }
+  .aboutActions :global(button) {
+    width: 100%;
+  }
 
-            .quotes {
-              opacity: 1;
-            }
+  .helpSection :global(button),
+  .partnersAction :global(button) {
+    width: 100%;
+    max-width: 320px;
+  }
 
-            .extraInfo {
-              opacity: 1;
-              max-height: 200px;
-              margin-top: 64px;
-              transform: translateY(0);
-            }
-          }
-        }
-      }
-    }
+  .activityContent h3 {
+    font-size: 19px;
+  }
+
+  .activityContent p {
+    margin-top: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .activityMedia {
+    height: clamp(170px, 44vw, 220px);
+  }
+
+  .pageDot {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+  }
+
+  .mediaPreview {
+    height: 160px;
+  }
+
+  .mediaBody {
+    min-height: 130px;
+    padding: 10px 10px 12px;
+  }
+
+  .mediaTitle {
+    font-size: 18px;
+  }
+
+  .moreButton {
+    font-size: 13px;
+  }
+
+  .partnersGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .partnerCard,
+  .partnerCardHighlight {
+    grid-column: span 1;
+    min-height: 86px;
+    font-size: 20px;
+  }
+
+  .ambassadorPhoto {
+    height: 220px;
+  }
+
+  .ambassadorOverlay {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    padding: 8px;
+  }
+
+  .ambassadorName {
+    font-size: 17px;
+  }
+
+  .ambassadorRole {
+    font-size: 12px;
+  }
+
+  .ambassadorDescription {
+    font-size: 13px;
+    padding: 10px 12px 12px;
+  }
+}
+
+@media (max-width: 420px) {
+  .container {
+    width: min(1240px, calc(100% - 16px));
+  }
+
+  .sectionTitle {
+    font-size: 26px;
+  }
+
+  .heroImage {
+    height: 190px;
+  }
+
+  .heroDescription {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+
+  .aboutSection,
+  .activitiesSection,
+  .helpSection,
+  .mediaSection,
+  .partnersSection,
+  .ambassadorsSection {
+    padding-top: 32px;
+    padding-bottom: 38px;
+  }
+
+  .aboutContent {
+    font-size: 14px;
+    line-height: 1.5;
+    gap: 10px;
+  }
+
+  .aboutActions {
+    gap: 8px;
+  }
+
+  .mediaPreview {
+    height: 140px;
+  }
+
+  .partnerCard,
+  .partnerCardHighlight {
+    min-height: 72px;
+    font-size: 17px;
   }
 }
