@@ -11,24 +11,42 @@ type Props = {
   };
 };
 
+const getDataOrFallback = async <T,>(promise: Promise<T>, fallback: T): Promise<T> => {
+  try {
+    return await promise;
+  } catch (error) {
+    console.error('Locale layout data fetch failed:', error);
+    return fallback;
+  }
+};
+
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = params;
-  const { data: navigations }: any = await fetchAPI({
-    path: '/navigations',
-    urlParams: { locale },
-  });
-  const { data: socialLinks }: any = await fetchAPI({
-    path: '/socials?=*',
-    urlParams: { locale },
-  });
-  const { data: contact }: any = await fetchAPI({
-    path: '/contact',
-    urlParams: { locale },
-  });
+  const navigationsResponse: any = await getDataOrFallback(
+    fetchAPI({
+      path: '/navigations',
+      urlParams: { locale },
+    }),
+    { data: [] }
+  );
+  const socialsResponse: any = await getDataOrFallback(
+    fetchAPI({
+      path: '/socials?=*',
+      urlParams: { locale },
+    }),
+    { data: [] }
+  );
+  const contactResponse: any = await getDataOrFallback(
+    fetchAPI({
+      path: '/contact',
+      urlParams: { locale },
+    }),
+    { data: null }
+  );
 
-  const links = extractAttributes(navigations);
-  const socials = extractAttributes(socialLinks);
-  const contacts = extractAttributes(contact);
+  const links = (extractAttributes(navigationsResponse.data) as any[]) || [];
+  const socials = (extractAttributes(socialsResponse.data) as any[]) || [];
+  const contacts = extractAttributes(contactResponse.data);
 
   return (
     <AppContextProvider links={links} socials={socials} locale={locale}>
