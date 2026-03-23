@@ -1,5 +1,6 @@
-import qs from "qs";
-import { getStrapiURL } from "./api-helpers";
+import qs from 'qs';
+
+import { getStrapiURL } from './api-helpers';
 
 interface NextFetchOptions extends RequestInit {
   next?: {
@@ -15,40 +16,48 @@ interface FetchAPIArgs {
   options?: NextFetchOptions;
 }
 
-export async function fetchAPI({
- path,
- urlParams = {},
- options = {},
-}: FetchAPIArgs) {
+export async function fetchAPI({ path, urlParams = {}, options = {} }: FetchAPIArgs) {
+  const mergedUrlParams = {
+    locale: 'uk',
+    populate: '*',
+    ...urlParams,
+  };
+
+  const mergedOptions: NextFetchOptions = {
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      ...(options.headers || {}),
+    },
+    ...options,
+  };
+
+  if (!mergedOptions.next && !mergedOptions.cache) {
+    mergedOptions.next = { revalidate: 10 };
+  }
+
+  const queryString = qs.stringify(mergedUrlParams);
+  const requestUrl = `${getStrapiURL(`/api${path}${queryString ? `?${queryString}` : ''}`)}`;
+
   try {
-    const mergedUrlParams = {
-      locale: "uk",
-      populate: "*",
-      ...urlParams,
-    };
+    const response = await fetch(requestUrl, mergedOptions);
+    const contentType = response.headers.get('content-type') || '';
 
-    const mergedOptions: NextFetchOptions = {
-      headers: {
-        "Content-Type": "application/json",
-        ...(options.headers || {}),
-      },
-      ...options,
-    };
-
-    if (!mergedOptions.next && !mergedOptions.cache) {
-      mergedOptions.next = { revalidate: 10 };
+    if (!response.ok) {
+      const responseText = await response.text();
+      throw new Error(`Strapi request failed (${response.status}) for ${requestUrl}: ${responseText.slice(0, 200)}`);
     }
 
-    const queryString = qs.stringify(mergedUrlParams);
-    const requestUrl = `${getStrapiURL(`/api${path}${queryString ? `?${queryString}` : ""}`)}`;
+    if (!contentType.includes('application/json')) {
+      const responseText = await response.text();
+      throw new Error(
+        `Expected JSON from ${requestUrl} but received "${contentType || 'unknown'}": ${responseText.slice(0, 200)}`
+      );
+    }
 
-    const response = await fetch(requestUrl, mergedOptions);
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
-    console.error(error);
-    throw new Error(
-      `Please check if your server is running and you set all the required tokens.`
-    );
+    console.error('fetchAPI error:', error);
+    throw new Error('Please check if your server is running and you set all the required tokens.');
   }
 }

@@ -4,7 +4,7 @@ import { getStrapiMedia } from '@/app/utils/api-helpers';
 import { fetchAPI } from '@/app/utils/fetch-api';
 
 interface DocumentsFile {
-  data: {
+  data?: {
     id: number;
     attributes: {
       alternativeText: string | null;
@@ -23,7 +23,7 @@ interface DocumentsFile {
       updatedAt: string;
       url: string | null;
     };
-  };
+  } | null;
 }
 
 interface DocumentsAttributes {
@@ -39,36 +39,74 @@ interface DocumentsResponse {
   attributes: DocumentsAttributes;
 }
 
+interface DocumentsPageResponse {
+  data?: {
+    id: number;
+    attributes?: {
+      title?: string;
+      description?: string;
+      documents?: {
+        data?: DocumentsResponse[];
+      };
+    };
+  } | null;
+}
+
 export interface ParsedDocs {
   id: number;
   name: string;
   url: string;
 }
 
-export const useDocuments = () => {
+export interface DocumentsPageData {
+  title: string;
+  description: string;
+  documents: ParsedDocs[];
+}
+
+export const useDocuments = (locale: string) => {
   const parseDocuments = (documentsRes: DocumentsResponse[]): ParsedDocs[] => {
-    return documentsRes.map((doc: DocumentsResponse) => ({
-      id: doc.id,
-      name: doc.attributes.name,
-      url: getStrapiMedia(doc.attributes.file.data.attributes.url ?? ''),
-    }));
+    return documentsRes
+      .filter((doc: DocumentsResponse) => doc.attributes.file?.data?.attributes?.url)
+      .map((doc: DocumentsResponse) => ({
+        id: doc.id,
+        name: doc.attributes.name,
+        url: getStrapiMedia(doc.attributes.file.data?.attributes.url ?? ''),
+      }));
   };
 
-  const { data: documentsList = [], isLoading } = useQuery<ParsedDocs[]>({
-    queryKey: ['documents'],
-    queryFn: async () => {
-      const { data } = await fetchAPI({
-        path: '/documents',
-        urlParams: { populate: '*' },
-      });
+  const { data: page = { title: 'Документи', description: '', documents: [] }, isLoading } =
+    useQuery<DocumentsPageData>({
+      queryKey: ['documents-page', locale],
+      queryFn: async () => {
+        const response = (await fetchAPI({
+          path: '/documents-page',
+          urlParams: {
+            locale,
+            populate: {
+              documents: {
+                populate: '*',
+              },
+            },
+          },
+        })) as DocumentsPageResponse;
 
-      return parseDocuments(data || []);
-    },
-  });
+        return {
+          title: response?.data?.attributes?.title || 'Документи',
+          description: response?.data?.attributes?.description || '',
+          documents: parseDocuments(response?.data?.attributes?.documents?.data || []),
+        };
+      },
+    });
 
   const openInNewTab = (link: string) => () => {
     window.open(link, '_blank');
   };
 
-  return { documentsList, openInNewTab, isLoading };
+  return {
+    documentsList: page.documents,
+    openInNewTab,
+    page,
+    isLoading,
+  };
 };

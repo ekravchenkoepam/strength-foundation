@@ -1,0 +1,14 @@
+{
+  "locales": {
+    "uk": {
+      "title": "Документи",
+      "description": "",
+      "documents": []
+    },
+    "en": {
+      "title": "Documents",
+      "description": "",
+      "documents": []
+    }
+  }
+}

@@ -1,38 +1,16 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
-
-import { getPageBySlug } from '@/app/services/pageService';
-import {
-  Carousel,
-  CarouselApi,
-  CarouselContent,
-  CarouselItem,
-} from '@/components/ui/carousel';
-import { Button, ButtonTypeEnum } from '@/app/components/shared';
-import {
-  FacebookIcon,
-  InstagramIcon,
-  LinkedinIcon,
-} from '@/app/components/icons';
-import { useApp } from '@/app/context/AppContext';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import styles from '../page.module.scss';
 
-type HomeBlock = {
-  __component: string;
-  text?: string;
-  title?: string;
-  description?: string;
-};
-
-type Homepage = {
-  attributes?: {
-    blocks?: HomeBlock[];
-  };
-};
+import { FacebookIcon, InstagramIcon, LinkedinIcon } from '@/app/components/icons';
+import { Button, ButtonTypeEnum } from '@/app/components/shared';
+import { useApp } from '@/app/context/AppContext';
+import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 type ActivityCard = {
   id: number;
@@ -65,21 +43,24 @@ const ACTIVITIES: ActivityCard[] = [
     id: 1,
     title: 'Соціальні проєкти',
     description:
-      'Ми реалізуємо ініціативи для родин військовополонених та звільнених героїв: гуманітарні збори, адресну підтримку, локальні події та інформування суспільства.',
+      'Ми реалізуємо ініціативи для родин військовополонених та звільнених героїв:' +
+      ' гуманітарні збори, адресну підтримку, локальні події та інформування суспільства.',
     image: '/images/hands.jpg',
   },
   {
     id: 2,
     title: 'Психологічна допомога',
     description:
-      'Організовуємо індивідуальні консультації, групи підтримки та практичні зустрічі для тих, хто проживає складний період очікування або повернення близьких.',
+      'Організовуємо індивідуальні консультації, групи підтримки та практичні зустрічі' +
+      ' для тих, хто проживає складний період очікування або повернення близьких.',
     image: '/images/hands.jpg',
   },
   {
     id: 3,
     title: 'Консультаційний напрямок',
     description:
-      'Надаємо базову юридичну та організаційну підтримку, допомагаємо сформувати подальші кроки та супроводжуємо в комунікації з профільними структурами.',
+      'Надаємо базову юридичну та організаційну підтримку, допомагаємо сформувати' +
+      ' подальші кроки та супроводжуємо в комунікації з профільними структурами.',
   },
 ];
 
@@ -132,31 +113,35 @@ const AMBASSADORS: AmbassadorCard[] = [
   },
 ];
 
+const HERO_CONTENT: Record<
+  string,
+  {
+    description: string;
+    text: string;
+    title: string;
+  }
+> = {
+  uk: {
+    text: 'Благодійний фонд',
+    title: 'Сила для сильних',
+    description:
+      'Ми прагнемо повернути героїв додому, підтримати їхніх близьких і привернути увагу суспільства' +
+      ' до цієї проблеми.',
+  },
+  en: {
+    text: 'Charity fund',
+    title: 'Strength for the strong',
+    description:
+      'We strive to bring the heroes home, support their loved ones, and draw public attention to this problem.',
+  },
+};
+
 export default function Home() {
   const { locale } = useApp();
   const router = useRouter();
 
-  const [homepage, setHomepage] = useState<Homepage | null>(null);
   const [activitiesApi, setActivitiesApi] = useState<CarouselApi | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    async function fetchPage() {
-      if (!locale) return;
-
-      const page = await getPageBySlug({
-        slug: 'home',
-        populate: {
-          blocks: { populate: '*' },
-        },
-        locale,
-      });
-
-      setHomepage(page ?? null);
-    }
-
-    void fetchPage();
-  }, [locale]);
 
   useEffect(() => {
     if (!activitiesApi) return;
@@ -176,20 +161,7 @@ export default function Home() {
   }, [activitiesApi]);
 
   const currentLocale = locale || 'uk';
-
-  const heroBlock = useMemo(
-    () =>
-      homepage?.attributes?.blocks?.find(
-        (block) => block.__component === 'blocks.header-block'
-      ),
-    [homepage]
-  );
-
-  const heroText = heroBlock?.text || 'Благодійний фонд';
-  const heroTitle = heroBlock?.title || 'Сила для сильних';
-  const heroDescription =
-    heroBlock?.description ||
-    'Ми прагнемо повернути героїв додому, підтримати їхніх близьких і привернути увагу суспільства до цієї проблеми.';
+  const heroContent = HERO_CONTENT[currentLocale] || HERO_CONTENT.uk;
 
   const navigateTo = (path: string) => {
     router.push(`/${currentLocale}/${path}`);
@@ -200,17 +172,19 @@ export default function Home() {
       <section className={styles.heroSection}>
         <div className={styles.container}>
           <div className={styles.heroHeader}>
-            <h1 className={styles.heroTitle}>{heroTitle}</h1>
-            <p className={styles.heroText}>{heroText}</p>
+            <h1 className={styles.heroTitle}>{heroContent.title}</h1>
+            <p className={styles.heroText}>{heroContent.text}</p>
           </div>
 
           <div className={styles.heroMedia}>
-            <img
+            <Image
               src="/images/hands.jpg"
               alt="Підтримка родин військовополонених"
               className={styles.heroImage}
+              width={1200}
+              height={800}
             />
-            <p className={styles.heroDescription}>{heroDescription}</p>
+            <p className={styles.heroDescription}>{heroContent.description}</p>
           </div>
         </div>
       </section>
@@ -220,32 +194,30 @@ export default function Home() {
           <h2 className={styles.sectionTitle}>Про фонд</h2>
 
           <div className={styles.aboutGrid}>
-            <img
+            <Image
               className={styles.aboutImage}
               src="/images/hands.jpg"
               alt="Команда фонду"
+              width={1200}
+              height={800}
             />
 
             <div className={styles.aboutContent}>
               <p>
-                Наша місія це сприяти звільненню військовополонених та підтримувати їхні родини у
-                складні періоди очікування.
+                Наша місія це сприяти звільненню військовополонених та підтримувати їхні родини у складні періоди
+                очікування.
               </p>
               <p>
-                Ми обʼєднуємо фахівців і волонтерів, щоб допомога була системною, своєчасною і
-                зрозумілою для кожної сімʼї.
+                Ми обʼєднуємо фахівців і волонтерів, щоб допомога була системною, своєчасною і зрозумілою для кожної
+                сімʼї.
               </p>
               <p>
-                Наші проєкти спрямовані на практичні рішення: інформаційний супровід, консультації,
-                психологічну підтримку та соціальні ініціативи.
+                Наші проєкти спрямовані на практичні рішення: інформаційний супровід, консультації, психологічну
+                підтримку та соціальні ініціативи.
               </p>
 
               <div className={styles.aboutActions}>
-                <Button
-                  label="Наші проєкти"
-                  type={ButtonTypeEnum.Primary}
-                  onClick={() => navigateTo('projects')}
-                />
+                <Button label="Наші проєкти" type={ButtonTypeEnum.Primary} onClick={() => navigateTo('projects')} />
                 <Button
                   label="Звітність організації"
                   type={ButtonTypeEnum.Secondary}
@@ -259,17 +231,11 @@ export default function Home() {
 
       <section className={styles.activitiesSection}>
         <div className={styles.container}>
-          <h2 className={clsx(styles.sectionTitle, styles.sectionTitleLight)}>
-            Напрямки діяльності
-          </h2>
+          <h2 className={clsx(styles.sectionTitle, styles.sectionTitleLight)}>Напрямки діяльності</h2>
 
-          <Carousel
-            setApi={setActivitiesApi}
-            opts={{ align: 'start' }}
-            className={styles.activitiesCarousel}
-          >
+          <Carousel setApi={setActivitiesApi} opts={{ align: 'start' }} className={styles.activitiesCarousel}>
             <CarouselContent>
-              {ACTIVITIES.map((activity) => (
+              {ACTIVITIES.map(activity => (
                 <CarouselItem key={activity.id} className={styles.activitySlide}>
                   <article className={styles.activityCard}>
                     <div className={styles.activityContent}>
@@ -279,7 +245,7 @@ export default function Home() {
 
                     <div className={styles.activityMedia}>
                       {activity.image ? (
-                        <img src={activity.image} alt={activity.title} />
+                        <Image src={activity.image} alt={activity.title} width={1200} height={800} />
                       ) : (
                         <div className={styles.activityPlaceholder} />
                       )}
@@ -295,10 +261,7 @@ export default function Home() {
               <button
                 key={activity.id}
                 type="button"
-                className={clsx(
-                  styles.pageDot,
-                  index === currentSlide && styles.activeDot
-                )}
+                className={clsx(styles.pageDot, index === currentSlide && styles.activeDot)}
                 onClick={() => activitiesApi?.scrollTo(index)}
                 aria-label={`Перейти до слайда ${index + 1}`}
               >
@@ -313,11 +276,11 @@ export default function Home() {
         <div className={styles.container}>
           <h2 className={styles.sectionTitle}>Потрібна допомога?</h2>
           <p className={styles.helpText}>
-            Фонд "Сила для Сильних" зростає і шукає людей із великим серцем та відкритою душею.
+            Фонд &quot;Сила для Сильних&quot; зростає і шукає людей із великим серцем та відкритою душею.
           </p>
           <p className={styles.helpText}>
-            Якщо ти хочеш допомагати родинам військовополонених, працювати з командою однодумців,
-            втілювати соціальні ініціативи та вкладатися у справді важливе.
+            Якщо ти хочеш допомагати родинам військовополонених, працювати з командою однодумців, втілювати соціальні
+            ініціативи та вкладатися у справді важливе.
           </p>
 
           <Button
@@ -330,24 +293,18 @@ export default function Home() {
 
       <section className={styles.mediaSection}>
         <div className={styles.container}>
-          <h2 className={clsx(styles.sectionTitle, styles.sectionTitleLight)}>
-            Ми в медіа
-          </h2>
+          <h2 className={clsx(styles.sectionTitle, styles.sectionTitleLight)}>Ми в медіа</h2>
 
           <div className={styles.mediaGrid}>
-            {MEDIA_ITEMS.map((item) => (
+            {MEDIA_ITEMS.map(item => (
               <article key={item.id} className={styles.mediaCard}>
                 <div className={styles.mediaPreview} />
                 <div className={styles.mediaBody}>
                   <p className={styles.mediaDate}>{item.date}</p>
                   <h3 className={styles.mediaTitle}>{item.title}</h3>
-                  <button
-                    type="button"
-                    className={styles.moreButton}
-                    onClick={() => navigateTo('news')}
-                  >
+                  <button type="button" className={styles.moreButton} onClick={() => navigateTo('news')}>
                     Детальніше
-                    <img src="/images/arrow-right.svg" alt="" aria-hidden />
+                    <Image src="/images/arrow-right.svg" alt="" aria-hidden width={20} height={20} />
                   </button>
                 </div>
               </article>
@@ -361,13 +318,10 @@ export default function Home() {
           <h2 className={styles.sectionTitle}>Наші партнери</h2>
 
           <div className={styles.partnersGrid}>
-            {PARTNERS.map((partner) => (
+            {PARTNERS.map(partner => (
               <div
                 key={partner.id}
-                className={clsx(
-                  styles.partnerCard,
-                  partner.isHighlight && styles.partnerCardHighlight
-                )}
+                className={clsx(styles.partnerCard, partner.isHighlight && styles.partnerCardHighlight)}
               >
                 {partner.title}
               </div>
@@ -389,7 +343,7 @@ export default function Home() {
           <h2 className={styles.sectionTitle}>Амбасадори фонду</h2>
 
           <div className={styles.ambassadorsGrid}>
-            {AMBASSADORS.map((ambassador) => (
+            {AMBASSADORS.map(ambassador => (
               <article key={ambassador.id} className={styles.ambassadorCard}>
                 <div className={styles.ambassadorPhoto}>
                   <div className={styles.ambassadorOverlay}>

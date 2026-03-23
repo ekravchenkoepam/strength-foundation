@@ -311,6 +311,7 @@ export interface ApiContactContact extends Schema.SingleType {
 export interface ApiDocumentDocument extends Schema.CollectionType {
   collectionName: 'documents';
   info: {
+    description: '';
     displayName: 'Document';
     pluralName: 'documents';
     singularName: 'document';
@@ -318,14 +319,81 @@ export interface ApiDocumentDocument extends Schema.CollectionType {
   options: {
     draftAndPublish: true;
   };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
   attributes: {
     createdAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::document.document', 'oneToOne', 'admin::user'> & Attribute.Private;
-    file: Attribute.Media<'files'>;
-    name: Attribute.String;
+    file: Attribute.Media<'files'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    locale: Attribute.String;
+    localizations: Attribute.Relation<'api::document.document', 'oneToMany', 'api::document.document'>;
+    name: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     publishedAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     updatedBy: Attribute.Relation<'api::document.document', 'oneToOne', 'admin::user'> & Attribute.Private;
+  };
+}
+
+export interface ApiDocumentsPageDocumentsPage extends Schema.SingleType {
+  collectionName: 'documents_pages';
+  info: {
+    description: '';
+    displayName: 'DocumentsPage';
+    pluralName: 'documents-pages';
+    singularName: 'documents-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::documents-page.documents-page', 'oneToOne', 'admin::user'> & Attribute.Private;
+    description: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    documents: Attribute.Relation<'api::documents-page.documents-page', 'oneToMany', 'api::document.document'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    locale: Attribute.String;
+    localizations: Attribute.Relation<
+      'api::documents-page.documents-page',
+      'oneToMany',
+      'api::documents-page.documents-page'
+    >;
+    publishedAt: Attribute.DateTime;
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::documents-page.documents-page', 'oneToOne', 'admin::user'> & Attribute.Private;
   };
 }
 
@@ -604,51 +672,6 @@ export interface ApiNavigationNavigation extends Schema.CollectionType {
       }>;
     updatedAt: Attribute.DateTime;
     updatedBy: Attribute.Relation<'api::navigation.navigation', 'oneToOne', 'admin::user'> & Attribute.Private;
-  };
-}
-
-export interface ApiPagePage extends Schema.CollectionType {
-  collectionName: 'pages';
-  info: {
-    description: '';
-    displayName: 'Page';
-    pluralName: 'pages';
-    singularName: 'page';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  pluginOptions: {
-    i18n: {
-      localized: true;
-    };
-  };
-  attributes: {
-    blocks: Attribute.DynamicZone<['blocks.header-block']> &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    createdAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> & Attribute.Private;
-    locale: Attribute.String;
-    localizations: Attribute.Relation<'api::page.page', 'oneToMany', 'api::page.page'>;
-    publishedAt: Attribute.DateTime;
-    slug: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    title: Attribute.String &
-      Attribute.SetPluginOptions<{
-        i18n: {
-          localized: true;
-        };
-      }>;
-    updatedAt: Attribute.DateTime;
-    updatedBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> & Attribute.Private;
   };
 }
 
@@ -1299,12 +1322,12 @@ declare module '@strapi/types' {
       'admin::user': AdminUser;
       'api::contact.contact': ApiContactContact;
       'api::document.document': ApiDocumentDocument;
+      'api::documents-page.documents-page': ApiDocumentsPageDocumentsPage;
       'api::faq-category.faq-category': ApiFaqCategoryFaqCategory;
       'api::faq-page.faq-page': ApiFaqPageFaqPage;
       'api::faq.faq': ApiFaqFaq;
       'api::mission-page.mission-page': ApiMissionPageMissionPage;
       'api::navigation.navigation': ApiNavigationNavigation;
-      'api::page.page': ApiPagePage;
       'api::payment-transaction.payment-transaction': ApiPaymentTransactionPaymentTransaction;
       'api::questionnaire.questionnaire': ApiQuestionnaireQuestionnaire;
       'api::report-type.report-type': ApiReportTypeReportType;

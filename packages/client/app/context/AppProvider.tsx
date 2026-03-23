@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { AppContext } from "./AppContext";
+import { AppContext } from './AppContext';
 
 type Props = {
   children: React.ReactNode;
@@ -11,17 +11,19 @@ type Props = {
   locale: string;
 };
 
-export const AppContextProvider =  ({ children, links, socials, locale }: Props) => {
+export const AppContextProvider = ({ children, links, socials, locale }: Props) => {
   const [currentLocale, setCurrentLocale] = useState(locale);
 
   return (
-    <AppContext.Provider value={{
-      links,
-      socials,
-      locale: currentLocale,
-      setLocale: setCurrentLocale
-    }}>
+    <AppContext.Provider
+      value={{
+        links,
+        socials,
+        locale: currentLocale,
+        setLocale: setCurrentLocale,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );
-}
+};

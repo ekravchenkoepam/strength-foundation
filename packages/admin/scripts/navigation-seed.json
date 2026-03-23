@@ -1,0 +1,144 @@
+{
+  "locales": {
+    "uk": {
+      "navigations": [
+        {
+          "title": "Про нас",
+          "href": "about",
+          "position": 1,
+          "isHidden": false,
+          "sublinks": [
+            {
+              "title": "Місія та цінності",
+              "href": "mission"
+            },
+            {
+              "title": "Наша команда",
+              "href": "team"
+            },
+            {
+              "title": "Контакти",
+              "href": "contacts"
+            }
+          ]
+        },
+        {
+          "title": "Наші проекти",
+          "href": "projects",
+          "position": 2,
+          "isHidden": false,
+          "sublinks": []
+        },
+        {
+          "title": "Партнерство",
+          "href": "partnership",
+          "position": 3,
+          "isHidden": false,
+          "sublinks": [
+            {
+              "title": "Як стати партнером",
+              "href": "become-partner"
+            },
+            {
+              "title": "Як стати волонтером",
+              "href": "become-volunteer"
+            }
+          ]
+        },
+        {
+          "title": "Новини",
+          "href": "news",
+          "position": 4,
+          "isHidden": true,
+          "sublinks": []
+        },
+        {
+          "title": "Документи та звіти",
+          "href": "documents-and-reports",
+          "position": 5,
+          "isHidden": false,
+          "sublinks": [
+            {
+              "title": "Документи",
+              "href": "documents"
+            },
+            {
+              "title": "Звіти",
+              "href": "reports"
+            }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "navigations": [
+        {
+          "title": "About us",
+          "href": "about",
+          "position": 1,
+          "isHidden": false,
+          "sublinks": [
+            {
+              "title": "Mission",
+              "href": "mission"
+            },
+            {
+              "title": "Team",
+              "href": "team"
+            },
+            {
+              "title": "Контакти",
+              "href": "contacts"
+            }
+          ]
+        },
+        {
+          "title": "Projects",
+          "href": "projects",
+          "position": 2,
+          "isHidden": false,
+          "sublinks": []
+        },
+        {
+          "title": "Partnership",
+          "href": "partnership",
+          "position": 3,
+          "isHidden": false,
+          "sublinks": [
+            {
+              "title": "Become a partner",
+              "href": "become-partner"
+            },
+            {
+              "title": "Become a volunteer",
+              "href": "become-volunteer"
+            }
+          ]
+        },
+        {
+          "title": "News",
+          "href": "news",
+          "position": 4,
+          "isHidden": true,
+          "sublinks": []
+        },
+        {
+          "title": "Documents and reports",
+          "href": "documents-and-reports",
+          "position": 5,
+          "isHidden": false,
+          "sublinks": [
+            {
+              "title": "Documents",
+              "href": "documents"
+            },
+            {
+              "title": "Reports",
+              "href": "reports"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

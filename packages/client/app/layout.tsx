@@ -1,12 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
-import { AppContextProvider } from '@/app/context/AppProvider';
-import { Footer } from '@/app/layout/footer';
-import { Header } from '@/app/layout/header';
 import { QueryProvider } from '@/app/providers/QueryProvider';
-import { extractAttributes } from '@/app/utils/api-helpers';
-import { fetchAPI } from '@/app/utils/fetch-api';
 
 import './globals.css';
 
@@ -39,24 +34,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { data: navigations }: any = await fetchAPI({ path: '/navigations' });
-  const { data: socialLinks }: any = await fetchAPI({ path: '/socials?=*' });
-  const { data: contact }: any = await fetchAPI({ path: '/contact' });
-
-  const links = extractAttributes(navigations);
-  const socials = extractAttributes(socialLinks);
-  const contacts = extractAttributes(contact);
-
   return (
     <html lang="uk">
       <body className={`${eUkraine.variable} ${eUkraineHead.variable}`}>
-        <QueryProvider>
-          <AppContextProvider links={links} socials={socials} locale="uk">
-            <Header />
-            {children}
-            <Footer contacts={contacts} />
-          </AppContextProvider>
-        </QueryProvider>
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );
