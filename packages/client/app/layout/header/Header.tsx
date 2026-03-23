@@ -1,32 +1,31 @@
-"use client";
+'use client';
 
 import clsx from 'clsx';
-import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import { Button, ButtonTypeEnum, Logo, Socials } from '@/app/components/shared';
-import { ArrowDown } from '@/app/components/icons';
-import { LanguageSwitch } from '@/app/layout/header/LanguageSwitch';
-
-import { LinkType } from '@/app/types';
-
-import { useApp } from '@/app/context/AppContext';
-import { sortByPosition } from '@/app/helpers';
-
-import { SOCIALS_STYLES } from '@/app/layout/header/constants';
-
 import styles from './header.module.scss';
 
+import { ArrowDown } from '@/app/components/icons';
+import { Button, ButtonTypeEnum, Logo, Socials } from '@/app/components/shared';
+import { useApp } from '@/app/context/AppContext';
+import { sortByPosition } from '@/app/helpers';
+import { SOCIALS_STYLES } from '@/app/layout/header/constants';
+import { getHeaderTranslations } from '@/app/layout/header/i18n';
+import { LanguageSwitch } from '@/app/layout/header/LanguageSwitch';
+import { LinkType } from '@/app/types';
+
 export const Header = () => {
-  const { links, socials, locale } = useApp()
+  const { links, socials, locale } = useApp();
   const router = useRouter();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const t = getHeaderTranslations(locale);
 
-  const sortedLinks = sortByPosition(links)
-  const sortedSocials = sortByPosition(socials)
+  const sortedLinks = sortByPosition(links);
+  const sortedSocials = sortByPosition(socials);
 
   const hasSublinks = (sublinks: LinkType[]) => sublinks && sublinks.length > 0;
   const visibleLinks = sortedLinks?.filter(({ isHidden }: LinkType) => !isHidden) || [];
@@ -40,7 +39,12 @@ export const Header = () => {
   return (
     <header className="w-full">
       <div className="flex w-full flex-col font-medium">
-        <div className="hidden w-full items-center justify-between gap-4 bg-[var(--green-100)] px-4 py-3 md:px-6 md:py-4 lg:flex lg:px-[52px] lg:py-[15px]">
+        <div
+          className="
+            hidden w-full items-center justify-between gap-4 bg-[var(--green-100)]
+            px-4 py-3 md:px-6 md:py-4 lg:flex lg:px-[52px] lg:py-[15px]
+          "
+        >
           <div className="hidden lg:block">
             <Socials
               socials={sortedSocials}
@@ -50,21 +54,31 @@ export const Header = () => {
           </div>
           <div className="flex items-center gap-2 sm:gap-3 lg:gap-6">
             <Button
-              label="Звернутись по допомогу"
+              label={t.helpButton}
               type={ButtonTypeEnum.Secondary}
               className="px-4 py-2 text-sm leading-5 sm:px-5 sm:py-3 lg:px-[30px] lg:py-[14px] lg:text-base"
               onClick={() => router.push(`/${locale}/faq`)}
             />
             <Button
-              label="Підтримати нас"
+              label={t.supportButton}
               type={ButtonTypeEnum.Primary}
-              className="border-2 border-[var(--green-100)] px-4 py-2 text-sm leading-5 sm:px-5 sm:py-3 lg:px-[30px] lg:py-[14px] lg:text-base"
+              className="
+                border-2 border-[var(--green-100)] px-4 py-2 text-sm leading-5 transition-colors
+                hover:!bg-[var(--green-100)] hover:!text-[var(--white-100)]
+                sm:px-5 sm:py-3 lg:px-[30px] lg:py-[14px] lg:text-base
+              "
               onClick={() => router.push(`/${locale}/donate`)}
             />
           </div>
         </div>
 
-        <div className="grid w-full grid-cols-[1fr_auto_auto] items-center border-b-2 border-[var(--yellow-100)] bg-[var(--white-100)] px-4 py-3 md:px-6 md:py-4 lg:grid-cols-[auto_1fr_auto] lg:px-[70px] lg:py-[22px]">
+        <div
+          className="
+            grid w-full grid-cols-[1fr_auto_auto] items-center border-b-2 border-[var(--yellow-100)]
+            bg-[var(--white-100)] px-4 py-3 md:px-6 md:py-4
+            lg:grid-cols-[auto_1fr_auto] lg:px-[70px] lg:py-[22px]
+          "
+        >
           <div className="justify-self-start">
             <Logo />
           </div>
@@ -101,10 +115,10 @@ export const Header = () => {
             <button
               type="button"
               className="inline-flex h-10 w-10 items-center justify-center rounded-md text-[var(--green-100)]"
-              onClick={() => setIsMenuOpen((prev) => !prev)}
+              onClick={() => setIsMenuOpen(prev => !prev)}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
-              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-label={isMenuOpen ? t.closeMenuLabel : t.openMenuLabel}
             >
               {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -124,7 +138,11 @@ export const Header = () => {
                 <li key={title} className="border-b border-[var(--green-20)] pb-3 last:border-b-0">
                   <Link
                     href={`/${locale}/${href}`}
-                    className="h6 flex items-center justify-between text-[var(--black-100)] underline-offset-4 transition-all hover:underline focus-visible:underline active:underline"
+                    className="
+                      h6 flex items-center justify-between text-[var(--black-100)]
+                      underline-offset-4 transition-all hover:underline
+                      focus-visible:underline active:underline
+                    "
                     onClick={closeMenu}
                   >
                     {title}
@@ -137,7 +155,10 @@ export const Header = () => {
                         <li key={sublink.title}>
                           <Link
                             href={`/${locale}/${href}/${sublink.href}`}
-                            className="h8 text-[var(--black-80)] underline-offset-4 transition-all hover:underline focus-visible:underline active:underline"
+                            className="
+                              h8 text-[var(--black-80)] underline-offset-4 transition-all
+                              hover:underline focus-visible:underline active:underline
+                            "
                             onClick={closeMenu}
                           >
                             {sublink.title}
@@ -152,7 +173,7 @@ export const Header = () => {
 
             <div className="mt-5 flex flex-col gap-3">
               <Button
-                label="Звернутись по допомогу"
+                label={t.helpButton}
                 type={ButtonTypeEnum.Secondary}
                 className="w-full justify-center"
                 onClick={() => {
@@ -161,9 +182,12 @@ export const Header = () => {
                 }}
               />
               <Button
-                label="Підтримати нас"
+                label={t.supportButton}
                 type={ButtonTypeEnum.Primary}
-                className="w-full justify-center border-2 border-[var(--green-100)]"
+                className="
+                  w-full justify-center border-2 border-[var(--green-100)] transition-colors
+                  hover:!bg-[var(--green-100)] hover:!text-[var(--white-100)]
+                "
                 onClick={() => {
                   closeMenu();
                   router.push(`/${locale}/donate`);

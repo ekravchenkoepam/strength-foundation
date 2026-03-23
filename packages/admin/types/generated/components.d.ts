@@ -1,18 +1,5 @@
 import type { Attribute, Schema } from '@strapi/strapi';
 
-export interface BlocksHeaderBlock extends Schema.Component {
-  collectionName: 'components_blocks_header_blocks';
-  info: {
-    description: '';
-    displayName: 'HeaderBlock';
-  };
-  attributes: {
-    description: Attribute.Text;
-    text: Attribute.String;
-    title: Attribute.String;
-  };
-}
-
 export interface ContactsPhone extends Schema.Component {
   collectionName: 'components_contacts_phones';
   info: {
@@ -200,7 +187,6 @@ export interface TeamMember extends Schema.Component {
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
-      'blocks.header-block': BlocksHeaderBlock;
       'contacts.phone': ContactsPhone;
       'faq.contact-item': FaqContactItem;
       'faq.faq-section': FaqFaqSection;

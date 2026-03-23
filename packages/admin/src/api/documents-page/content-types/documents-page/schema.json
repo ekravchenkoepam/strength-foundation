@@ -1,10 +1,10 @@
 {
-  "kind": "collectionType",
-  "collectionName": "pages",
+  "kind": "singleType",
+  "collectionName": "documents_pages",
   "info": {
-    "singularName": "page",
-    "pluralName": "pages",
-    "displayName": "Page",
+    "singularName": "documents-page",
+    "pluralName": "documents-pages",
+    "displayName": "DocumentsPage",
     "description": ""
   },
   "options": {
@@ -18,30 +18,30 @@
   "attributes": {
     "title": {
       "type": "string",
+      "required": true,
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       }
     },
-    "blocks": {
-      "type": "dynamiczone",
-      "components": [
-        "blocks.header-block"
-      ],
+    "description": {
+      "type": "text",
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       }
     },
-    "slug": {
+    "documents": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::document.document",
       "pluginOptions": {
         "i18n": {
-          "localized": true
+          "localized": false
         }
-      },
-      "type": "string"
+      }
     }
   }
 }

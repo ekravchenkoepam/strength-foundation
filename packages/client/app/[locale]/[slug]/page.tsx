@@ -5,6 +5,7 @@ import React, { FC } from 'react';
 
 import { AboutPage, DocumentsAndReportsPage, NewsPage, PartnershipPage, ProjectsPage, FaqPage } from './components';
 import { PageProps } from './types';
+import { isBlockedSlugRoute } from '../not-found-blacklist';
 
 const redirectMap: Record<string, string> = {
   about: 'mission',
@@ -23,6 +24,10 @@ const pageMap: Record<string, FC<PageProps>> = {
 
 export default function Page() {
   const { locale, slug } = useParams() as PageProps;
+
+  if (isBlockedSlugRoute(locale, slug)) {
+    notFound();
+  }
 
   const subSlug = redirectMap[slug];
 
