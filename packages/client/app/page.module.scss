@@ -21,115 +21,10 @@
   color: var(--white-100);
 }
 
-.heroSection {
-  padding: 42px 0 52px;
-}
-
-.heroHeader {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  width: 100%;
-}
-
-.heroTitle {
-  margin: 0;
-  font-size: clamp(2.3rem, 5vw, 5.4rem);
-  line-height: 1;
-  font-weight: 700;
-  font-family: var(--font-e-ukraine-head);
-  text-align: center;
-  width: 100%;
-  word-break: break-word;
-}
-
-.heroText {
-  margin: 0;
-  font-size: clamp(1.1rem, 1.8vw, 2rem);
-  line-height: 1.2;
-  font-weight: 500;
-  width: 100%;
-  text-align: right;
-  color: var(--black-60);
-}
-
-.heroMedia {
-  position: relative;
-  margin-top: 22px;
-  border-radius: 12px;
-  overflow: hidden;
-  height: clamp(260px, 34vw, 420px);
-  border: 1px solid #deded8;
-  background: #d5d5d5;
-}
-
-.heroImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 68%;
-}
-
-.heroDescription {
-  position: absolute;
-  right: 14px;
-  bottom: 14px;
-  max-width: 470px;
-  margin: 0;
-  padding: 10px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(5px);
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.aboutSection {
-  padding: 46px 0 68px;
-}
-
-.aboutGrid {
-  margin-top: 28px;
-  display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-  gap: 18px;
-}
-
-.aboutImage {
-  width: 100%;
-  height: clamp(260px, 24vw, 360px);
-  border-radius: 10px;
-  object-fit: cover;
-  object-position: center 62%;
-  background: #cfcfcf;
-}
-
-.aboutContent {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  font-size: 16px;
-  line-height: 1.62;
-}
-
-.aboutContent p {
-  margin: 0;
-}
-
-.aboutActions {
-  margin-top: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
 .activitiesSection {
   padding: 52px 0 60px;
   background-color: var(--green-100);
-  background-image:
-    linear-gradient(rgba(72, 72, 56, 0.9), rgba(72, 72, 56, 0.9));
+  background-image: linear-gradient(rgba(72, 72, 56, 0.9), rgba(72, 72, 56, 0.9));
   background-size: cover;
   background-position: center;
 }
@@ -240,8 +135,7 @@
 .mediaSection {
   padding: 56px 0 72px;
   background-color: var(--green-100);
-  background-image:
-    linear-gradient(rgba(72, 72, 56, 0.9), rgba(72, 72, 56, 0.9));
+  background-image: linear-gradient(rgba(72, 72, 56, 0.9), rgba(72, 72, 56, 0.9));
   background-size: cover;
   background-position: center;
 }
@@ -414,10 +308,6 @@
     width: min(1240px, calc(100% - 64px));
   }
 
-  .heroMedia {
-    height: clamp(240px, 36vw, 360px);
-  }
-
   .activityContent h3,
   .mediaTitle {
     font-size: 20px;
@@ -435,43 +325,6 @@
 @media (max-width: 960px) {
   .container {
     width: min(1240px, calc(100% - 40px));
-  }
-
-  .heroSection {
-    padding-top: 28px;
-    padding-bottom: 40px;
-  }
-
-  .heroHeader {
-    align-items: center;
-  }
-
-  .heroText {
-    font-size: 16px;
-    text-align: right;
-  }
-
-  .heroMedia {
-    height: clamp(220px, 42vw, 300px);
-  }
-
-  .heroDescription {
-    max-width: calc(100% - 24px);
-    font-size: 12px;
-    line-height: 1.35;
-  }
-
-  .aboutGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .aboutImage {
-    height: clamp(220px, 32vw, 300px);
-  }
-
-  .aboutSection {
-    padding-top: 38px;
-    padding-bottom: 50px;
   }
 
   .activitiesSection,
@@ -539,19 +392,6 @@
     font-size: 30px;
   }
 
-  .heroTitle {
-    font-size: clamp(2rem, 11vw, 2.5rem);
-  }
-
-  .heroMedia {
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
-  }
-
-  .aboutSection,
   .helpSection,
   .mediaSection,
   .partnersSection,
@@ -560,48 +400,8 @@
     padding-bottom: 52px;
   }
 
-  .heroSection {
-    padding-top: 22px;
-    padding-bottom: 28px;
-  }
-
-  .heroHeader {
-    gap: 4px;
-  }
-
-  .heroText {
-    text-align: center;
-    font-size: 14px;
-  }
-
-  .heroImage {
-    height: 220px;
-    border-radius: 10px;
-  }
-
-  .heroDescription {
-    position: static;
-    max-width: 100%;
-    border: 1px solid #d7d7cf;
-    border-radius: 8px;
-    background: #efefeb;
-    backdrop-filter: none;
-    font-size: 12px;
-    line-height: 1.45;
-  }
-
-  .aboutContent,
   .helpText {
     font-size: 15px;
-  }
-
-  .aboutActions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .aboutActions :global(button) {
-    width: 100%;
   }
 
   .helpSection :global(button),
@@ -692,16 +492,6 @@
     font-size: 26px;
   }
 
-  .heroImage {
-    height: 190px;
-  }
-
-  .heroDescription {
-    padding: 8px 10px;
-    font-size: 11px;
-  }
-
-  .aboutSection,
   .activitiesSection,
   .helpSection,
   .mediaSection,
@@ -709,16 +499,6 @@
   .ambassadorsSection {
     padding-top: 32px;
     padding-bottom: 38px;
-  }
-
-  .aboutContent {
-    font-size: 14px;
-    line-height: 1.5;
-    gap: 10px;
-  }
-
-  .aboutActions {
-    gap: 8px;
   }
 
   .mediaPreview {

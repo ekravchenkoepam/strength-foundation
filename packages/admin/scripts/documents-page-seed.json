@@ -3,12 +3,16 @@
     "uk": {
       "title": "Документи",
       "description": "",
-      "documents": []
+      "documents": [
+        { "name": "Назва документа №1" },
+        { "name": "Назва документа №2" },
+        { "name": "Назва документа №3" }
+      ]
     },
     "en": {
       "title": "Documents",
       "description": "",
-      "documents": []
+      "documents": [{ "name": "Document title #1" }, { "name": "Document title #2" }, { "name": "Document title #3" }]
     }
   }
 }

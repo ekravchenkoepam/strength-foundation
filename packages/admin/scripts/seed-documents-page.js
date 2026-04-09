@@ -36,19 +36,112 @@ function normalizePayload(localePayload, locale) {
   };
 }
 
-async function resolveDocumentIds(strapi, localePayload) {
-  const requestedDocumentNames = Array.isArray(localePayload.documents) ? localePayload.documents : [];
+function normalizeDocumentItem(documentItem) {
+  if (typeof documentItem === 'string') {
+    return { name: documentItem };
+  }
+
+  if (documentItem && typeof documentItem === 'object' && typeof documentItem.name === 'string') {
+    return { name: documentItem.name };
+  }
+
+  return null;
+}
+
+function getLocaleDocuments(locales, locale) {
+  const documents = locales?.[locale]?.documents;
+
+  if (!Array.isArray(documents)) {
+    throw new Error(`Invalid documents-page seed file: locales.${locale}.documents must be an array.`);
+  }
+
+  return documents.map(normalizeDocumentItem);
+}
+
+async function findDocumentByName(strapi, locale, name) {
+  const entries = await strapi.entityService.findMany(DOCUMENT_UID, {
+    locale,
+    publicationState: 'preview',
+    filters: { name },
+    limit: 1,
+  });
+
+  return entries?.[0] || null;
+}
+
+async function upsertLocalizedDocument(strapi, locale, documentItem, localizationId) {
+  const existing = await findDocumentByName(strapi, locale, documentItem.name);
+  const data = {
+    locale,
+    name: documentItem.name,
+    publishedAt: new Date().toISOString(),
+  };
+
+  if (existing?.id) {
+    return strapi.entityService.update(DOCUMENT_UID, existing.id, { data });
+  }
+
+  if (localizationId) {
+    data.localizations = [localizationId];
+  }
+
+  return strapi.entityService.create(DOCUMENT_UID, { data });
+}
+
+async function seedDocuments(strapi, locales) {
+  const ukDocuments = getLocaleDocuments(locales, 'uk');
+  const enDocuments = getLocaleDocuments(locales, 'en');
+
+  if (ukDocuments.length !== enDocuments.length) {
+    throw new Error(
+      `Documents seed mismatch: locales.uk.documents has ${ukDocuments.length} items, locales.en.documents has ${enDocuments.length}.`
+    );
+  }
+
+  const documentIdsByLocale = {
+    uk: [],
+    en: [],
+  };
+
+  for (let index = 0; index < ukDocuments.length; index += 1) {
+    const ukDocument = ukDocuments[index];
+    const enDocument = enDocuments[index];
+
+    if (!ukDocument?.name || !enDocument?.name) {
+      throw new Error(`Invalid documents seed at index ${index}: both uk and en documents must define a name.`);
+    }
+
+    const ukEntry = await upsertLocalizedDocument(strapi, 'uk', ukDocument);
+    const enEntry = await upsertLocalizedDocument(strapi, 'en', enDocument, ukEntry.id);
+    documentIdsByLocale.uk.push(ukEntry.id);
+    documentIdsByLocale.en.push(enEntry.id);
+  }
+
+  return documentIdsByLocale;
+}
+
+async function resolveDocumentIds(strapi, locale, localePayload, seededDocumentIdsByLocale) {
+  const requestedDocuments = Array.isArray(localePayload.documents)
+    ? localePayload.documents.map(normalizeDocumentItem)
+    : [];
+
+  if (seededDocumentIdsByLocale?.[locale]?.length) {
+    return seededDocumentIdsByLocale[locale];
+  }
+
   const documents = await strapi.entityService.findMany(DOCUMENT_UID, {
     publicationState: 'preview',
     fields: ['name'],
+    locale,
     sort: ['id:asc'],
   });
 
-  if (!requestedDocumentNames.length) {
+  if (!requestedDocuments.length) {
     return documents.map(document => document.id);
   }
 
   const documentsByName = new Map(documents.map(document => [document.name, document.id]));
+  const requestedDocumentNames = requestedDocuments.map(document => document?.name).filter(Boolean);
   const missingDocumentNames = requestedDocumentNames.filter(name => !documentsByName.has(name));
 
   if (missingDocumentNames.length) {
@@ -65,10 +158,10 @@ async function getLocaleEntry(strapi, locale) {
   });
 }
 
-async function upsertLocale(strapi, locale, localePayload, localizationId) {
+async function upsertLocale(strapi, locale, localePayload, seededDocumentIdsByLocale, localizationId) {
   const existing = await getLocaleEntry(strapi, locale);
   const data = normalizePayload(localePayload, locale);
-  data.documents = await resolveDocumentIds(strapi, localePayload);
+  data.documents = await resolveDocumentIds(strapi, locale, localePayload, seededDocumentIdsByLocale);
 
   if (existing?.id) {
     return strapi.entityService.update(UID, existing.id, { data });
@@ -83,9 +176,10 @@ async function upsertLocale(strapi, locale, localePayload, localizationId) {
 
 async function seedDocumentsPage(strapi) {
   const locales = readSeedFile();
+  const seededDocumentIdsByLocale = await seedDocuments(strapi, locales);
 
-  const ukEntry = await upsertLocale(strapi, 'uk', locales.uk);
-  const enEntry = await upsertLocale(strapi, 'en', locales.en, ukEntry.id);
+  const ukEntry = await upsertLocale(strapi, 'uk', locales.uk, seededDocumentIdsByLocale);
+  const enEntry = await upsertLocale(strapi, 'en', locales.en, seededDocumentIdsByLocale, ukEntry.id);
 
   console.log(`Documents page seed complete. uk id=${ukEntry.id}, en id=${enEntry.id}`);
 }

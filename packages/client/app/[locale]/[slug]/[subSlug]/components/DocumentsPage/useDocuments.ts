@@ -32,6 +32,10 @@ interface DocumentsAttributes {
   publishedAt: string;
   updatedAt: string;
   file: DocumentsFile;
+  locale?: string;
+  localizations?: {
+    data?: DocumentsResponse[];
+  };
 }
 
 interface DocumentsResponse {
@@ -65,8 +69,23 @@ export interface DocumentsPageData {
 }
 
 export const useDocuments = (locale: string) => {
+  const defaultTitle = locale === 'en' ? 'Documents' : 'Документи';
+
+  const getLocalizedDocument = (document: DocumentsResponse): DocumentsResponse => {
+    if (!locale || locale === 'uk') {
+      return document;
+    }
+
+    const localizedMatch = document.attributes.localizations?.data?.find(
+      localization => localization.attributes.locale === locale
+    );
+
+    return localizedMatch || document;
+  };
+
   const parseDocuments = (documentsRes: DocumentsResponse[]): ParsedDocs[] => {
     return documentsRes
+      .map((doc: DocumentsResponse) => getLocalizedDocument(doc))
       .filter((doc: DocumentsResponse) => doc.attributes.file?.data?.attributes?.url)
       .map((doc: DocumentsResponse) => ({
         id: doc.id,
@@ -75,7 +94,7 @@ export const useDocuments = (locale: string) => {
       }));
   };
 
-  const { data: page = { title: 'Документи', description: '', documents: [] }, isLoading } =
+  const { data: page = { title: defaultTitle, description: '', documents: [] }, isLoading } =
     useQuery<DocumentsPageData>({
       queryKey: ['documents-page', locale],
       queryFn: async () => {
@@ -85,14 +104,25 @@ export const useDocuments = (locale: string) => {
             locale,
             populate: {
               documents: {
-                populate: '*',
+                populate: {
+                  file: {
+                    populate: '*',
+                  },
+                  localizations: {
+                    populate: {
+                      file: {
+                        populate: '*',
+                      },
+                    },
+                  },
+                },
               },
             },
           },
         })) as DocumentsPageResponse;
 
         return {
-          title: response?.data?.attributes?.title || 'Документи',
+          title: response?.data?.attributes?.title || defaultTitle,
           description: response?.data?.attributes?.description || '',
           documents: parseDocuments(response?.data?.attributes?.documents?.data || []),
         };

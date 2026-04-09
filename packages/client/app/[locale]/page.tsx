@@ -162,6 +162,79 @@ export default function Home() {
 
   const currentLocale = locale || 'uk';
   const heroContent = HERO_CONTENT[currentLocale] || HERO_CONTENT.uk;
+  const containerClassName = clsx(
+    'mx-auto',
+    'w-[min(1460px,calc(100%-72px))]',
+    'max-[1200px]:w-[min(1360px,calc(100%-56px))]',
+    'max-[960px]:w-[min(1240px,calc(100%-40px))]',
+    'max-[640px]:w-[min(1240px,calc(100%-24px))]',
+    'max-[420px]:w-[min(1240px,calc(100%-16px))]'
+  );
+  const heroContainerClassName = 'w-full px-[52px] max-[960px]:px-5 max-[640px]:px-3 max-[420px]:px-2';
+  const primaryActionClassName = clsx(
+    'inline-flex min-h-[46px] items-center justify-center rounded-[10px]',
+    'border border-transparent bg-white px-[30px] py-[14px]',
+    'text-[16px] font-medium leading-6 text-[#181818]',
+    'transition-colors hover:bg-[#f5f5f5] max-[640px]:w-full'
+  );
+  const secondaryActionClassName = clsx(
+    'inline-flex min-h-[46px] items-center justify-center rounded-[10px]',
+    'border border-transparent bg-[#efcb4c] px-[30px] py-[14px]',
+    'text-[16px] font-medium leading-6 text-[#181818]',
+    'transition-colors hover:bg-[#f5e094] max-[640px]:w-full'
+  );
+  const heroTitleClassName = clsx(
+    'm-0 w-full text-center font-bold text-[86px] leading-[0.92]',
+    'tracking-[-0.02em] text-[#151512]',
+    'max-[1200px]:text-[72px] max-[960px]:text-[64px]',
+    'max-[640px]:text-[48px] max-[420px]:text-[40px]'
+  );
+  const heroTextClassName = clsx(
+    'm-0 w-full text-right text-[24px] leading-[1.15]',
+    'font-medium text-[#151512]',
+    'max-[1200px]:text-[22px] max-[960px]:text-[20px]',
+    'max-[640px]:mx-auto max-[640px]:w-auto max-[640px]:text-center',
+    'max-[640px]:text-[15px] max-[420px]:text-[13px]'
+  );
+  const heroMediaClassName = clsx(
+    'relative mt-4 h-[695px] overflow-hidden bg-[#f3efe5]',
+    'max-[1200px]:h-[clamp(260px,40vw,470px)]',
+    'max-[960px]:h-[clamp(220px,42vw,300px)]',
+    'max-[640px]:mt-4 max-[640px]:flex max-[640px]:h-auto',
+    'max-[640px]:flex-col max-[640px]:gap-[10px] max-[640px]:p-[10px]'
+  );
+  const heroDescriptionClassName = clsx(
+    'm-0 max-w-[470px] border px-3 py-[10px] text-[13px]',
+    'leading-[1.4] text-[#2e2a21] backdrop-blur-[5px]',
+    'max-[960px]:max-w-[calc(100%-24px)] max-[960px]:text-[12px]',
+    'max-[960px]:leading-[1.35] max-[640px]:max-w-full',
+    'max-[640px]:border-[#d7d7cf] max-[640px]:bg-[#efefeb]',
+    'max-[640px]:text-[12px] max-[640px]:leading-[1.45]',
+    'max-[640px]:backdrop-blur-none max-[420px]:px-[10px]',
+    'max-[420px]:py-2 max-[420px]:text-[11px]',
+    'min-[641px]:absolute min-[641px]:bottom-4 min-[641px]:right-4',
+    'min-[641px]:border-white/80 min-[641px]:bg-[rgba(255,248,235,0.46)]',
+    'min-[641px]:rounded-[2px]'
+  );
+  const aboutSectionClassName = clsx(
+    'px-0 pb-[68px] pt-[46px]',
+    'max-[960px]:pb-[50px] max-[960px]:pt-[38px]',
+    'max-[640px]:py-[44px] max-[420px]:py-[32px]'
+  );
+  const aboutGridClassName = clsx(
+    'mt-7 grid grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]',
+    'gap-[18px] max-[960px]:grid-cols-1'
+  );
+  const aboutImageClassName = clsx(
+    'h-[clamp(260px,24vw,360px)] w-full rounded-[2px] bg-[#cfcfcf]',
+    'object-cover [object-position:center_62%]',
+    'max-[960px]:h-[clamp(220px,32vw,300px)]'
+  );
+  const aboutContentClassName = clsx(
+    'flex flex-col gap-[14px] text-[16px] leading-[1.62] text-[#464646]',
+    'max-[640px]:text-[15px] max-[420px]:gap-[10px]',
+    'max-[420px]:text-[14px] max-[420px]:leading-[1.5]'
+  );
 
   const navigateTo = (path: string) => {
     router.push(`/${currentLocale}/${path}`);
@@ -169,60 +242,64 @@ export default function Home() {
 
   return (
     <div className={styles.homePage}>
-      <section className={styles.heroSection}>
-        <div className={styles.container}>
-          <div className={styles.heroHeader}>
-            <h1 className={styles.heroTitle}>{heroContent.title}</h1>
-            <p className={styles.heroText}>{heroContent.text}</p>
+      <section className="px-0 pb-12 pt-8 max-[960px]:pb-10 max-[960px]:pt-7 max-[640px]:pb-7 max-[640px]:pt-6">
+        <div className={heroContainerClassName}>
+          <div className="flex w-full flex-col items-center gap-[6px] max-[640px]:gap-1">
+            <h1 className={heroTitleClassName}>{heroContent.title}</h1>
+            <p className={heroTextClassName}>{heroContent.text}</p>
           </div>
 
-          <div className={styles.heroMedia}>
+          <div className={heroMediaClassName}>
             <Image
-              src="/images/hands.jpg"
+              src="/images/hands-alt.png"
               alt="Підтримка родин військовополонених"
-              className={styles.heroImage}
+              className="h-full w-full rounded-[12px] object-cover object-center max-[640px]:h-[220px] max-[420px]:h-[190px]"
               width={1200}
               height={800}
             />
-            <p className={styles.heroDescription}>{heroContent.description}</p>
+            <p className={heroDescriptionClassName}>{heroContent.description}</p>
           </div>
         </div>
       </section>
 
-      <section className={styles.aboutSection}>
-        <div className={styles.container}>
+      <section className={aboutSectionClassName}>
+        <div className={containerClassName}>
           <h2 className={styles.sectionTitle}>Про фонд</h2>
 
-          <div className={styles.aboutGrid}>
+          <div className={aboutGridClassName}>
             <Image
-              className={styles.aboutImage}
+              className={aboutImageClassName}
               src="/images/hands.jpg"
               alt="Команда фонду"
               width={1200}
               height={800}
             />
 
-            <div className={styles.aboutContent}>
-              <p>
+            <div className={aboutContentClassName}>
+              <p className="m-0">
                 Наша місія це сприяти звільненню військовополонених та підтримувати їхні родини у складні періоди
                 очікування.
               </p>
-              <p>
+              <p className="m-0">
                 Ми обʼєднуємо фахівців і волонтерів, щоб допомога була системною, своєчасною і зрозумілою для кожної
                 сімʼї.
               </p>
-              <p>
+              <p className="m-0">
                 Наші проєкти спрямовані на практичні рішення: інформаційний супровід, консультації, психологічну
                 підтримку та соціальні ініціативи.
               </p>
 
-              <div className={styles.aboutActions}>
-                <Button label="Наші проєкти" type={ButtonTypeEnum.Primary} onClick={() => navigateTo('projects')} />
-                <Button
-                  label="Звітність організації"
-                  type={ButtonTypeEnum.Secondary}
+              <div className="mt-3 flex flex-wrap gap-3 max-[640px]:flex-col max-[640px]:items-stretch max-[420px]:gap-2">
+                <button type="button" className={primaryActionClassName} onClick={() => navigateTo('projects')}>
+                  Наші проєкти
+                </button>
+                <button
+                  type="button"
+                  className={secondaryActionClassName}
                   onClick={() => navigateTo('documents-and-reports/reports')}
-                />
+                >
+                  Звітність організації
+                </button>
               </div>
             </div>
           </div>

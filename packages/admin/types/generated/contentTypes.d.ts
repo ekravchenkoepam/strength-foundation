@@ -375,7 +375,7 @@ export interface ApiDocumentsPageDocumentsPage extends Schema.SingleType {
     documents: Attribute.Relation<'api::documents-page.documents-page', 'oneToMany', 'api::document.document'> &
       Attribute.SetPluginOptions<{
         i18n: {
-          localized: false;
+          localized: true;
         };
       }>;
     locale: Attribute.String;
