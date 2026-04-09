@@ -39,7 +39,7 @@
       "target": "api::document.document",
       "pluginOptions": {
         "i18n": {
-          "localized": false
+          "localized": true
         }
       }
     }
