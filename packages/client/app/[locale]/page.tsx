@@ -1,5 +1,6 @@
 'use client';
 
+import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -10,6 +11,8 @@ import styles from '../page.module.scss';
 import { FacebookIcon, InstagramIcon, LinkedinIcon } from '@/app/components/icons';
 import { Button, ButtonTypeEnum } from '@/app/components/shared';
 import { useApp } from '@/app/context/AppContext';
+import { getStrapiMedia } from '@/app/utils/api-helpers';
+import { fetchAPI } from '@/app/utils/fetch-api';
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 type ActivityCard = {
@@ -28,7 +31,8 @@ type MediaCard = {
 type PartnerCard = {
   id: number;
   title: string;
-  isHighlight?: boolean;
+  logoUrl?: string;
+  website?: string;
 };
 
 type AmbassadorCard = {
@@ -82,15 +86,29 @@ const MEDIA_ITEMS: MediaCard[] = [
   },
 ];
 
-const PARTNERS: PartnerCard[] = [
+const PARTNERS_FALLBACK: PartnerCard[] = [
   { id: 1, title: 'Логотип' },
   { id: 2, title: 'Логотип' },
   { id: 3, title: 'Логотип' },
   { id: 4, title: 'Логотип' },
   { id: 5, title: 'Логотип' },
   { id: 6, title: 'Логотип' },
-  { id: 7, title: 'Місце для вашої компанії', isHighlight: true },
 ];
+
+type PartnerApiResponse = {
+  id: number;
+  attributes: {
+    name: string;
+    website?: string | null;
+    logo?: {
+      data?: {
+        attributes?: {
+          url?: string | null;
+        };
+      } | null;
+    };
+  };
+};
 
 const AMBASSADORS: AmbassadorCard[] = [
   {
@@ -162,6 +180,7 @@ export default function Home() {
 
   const currentLocale = locale || 'uk';
   const heroContent = HERO_CONTENT[currentLocale] || HERO_CONTENT.uk;
+  const partnerPlaceholderText = currentLocale === 'en' ? 'Place for your company' : 'Місце для вашої компанії';
   const containerClassName = clsx(
     'mx-auto',
     'w-[min(1460px,calc(100%-72px))]',
@@ -235,6 +254,38 @@ export default function Home() {
     'max-[640px]:text-[15px] max-[420px]:gap-[10px]',
     'max-[420px]:text-[14px] max-[420px]:leading-[1.5]'
   );
+
+  const { data: partners = PARTNERS_FALLBACK } = useQuery<PartnerCard[]>({
+    queryKey: ['partners', currentLocale],
+    queryFn: async () => {
+      const response = await fetchAPI({
+        path: '/partners',
+        urlParams: {
+          locale: currentLocale,
+          filters: {
+            isHidden: {
+              $ne: true,
+            },
+          },
+          sort: ['position:asc', 'id:asc'],
+          populate: {
+            logo: {
+              populate: '*',
+            },
+          },
+        },
+      });
+
+      const items = Array.isArray(response?.data) ? (response.data as PartnerApiResponse[]) : [];
+
+      return items.map(item => ({
+        id: item.id,
+        title: item.attributes.name,
+        website: item.attributes.website || undefined,
+        logoUrl: getStrapiMedia(item.attributes.logo?.data?.attributes?.url ?? ''),
+      }));
+    },
+  });
 
   const navigateTo = (path: string) => {
     router.push(`/${currentLocale}/${path}`);
@@ -395,14 +446,22 @@ export default function Home() {
           <h2 className={styles.sectionTitle}>Наші партнери</h2>
 
           <div className={styles.partnersGrid}>
-            {PARTNERS.map(partner => (
-              <div
-                key={partner.id}
-                className={clsx(styles.partnerCard, partner.isHighlight && styles.partnerCardHighlight)}
-              >
-                {partner.title}
+            {partners.map((partner: PartnerCard) => (
+              <div key={partner.id} className={styles.partnerCard}>
+                {partner.website ? (
+                  <a href={partner.website} target="_blank" rel="noreferrer" aria-label={partner.title}>
+                    {partner.logoUrl ? <img src={partner.logoUrl} alt={partner.title} /> : <span>{partner.title}</span>}
+                  </a>
+                ) : partner.logoUrl ? (
+                  <span>
+                    <img src={partner.logoUrl} alt={partner.title} />
+                  </span>
+                ) : (
+                  <span>{partner.title}</span>
+                )}
               </div>
             ))}
+            <div className={clsx(styles.partnerCard, styles.partnerCardHighlight)}>{partnerPlaceholderText}</div>
           </div>
 
           <div className={styles.partnersAction}>

@@ -11,14 +11,12 @@
     "deploy": "strapi deploy",
     "seed:documents-page": "node scripts/seed-documents-page.js",
     "seed:faq": "node scripts/seed-faq.js",
-    "seed:faq:admin": "node scripts/seed-faq-admin.js",
     "seed:mission-page": "node scripts/seed-mission-page.js",
     "seed:navigation": "node scripts/seed-navigation.js",
+    "seed:partners": "node scripts/seed-partners.js",
     "seed:team-page": "node scripts/seed-team-page.js",
     "seed:questionnaire": "node scripts/seed-questionnaire.js",
-    "seed:questionnaire:admin": "node scripts/seed-questionnaire-admin.js",
-    "seed:testimonial": "node scripts/seed-testimonial.js",
-    "seed:testimonial:admin": "node scripts/seed-testimonial-admin.js"
+    "seed:testimonial": "node scripts/seed-testimonial.js"
   },
   "dependencies": {
     "@_sh/strapi-plugin-ckeditor": "^3.0.9",

@@ -1,0 +1,84 @@
+{
+  "locales": {
+    "uk": {
+      "partners": [
+        {
+          "name": "ANSER.IN.UA",
+          "website": "https://anser.in.ua",
+          "logoPath": "packages/client/public/images/partners/anser.svg",
+          "position": 1
+        },
+        {
+          "name": "Bob Snail",
+          "website": "https://www.bob-snail.com/ua",
+          "logoPath": "packages/client/public/images/partners/bob-snail.svg",
+          "position": 2
+        },
+        {
+          "name": "EPAM Systems, Inc.",
+          "website": "https://www.epam.com",
+          "logoPath": "packages/client/public/images/partners/epam.svg",
+          "position": 3
+        },
+        {
+          "name": "ТМ Крафтинка",
+          "website": "https://kraftynka.com",
+          "logoPath": "packages/client/public/images/partners/kraftynka.svg",
+          "position": 4
+        },
+        {
+          "name": "RichHills",
+          "website": "https://richhills.com.ua",
+          "logoPath": "packages/client/public/images/partners/rich-hills.svg",
+          "position": 5
+        },
+        {
+          "name": "АТ «Сенс Банк»",
+          "website": "https://sensebank.ua",
+          "logoPath": "packages/client/public/images/partners/sense-bank.svg",
+          "position": 6
+        }
+      ]
+    },
+    "en": {
+      "partners": [
+        {
+          "name": "ANSER.IN.UA",
+          "website": "https://anser.in.ua",
+          "logoPath": "packages/client/public/images/partners/anser.svg",
+          "position": 1
+        },
+        {
+          "name": "Bob Snail",
+          "website": "https://www.bob-snail.com",
+          "logoPath": "packages/client/public/images/partners/bob-snail.svg",
+          "position": 2
+        },
+        {
+          "name": "EPAM Systems, Inc.",
+          "website": "https://careers.epam.ua",
+          "logoPath": "packages/client/public/images/partners/epam.svg",
+          "position": 3
+        },
+        {
+          "name": "Kraftynka",
+          "website": "https://kraftynka.com",
+          "logoPath": "packages/client/public/images/partners/kraftynka.svg",
+          "position": 4
+        },
+        {
+          "name": "RichHills",
+          "website": "https://richhills.com.ua/en/",
+          "logoPath": "packages/client/public/images/partners/rich-hills.svg",
+          "position": 5
+        },
+        {
+          "name": "Sense Bank",
+          "website": "https://sensebank.ua/en",
+          "logoPath": "packages/client/public/images/partners/sense-bank.svg",
+          "position": 6
+        }
+      ]
+    }
+  }
+}
