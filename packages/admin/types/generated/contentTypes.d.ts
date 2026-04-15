@@ -675,6 +675,66 @@ export interface ApiNavigationNavigation extends Schema.CollectionType {
   };
 }
 
+export interface ApiPartnerPartner extends Schema.CollectionType {
+  collectionName: 'partners';
+  info: {
+    description: 'Homepage partner logos and links';
+    displayName: 'Partner';
+    pluralName: 'partners';
+    singularName: 'partner';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::partner.partner', 'oneToOne', 'admin::user'> & Attribute.Private;
+    isHidden: Attribute.Boolean &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Attribute.DefaultTo<false>;
+    locale: Attribute.String;
+    localizations: Attribute.Relation<'api::partner.partner', 'oneToMany', 'api::partner.partner'>;
+    logo: Attribute.Media<'images'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    name: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    position: Attribute.Integer &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Attribute.DefaultTo<0>;
+    publishedAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::partner.partner', 'oneToOne', 'admin::user'> & Attribute.Private;
+    website: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+  };
+}
+
 export interface ApiPaymentTransactionPaymentTransaction extends Schema.CollectionType {
   collectionName: 'payment_transactions';
   info: {
@@ -1328,6 +1388,7 @@ declare module '@strapi/types' {
       'api::faq.faq': ApiFaqFaq;
       'api::mission-page.mission-page': ApiMissionPageMissionPage;
       'api::navigation.navigation': ApiNavigationNavigation;
+      'api::partner.partner': ApiPartnerPartner;
       'api::payment-transaction.payment-transaction': ApiPaymentTransactionPaymentTransaction;
       'api::questionnaire.questionnaire': ApiQuestionnaireQuestionnaire;
       'api::report-type.report-type': ApiReportTypeReportType;
