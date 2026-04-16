@@ -58,7 +58,6 @@ const SocialIcon = ({ icon, link }: { icon: 'linkedin' | 'facebook' | 'instagram
 
 export const MemberCard = ({ member }: MemberCardProps) => {
   const image = member.image?.data?.attributes?.formats?.medium?.url ?? member.image?.data?.attributes?.url ?? null;
-
   const imgUrl = getStrapiMedia(image);
   const descriptionText = (member.description || [])
     .map(block => (block?.children || []).map(child => child?.text || '').join(''))
@@ -67,8 +66,10 @@ export const MemberCard = ({ member }: MemberCardProps) => {
 
   return (
     <Card className="bg-[#ffffff] border-0 rounded-xl overflow-hidden flex flex-col p-0 w-full min-w-0 lg:min-w-0 lg:w-full">
-      <div className="relative w-full h-[425px]">
-        <Image src={imgUrl} alt={member.name} fill className="object-cover object-top lg:object-center" />
+      <div className="relative h-[425px] w-full bg-[#cfcfcf]">
+        {imgUrl ? (
+          <Image src={imgUrl} alt={member.name} fill className="object-cover object-top lg:object-center" />
+        ) : null}
 
         <div className="absolute bottom-0 left-0 right-0 p-6">
           <div className="border border-white/30 rounded-lg p-4 backdrop-blur-sm bg-white/10">

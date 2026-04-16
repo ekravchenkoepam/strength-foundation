@@ -1,0 +1,94 @@
+{
+  "locales": {
+    "uk": {
+      "news": [
+        {
+          "title": "Заголовок може бути максимально на три рядки",
+          "date": "2025-09-15",
+          "link": "#",
+          "source": "Media source",
+          "position": 1
+        },
+        {
+          "title": "Заголовок може бути максимально на три рядки",
+          "date": "2025-09-15",
+          "link": "#",
+          "source": "Media source",
+          "position": 2
+        },
+        {
+          "title": "Заголовок може бути максимально на три рядки",
+          "date": "2025-09-15",
+          "link": "#",
+          "source": "Media source",
+          "position": 3
+        }
+      ],
+      "ambassadors": [
+        {
+          "name": "Анастасія Чакубаш",
+          "role": "Співзасновниця",
+          "description": "Анастасія Чакубаш — співзасновниця, яка має багаторічний досвід у розвитку бізнесу, організації процесів та управлінні командами.\nПрофесійний шлях Анастасії охоплює створення і впровадження різноманітних проєктів, керівництво компаніями та побудову ефективних систем роботи.\nЇї навички планування та систематизації допомагають планувати стратегічні ініціативи, чітко визначати пріоритети та структурувати діяльність фонду, щоб він працював як злагоджений механізм.",
+          "socials": []
+        },
+        {
+          "name": "Владислава Карцан",
+          "role": "Співзасновниця",
+          "description": "Владислава Карцан — співзасновниця та ініціаторка створення фонду.\nЇї досвід роботи в сфері управління персоналом і підтримці військовополонених та їхніх родин став фундаментом для заснування \"Сили для Сильних\".\nІдея заснування фонду народилася під час роботи, пов’язаної з поверненням військовополонених: участь в акціях, написанні звернень, спілкуванні з родинами та звільненими, а також організації зустрічей із представниками влади.\nЦілеспрямованість Владислави та вміння об’єднувати людей стали основою для створення фонду \"Сила для Сильних\".",
+          "socials": []
+        },
+        {
+          "name": "Анастасія Артемова",
+          "role": "Співзасновниця",
+          "description": "Анастасія Артемова — співзасновниця, яка знаходить натхнення у взаємодії з людьми та роботі з інформацією.\nБагаторічний досвід Анастасії у сфері управління комунікаціями включає повний цикл роботи з партнерами, координування міжнародних проєктів та вирішення складних організаційних завдань.\nЇї прагнення до спілкування, уважність до деталей і здатність працювати з великими обсягами даних стали важливим елементом у реалізації проєктів фонду.",
+          "socials": []
+        }
+      ]
+    },
+    "en": {
+      "news": [
+        {
+          "title": "The title can be up to three lines long",
+          "date": "2025-09-15",
+          "link": "#",
+          "source": "Media source",
+          "position": 1
+        },
+        {
+          "title": "The title can be up to three lines long",
+          "date": "2025-09-15",
+          "link": "#",
+          "source": "Media source",
+          "position": 2
+        },
+        {
+          "title": "The title can be up to three lines long",
+          "date": "2025-09-15",
+          "link": "#",
+          "source": "Media source",
+          "position": 3
+        }
+      ],
+      "ambassadors": [
+        {
+          "name": "Anastasiia Chakubash",
+          "role": "Co-founder",
+          "description": "Anastasiia Chakubash — co-founder with extensive experience in business development, process management, and team leadership.\nHer career includes creating and implementing diverse projects, leading companies, and building efficient ways of working.\nHer planning skills and structured approach help shape strategic initiatives, set clear priorities, and organize the Foundation’s work so it runs as a cohesive, well-functioning system.",
+          "socials": []
+        },
+        {
+          "name": "Vladyslava Kartsan",
+          "role": "Co-founder",
+          "description": "Vladyslava Kartsan — co-founder and initiator of the Foundation’s creation.\nHer background in HR management, together with hands-on experience supporting prisoners of war and their families, laid the groundwork for founding “Strength for the Strong.”\nThe idea for the Foundation grew out of work connected to the return of prisoners of war: taking part in public actions, drafting formal appeals, communicating with families and those who have been released from captivity, and organizing meetings with government officials.\nVladyslava’s determination and her ability to unite people became the cornerstone of the Strength for the Strong Foundation.",
+          "socials": []
+        },
+        {
+          "name": "Anastasiia Artemova",
+          "role": "Co-founder",
+          "description": "Anastasiia Artemova — co-founder who finds inspiration in interacting with people and working with information.\nAnastasiia has extensive communications management experience, spanning full-cycle partner engagement, international project coordination, and complex organizational delivery.\nHer commitment to communication, attention to detail, and ability to work with large volumes of data have become an important element in implementing the Foundation’s projects.",
+          "socials": []
+        }
+      ]
+    }
+  }
+}

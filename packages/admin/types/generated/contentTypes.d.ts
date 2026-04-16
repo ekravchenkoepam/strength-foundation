@@ -561,6 +561,45 @@ export interface ApiFaqFaq extends Schema.CollectionType {
   };
 }
 
+export interface ApiHomePageHomePage extends Schema.SingleType {
+  collectionName: 'home_pages';
+  info: {
+    description: '';
+    displayName: 'HomePage';
+    pluralName: 'home-pages';
+    singularName: 'home-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    ambassadors: Attribute.Component<'team.member', true> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::home-page.home-page', 'oneToOne', 'admin::user'> & Attribute.Private;
+    locale: Attribute.String;
+    localizations: Attribute.Relation<'api::home-page.home-page', 'oneToMany', 'api::home-page.home-page'>;
+    news: Attribute.Relation<'api::home-page.home-page', 'oneToMany', 'api::news.news'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    publishedAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::home-page.home-page', 'oneToOne', 'admin::user'> & Attribute.Private;
+  };
+}
+
 export interface ApiMissionPageMissionPage extends Schema.SingleType {
   collectionName: 'mission_pages';
   info: {
@@ -672,6 +711,72 @@ export interface ApiNavigationNavigation extends Schema.CollectionType {
       }>;
     updatedAt: Attribute.DateTime;
     updatedBy: Attribute.Relation<'api::navigation.navigation', 'oneToOne', 'admin::user'> & Attribute.Private;
+  };
+}
+
+export interface ApiNewsNews extends Schema.CollectionType {
+  collectionName: 'news_items';
+  info: {
+    description: 'Homepage media/news cards';
+    displayName: 'News';
+    pluralName: 'news-items';
+    singularName: 'news';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::news.news', 'oneToOne', 'admin::user'> & Attribute.Private;
+    date: Attribute.Date &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    image: Attribute.Media<'images'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    link: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    locale: Attribute.String;
+    localizations: Attribute.Relation<'api::news.news', 'oneToMany', 'api::news.news'>;
+    position: Attribute.Integer &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Attribute.DefaultTo<0>;
+    publishedAt: Attribute.DateTime;
+    source: Attribute.String &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::news.news', 'oneToOne', 'admin::user'> & Attribute.Private;
   };
 }
 
@@ -1386,8 +1491,10 @@ declare module '@strapi/types' {
       'api::faq-category.faq-category': ApiFaqCategoryFaqCategory;
       'api::faq-page.faq-page': ApiFaqPageFaqPage;
       'api::faq.faq': ApiFaqFaq;
+      'api::home-page.home-page': ApiHomePageHomePage;
       'api::mission-page.mission-page': ApiMissionPageMissionPage;
       'api::navigation.navigation': ApiNavigationNavigation;
+      'api::news.news': ApiNewsNews;
       'api::partner.partner': ApiPartnerPartner;
       'api::payment-transaction.payment-transaction': ApiPaymentTransactionPaymentTransaction;
       'api::questionnaire.questionnaire': ApiQuestionnaireQuestionnaire;

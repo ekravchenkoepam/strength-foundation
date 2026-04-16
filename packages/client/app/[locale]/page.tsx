@@ -8,8 +8,7 @@ import { useEffect, useState } from 'react';
 
 import styles from '../page.module.scss';
 
-import { FacebookIcon, InstagramIcon, LinkedinIcon } from '@/app/components/icons';
-import { Button, ButtonTypeEnum } from '@/app/components/shared';
+import { Button, ButtonTypeEnum, MemberCard } from '@/app/components/shared';
 import { useApp } from '@/app/context/AppContext';
 import { getStrapiMedia } from '@/app/utils/api-helpers';
 import { fetchAPI } from '@/app/utils/fetch-api';
@@ -39,7 +38,30 @@ type AmbassadorCard = {
   id: number;
   name: string;
   role: string;
-  description: string;
+  description?: Array<{
+    type: string;
+    children: Array<{
+      type: string;
+      text: string;
+    }>;
+  }> | null;
+  image?: {
+    data?: {
+      attributes?: {
+        url?: string | null;
+        formats?: {
+          medium?: {
+            url?: string | null;
+          };
+        };
+      };
+    } | null;
+  } | null;
+  socials?: Array<{
+    id: number;
+    icon: 'linkedin' | 'facebook' | 'instagram';
+    link: string;
+  }> | null;
 };
 
 const ACTIVITIES: ActivityCard[] = [
@@ -110,26 +132,40 @@ type PartnerApiResponse = {
   };
 };
 
-const AMBASSADORS: AmbassadorCard[] = [
-  {
-    id: 1,
-    name: 'Імʼя Прізвище',
-    role: 'Посада',
-    description: 'Короткий опис',
-  },
-  {
-    id: 2,
-    name: 'Анастасія Чакабуш',
-    role: 'Голова фонду',
-    description: 'Короткий опис',
-  },
-  {
-    id: 3,
-    name: 'Анастасія Чакабуш',
-    role: 'Голова фонду',
-    description: 'Короткий опис',
-  },
-];
+type HomePageApiResponse = {
+  data?: {
+    attributes?: {
+      ambassadors?: Array<{
+        id: number;
+        name: string;
+        role: string;
+        description?: Array<{
+          type: string;
+          children?: Array<{
+            type: string;
+            text?: string;
+          }>;
+        }> | null;
+        image?: {
+          data?: {
+            attributes?: {
+              url?: string | null;
+              formats?: {
+                medium?: {
+                  url?: string | null;
+                };
+              };
+            };
+          } | null;
+        };
+        socials?: Array<{
+          icon?: 'linkedin' | 'facebook' | 'instagram';
+          link?: string;
+        }>;
+      }>;
+    };
+  } | null;
+};
 
 const HERO_CONTENT: Record<
   string,
@@ -283,6 +319,70 @@ export default function Home() {
         title: item.attributes.name,
         website: item.attributes.website || undefined,
         logoUrl: getStrapiMedia(item.attributes.logo?.data?.attributes?.url ?? ''),
+      }));
+    },
+  });
+
+  const { data: ambassadors = [] } = useQuery<AmbassadorCard[]>({
+    queryKey: ['home-page', currentLocale, 'ambassadors'],
+    queryFn: async () => {
+      const response = (await fetchAPI({
+        path: '/home-page',
+        urlParams: {
+          locale: currentLocale,
+          populate: {
+            ambassadors: {
+              populate: {
+                image: {
+                  populate: '*',
+                },
+                socials: {
+                  populate: '*',
+                },
+              },
+            },
+          },
+        },
+      })) as HomePageApiResponse;
+
+      const items = response?.data?.attributes?.ambassadors || [];
+
+      return items.map(item => ({
+        id: item.id,
+        name: item.name,
+        role: item.role,
+        description: (item.description || []).map(block => ({
+          type: block.type || 'paragraph',
+          children: (block.children || []).map(child => ({
+            type: child.type || 'text',
+            text: child.text || '',
+          })),
+        })),
+        image: item.image
+          ? {
+              data: {
+                attributes: {
+                  url: getStrapiMedia(item.image?.data?.attributes?.url ?? ''),
+                  formats: {
+                    medium: {
+                      url: getStrapiMedia(item.image?.data?.attributes?.formats?.medium?.url ?? ''),
+                    },
+                  },
+                },
+              },
+            }
+          : null,
+        socials: (item.socials || [])
+          .filter(
+            social =>
+              (social?.icon === 'linkedin' || social?.icon === 'facebook' || social?.icon === 'instagram') &&
+              Boolean(social?.link)
+          )
+          .map((social, index) => ({
+            id: index + 1,
+            icon: social.icon as 'linkedin' | 'facebook' | 'instagram',
+            link: social.link as string,
+          })),
       }));
     },
   });
@@ -479,31 +579,8 @@ export default function Home() {
           <h2 className={styles.sectionTitle}>Амбасадори фонду</h2>
 
           <div className={styles.ambassadorsGrid}>
-            {AMBASSADORS.map(ambassador => (
-              <article key={ambassador.id} className={styles.ambassadorCard}>
-                <div className={styles.ambassadorPhoto}>
-                  <div className={styles.ambassadorOverlay}>
-                    <div>
-                      <div className={styles.ambassadorName}>{ambassador.name}</div>
-                      <div className={styles.ambassadorRole}>{ambassador.role}</div>
-                    </div>
-
-                    <div className={styles.socials}>
-                      <a href="#" aria-label="linkedin">
-                        <LinkedinIcon width="18" height="18" color="#484838" />
-                      </a>
-                      <a href="#" aria-label="facebook">
-                        <FacebookIcon width="18" height="18" color="#484838" />
-                      </a>
-                      <a href="#" aria-label="instagram">
-                        <InstagramIcon width="18" height="18" color="#484838" />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={styles.ambassadorDescription}>{ambassador.description}</div>
-              </article>
+            {ambassadors.map(ambassador => (
+              <MemberCard key={ambassador.id} member={ambassador} />
             ))}
           </div>
         </div>

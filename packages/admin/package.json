@@ -11,6 +11,7 @@
     "deploy": "strapi deploy",
     "seed:documents-page": "node scripts/seed-documents-page.js",
     "seed:faq": "node scripts/seed-faq.js",
+    "seed:home-page": "node scripts/seed-home-page.js",
     "seed:mission-page": "node scripts/seed-mission-page.js",
     "seed:navigation": "node scripts/seed-navigation.js",
     "seed:partners": "node scripts/seed-partners.js",
