@@ -36,6 +36,118 @@ export interface FaqFaqSection extends Schema.Component {
   };
 }
 
+export interface HomeAboutSection extends Schema.Component {
+  collectionName: 'components_home_about_sections';
+  info: {
+    description: '';
+    displayName: 'About Section';
+  };
+  attributes: {
+    description: Attribute.Text;
+    image: Attribute.Media<'images'>;
+    imageAlt: Attribute.String;
+    primaryButtonLabel: Attribute.String;
+    primaryButtonLink: Attribute.String;
+    secondaryButtonLabel: Attribute.String;
+    secondaryButtonLink: Attribute.String;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface HomeActivitiesSection extends Schema.Component {
+  collectionName: 'components_home_activities_sections';
+  info: {
+    description: '';
+    displayName: 'Activities Section';
+  };
+  attributes: {
+    items: Attribute.Component<'home.activity-item', true>;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface HomeActivityItem extends Schema.Component {
+  collectionName: 'components_home_activity_items';
+  info: {
+    description: '';
+    displayName: 'Activity Item';
+  };
+  attributes: {
+    description: Attribute.Text;
+    image: Attribute.Media<'images'>;
+    imageAlt: Attribute.String;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface HomeAmbassadorsSection extends Schema.Component {
+  collectionName: 'components_home_ambassadors_sections';
+  info: {
+    description: '';
+    displayName: 'Ambassadors Section';
+  };
+  attributes: {
+    ambassadorsList: Attribute.Component<'team.member', true>;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface HomeHelpSection extends Schema.Component {
+  collectionName: 'components_home_help_sections';
+  info: {
+    description: '';
+    displayName: 'Help Section';
+  };
+  attributes: {
+    buttonLabel: Attribute.String;
+    buttonLink: Attribute.String;
+    description: Attribute.Text;
+    secondaryDescription: Attribute.Text;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface HomeIntroSection extends Schema.Component {
+  collectionName: 'components_home_intro_sections';
+  info: {
+    description: '';
+    displayName: 'Intro Section';
+  };
+  attributes: {
+    description: Attribute.Text;
+    image: Attribute.Media<'images'>;
+    imageAlt: Attribute.String;
+    subtitle: Attribute.String;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface HomeNewsSection extends Schema.Component {
+  collectionName: 'components_home_news_sections';
+  info: {
+    description: '';
+    displayName: 'News Section';
+  };
+  attributes: {
+    newsList: Attribute.Relation<'home.news-section', 'oneToMany', 'api::news.news'>;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface HomePartnersSection extends Schema.Component {
+  collectionName: 'components_home_partners_sections';
+  info: {
+    description: '';
+    displayName: 'Partners Section';
+  };
+  attributes: {
+    buttonLabel: Attribute.String;
+    buttonLink: Attribute.String;
+    partnersList: Attribute.Relation<'home.partners-section', 'oneToMany', 'api::partner.partner'>;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
 export interface MissionMissionContent extends Schema.Component {
   collectionName: 'components_mission_mission_contents';
   info: {
@@ -190,6 +302,14 @@ declare module '@strapi/types' {
       'contacts.phone': ContactsPhone;
       'faq.contact-item': FaqContactItem;
       'faq.faq-section': FaqFaqSection;
+      'home.about-section': HomeAboutSection;
+      'home.activities-section': HomeActivitiesSection;
+      'home.activity-item': HomeActivityItem;
+      'home.ambassadors-section': HomeAmbassadorsSection;
+      'home.help-section': HomeHelpSection;
+      'home.intro-section': HomeIntroSection;
+      'home.news-section': HomeNewsSection;
+      'home.partners-section': HomePartnersSection;
       'mission.mission-content': MissionMissionContent;
       'mission.principle': MissionPrinciple;
       'reports.report': ReportsReport;

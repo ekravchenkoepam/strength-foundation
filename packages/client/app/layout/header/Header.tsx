@@ -17,12 +17,28 @@ import { getHeaderTranslations } from '@/app/layout/header/i18n';
 import { LanguageSwitch } from '@/app/layout/header/LanguageSwitch';
 import { LinkType } from '@/app/types';
 
+// Persists across remounts (locale changes) so initial state is always correct
+let _scrolled = false;
+
 export const Header = () => {
   const { links, socials, locale } = useApp();
   const router = useRouter();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(_scrolled);
   const t = getHeaderTranslations(locale);
+
+  useEffect(() => {
+    _scrolled = window.scrollY > 8;
+    setScrolled(_scrolled);
+
+    const handleScroll = () => {
+      _scrolled = window.scrollY > 8;
+      setScrolled(_scrolled);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const sortedLinks = sortByPosition(links);
   const sortedSocials = sortByPosition(socials);
@@ -37,13 +53,15 @@ export const Header = () => {
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <header className="w-full">
+    <header className="sticky top-0 z-50 w-full">
       <div className="flex w-full flex-col font-medium">
         <div
-          className="
-            hidden w-full items-center justify-between gap-4 bg-[var(--green-100)]
-            px-4 py-3 md:px-6 md:py-4 lg:flex lg:px-[52px] lg:py-[15px]
-          "
+          className={clsx(
+            'hidden w-full items-center justify-between gap-4 bg-[var(--green-100)]',
+            'overflow-hidden px-4 md:px-6 lg:flex lg:px-[52px]',
+            'transition-all duration-300 ease-in-out',
+            scrolled ? 'max-h-0 opacity-0' : 'max-h-24 py-3 opacity-100 md:py-4 lg:py-[15px]'
+          )}
         >
           <div className="hidden lg:block">
             <Socials
@@ -73,11 +91,14 @@ export const Header = () => {
         </div>
 
         <div
-          className="
-            grid w-full grid-cols-[1fr_auto_auto] items-center border-b-2 border-[var(--yellow-100)]
-            bg-[var(--white-100)] px-4 py-3 md:px-6 md:py-4
-            lg:grid-cols-[auto_1fr_auto] lg:px-[70px] lg:py-[22px]
-          "
+          className={clsx(
+            'grid w-full grid-cols-[1fr_auto_auto] items-center border-b-2 border-[var(--yellow-100)]',
+            'px-4 py-3 md:px-6 md:py-4 lg:grid-cols-[auto_1fr_auto] lg:px-[70px] lg:py-[22px]',
+            'transition-all duration-300',
+            scrolled
+              ? 'bg-[rgba(255,255,255,0.82)] backdrop-blur-md'
+              : 'bg-[var(--white-100)]'
+          )}
         >
           <div className="justify-self-start">
             <Logo />

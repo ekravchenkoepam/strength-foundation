@@ -16,20 +16,70 @@
     }
   },
   "attributes": {
-    "ambassadors": {
+    "introSection": {
       "type": "component",
-      "repeatable": true,
-      "component": "team.member",
+      "repeatable": false,
+      "component": "home.intro-section",
       "pluginOptions": {
         "i18n": {
           "localized": true
         }
       }
     },
-    "news": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::news.news",
+    "aboutSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.about-section",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "activitiesSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.activities-section",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "newsSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.news-section",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "partnersSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.partners-section",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "helpSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.help-section",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "ambassadorsSection": {
+      "type": "component",
+      "repeatable": false,
+      "component": "home.ambassadors-section",
       "pluginOptions": {
         "i18n": {
           "localized": true

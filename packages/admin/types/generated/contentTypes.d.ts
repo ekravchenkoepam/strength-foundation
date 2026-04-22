@@ -578,7 +578,19 @@ export interface ApiHomePageHomePage extends Schema.SingleType {
     };
   };
   attributes: {
-    ambassadors: Attribute.Component<'team.member', true> &
+    aboutSection: Attribute.Component<'home.about-section'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    activitiesSection: Attribute.Component<'home.activities-section'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    ambassadorsSection: Attribute.Component<'home.ambassadors-section'> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;
@@ -586,9 +598,27 @@ export interface ApiHomePageHomePage extends Schema.SingleType {
       }>;
     createdAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::home-page.home-page', 'oneToOne', 'admin::user'> & Attribute.Private;
+    helpSection: Attribute.Component<'home.help-section'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    introSection: Attribute.Component<'home.intro-section'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
     locale: Attribute.String;
     localizations: Attribute.Relation<'api::home-page.home-page', 'oneToMany', 'api::home-page.home-page'>;
-    news: Attribute.Relation<'api::home-page.home-page', 'oneToMany', 'api::news.news'> &
+    newsSection: Attribute.Component<'home.news-section'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    partnersSection: Attribute.Component<'home.partners-section'> &
       Attribute.SetPluginOptions<{
         i18n: {
           localized: true;

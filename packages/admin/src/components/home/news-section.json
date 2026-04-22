@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_home_news_sections",
+  "info": {
+    "displayName": "News Section",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "newsList": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::news.news"
+    }
+  }
+}

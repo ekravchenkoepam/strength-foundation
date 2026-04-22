@@ -24,7 +24,7 @@ export const LanguageSwitch = () => {
     segments[1] = lang;
     const newPath = segments.join('/');
 
-    router.replace(newPath);
+    router.replace(newPath, { scroll: false });
     setLocale(lang);
   };
 

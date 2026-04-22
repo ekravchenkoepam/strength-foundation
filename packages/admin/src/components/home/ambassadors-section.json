@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_home_ambassadors_sections",
+  "info": {
+    "displayName": "Ambassadors Section",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "ambassadorsList": {
+      "type": "component",
+      "repeatable": true,
+      "component": "team.member"
+    }
+  }
+}
