@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_home_activities_sections",
+  "info": {
+    "displayName": "Activities Section",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "home.activity-item"
+    }
+  }
+}

@@ -1,6 +1,62 @@
 {
   "locales": {
     "uk": {
+      "introSection": {
+        "title": "Сила для сильних",
+        "subtitle": "Благодійний фонд",
+        "description": "Ми прагнемо повернути героїв додому, підтримати їхніх близьких і привернути увагу суспільства до цієї проблеми.",
+        "imagePath": "packages/client/public/images/hands-alt.png",
+        "imageAlt": "Підтримка родин військовополонених"
+      },
+      "aboutSection": {
+        "title": "Про фонд",
+        "description": "Наша місія — сприяти звільненню військовополонених та поверненню зниклих безвісти, надавати спеціалізовану допомогу героям, які повернулися, а також підтримувати їхні родини в боротьбі за їхню свободу.\nМи вважаємо, що не можна залишатися осторонь, коли наші герої перебувають у полоні, а їхні рідні щосекунди борються за їхнє звільнення та кричать про допомогу і підтримку. Саме тому ми об'єднали наші навички, досвід та віру і створили фонд, який допомагає сім'ям знаходити все більше шляхів для повернення військовополонених і зниклих безвісти, а також отримувати необхідну допомогу для себе.\nМи працюємо не лише для того, щоб повернути додому кожного та звернути увагу суспільства до цієї проблеми, а й для того, щоб підтримувати рідних, яким дуже важко в цей складний час.",
+        "imagePath": "packages/client/public/images/hands.jpg",
+        "imageAlt": "Команда фонду зустрічає звільненого захисника",
+        "primaryButtonLabel": "Наші проєкти",
+        "primaryButtonLink": "projects",
+        "secondaryButtonLabel": "Звітність організації",
+        "secondaryButtonLink": "documents-and-reports/reports"
+      },
+      "activitiesSection": {
+        "title": "Напрямки діяльності",
+        "items": [
+          {
+            "title": "Соціальні проєкти",
+            "description": "Ми прагнемо підтримати звільнених з полону та родини військовополонених в ці складні часи та організовуємо:\n• ініціативу «Вдома чекали» — зустрічаємо звільнених з полону на обіймах з теплом, турботою, вдячністю і невеличкими подарунками.\n• лекції з психологами — щоб навчити долати стрес і віднаходити взаєморозуміння.\n• зустрічі з дітьми — щоб формувати толерантність до змін у зовнішності після поранень і травм.\n• соціальні заходи для дорослих і дітей — щоб відволіктись і стати частиною ком'юніті.\n• подкаст «Історії Сильних» — щоб розповідати про військовополонених і тих, хто вже повернувся з полону.",
+            "imagePath": "packages/client/public/images/hands.jpg",
+            "imageAlt": "Соціальні ініціативи фонду"
+          },
+          {
+            "title": "Психологічна допомога",
+            "description": "Організовуємо індивідуальні консультації, групи підтримки та практичні зустрічі для тих, хто проживає складний період очікування або повернення близьких.",
+            "imagePath": "packages/client/public/images/hands-alt.png",
+            "imageAlt": "Психологічна підтримка та спільна діяльність"
+          },
+          {
+            "title": "Консультаційний напрямок",
+            "description": "Надаємо базову юридичну та організаційну підтримку, допомагаємо сформувати подальші кроки та супроводжуємо в комунікації з профільними структурами.",
+            "imagePath": "packages/client/public/images/hands.jpg",
+            "imageAlt": "Консультаційна підтримка фонду"
+          }
+        ]
+      },
+      "newsSection": {
+        "title": "Ми в медіа"
+      },
+      "partnersSection": {
+        "title": "Наші партнери",
+        "buttonLabel": "Стати партнером",
+        "buttonLink": "partnership/become-partner",
+        "partnersList": [1, 2, 3, 4, 5, 6]
+      },
+      "helpSection": {
+        "title": "Потрібна допомога?",
+        "description": "Фонд \"Сила для Сильних\" зростає і шукає людей із великим серцем та відкритою душею.",
+        "secondaryDescription": "Якщо ти хочеш допомагати родинам військовополонених, працювати з командою однодумців, втілювати соціальні ініціативи та вкладатися у справді важливе — ми чекаємо саме на тебе.",
+        "buttonLabel": "Заповнити анкету",
+        "buttonLink": "partnership/become-partner"
+      },
       "news": [
         {
           "title": "Заголовок може бути максимально на три рядки",
@@ -24,28 +80,87 @@
           "position": 3
         }
       ],
-      "ambassadors": [
-        {
-          "name": "Анастасія Чакубаш",
-          "role": "Співзасновниця",
-          "description": "Анастасія Чакубаш — співзасновниця, яка має багаторічний досвід у розвитку бізнесу, організації процесів та управлінні командами.\nПрофесійний шлях Анастасії охоплює створення і впровадження різноманітних проєктів, керівництво компаніями та побудову ефективних систем роботи.\nЇї навички планування та систематизації допомагають планувати стратегічні ініціативи, чітко визначати пріоритети та структурувати діяльність фонду, щоб він працював як злагоджений механізм.",
-          "socials": []
-        },
-        {
-          "name": "Владислава Карцан",
-          "role": "Співзасновниця",
-          "description": "Владислава Карцан — співзасновниця та ініціаторка створення фонду.\nЇї досвід роботи в сфері управління персоналом і підтримці військовополонених та їхніх родин став фундаментом для заснування \"Сили для Сильних\".\nІдея заснування фонду народилася під час роботи, пов’язаної з поверненням військовополонених: участь в акціях, написанні звернень, спілкуванні з родинами та звільненими, а також організації зустрічей із представниками влади.\nЦілеспрямованість Владислави та вміння об’єднувати людей стали основою для створення фонду \"Сила для Сильних\".",
-          "socials": []
-        },
-        {
-          "name": "Анастасія Артемова",
-          "role": "Співзасновниця",
-          "description": "Анастасія Артемова — співзасновниця, яка знаходить натхнення у взаємодії з людьми та роботі з інформацією.\nБагаторічний досвід Анастасії у сфері управління комунікаціями включає повний цикл роботи з партнерами, координування міжнародних проєктів та вирішення складних організаційних завдань.\nЇї прагнення до спілкування, уважність до деталей і здатність працювати з великими обсягами даних стали важливим елементом у реалізації проєктів фонду.",
-          "socials": []
-        }
-      ]
+      "ambassadorsSection": {
+        "title": "Амбасадори фонду",
+        "ambassadorsList": [
+          {
+            "name": "Анастасія Чакубаш",
+            "role": "Співзасновниця",
+            "description": "Анастасія Чакубаш — співзасновниця, яка має багаторічний досвід у розвитку бізнесу, організації процесів та управлінні командами.\nПрофесійний шлях Анастасії охоплює створення і впровадження різноманітних проєктів, керівництво компаніями та побудову ефективних систем роботи.\nЇї навички планування та систематизації допомагають планувати стратегічні ініціативи, чітко визначати пріоритети та структурувати діяльність фонду, щоб він працював як злагоджений механізм.",
+            "socials": []
+          },
+          {
+            "name": "Владислава Карцан",
+            "role": "Співзасновниця",
+            "description": "Владислава Карцан — співзасновниця та ініціаторка створення фонду.\nЇї досвід роботи в сфері управління персоналом і підтримці військовополонених та їхніх родин став фундаментом для заснування \"Сили для Сильних\".\nІдея заснування фонду народилася під час роботи, пов’язаної з поверненням військовополонених: участь в акціях, написанні звернень, спілкуванні з родинами та звільненими, а також організації зустрічей із представниками влади.\nЦілеспрямованість Владислави та вміння об’єднувати людей стали основою для створення фонду \"Сила для Сильних\".",
+            "socials": []
+          },
+          {
+            "name": "Анастасія Артемова",
+            "role": "Співзасновниця",
+            "description": "Анастасія Артемова — співзасновниця, яка знаходить натхнення у взаємодії з людьми та роботі з інформацією.\nБагаторічний досвід Анастасії у сфері управління комунікаціями включає повний цикл роботи з партнерами, координування міжнародних проєктів та вирішення складних організаційних завдань.\nЇї прагнення до спілкування, уважність до деталей і здатність працювати з великими обсягами даних стали важливим елементом у реалізації проєктів фонду.",
+            "socials": []
+          }
+        ]
+      }
     },
     "en": {
+      "introSection": {
+        "title": "Strength for the strong",
+        "subtitle": "Charity fund",
+        "description": "We strive to bring the heroes home, support their loved ones, and draw public attention to this problem.",
+        "imagePath": "packages/client/public/images/hands-alt.png",
+        "imageAlt": "Support for families of prisoners of war"
+      },
+      "aboutSection": {
+        "title": "About the foundation",
+        "description": "Our mission is to support the release of prisoners of war and the return of those missing in action, to provide specialized assistance to heroes who have come back, and to stand by their families in the fight for freedom.\nWe believe it is impossible to stay aside while our heroes remain in captivity and their loved ones struggle every second for their release, asking for help and support. That is why we united our skills, experience, and conviction to create a foundation that helps families find more paths toward bringing prisoners of war and missing persons home, while also receiving the support they need.\nWe work not only to bring every hero home and draw public attention to this issue, but also to support relatives who are carrying an extremely difficult burden during this time.",
+        "imagePath": "packages/client/public/images/hands.jpg",
+        "imageAlt": "Foundation team welcoming a released defender",
+        "primaryButtonLabel": "Our projects",
+        "primaryButtonLink": "projects",
+        "secondaryButtonLabel": "Organization reports",
+        "secondaryButtonLink": "documents-and-reports/reports"
+      },
+      "activitiesSection": {
+        "title": "Areas of activity",
+        "items": [
+          {
+            "title": "Social projects",
+            "description": "We support people released from captivity and the families of prisoners of war during these difficult times through:\n• the “Expected at Home” initiative — welcoming released defenders with warmth, care, gratitude, and small gifts.\n• lectures with psychologists — to help people manage stress and rebuild understanding.\n• meetings with children — to foster tolerance toward changes in appearance after injuries and trauma.\n• social events for adults and children — to offer relief and create a sense of community.\n• the “Stories of the Strong” podcast — to share stories about prisoners of war and those who have already returned home.",
+            "imagePath": "packages/client/public/images/hands.jpg",
+            "imageAlt": "Foundation social initiatives"
+          },
+          {
+            "title": "Psychological support",
+            "description": "We organize individual consultations, support groups, and practical sessions for those going through the difficult period of waiting for or welcoming loved ones home.",
+            "imagePath": "packages/client/public/images/hands-alt.png",
+            "imageAlt": "Psychological support and shared activities"
+          },
+          {
+            "title": "Consultation support",
+            "description": "We provide basic legal and organizational guidance, help define next steps, and support communication with relevant institutions.",
+            "imagePath": "packages/client/public/images/hands.jpg",
+            "imageAlt": "Foundation consultation support"
+          }
+        ]
+      },
+      "newsSection": {
+        "title": "In the media"
+      },
+      "partnersSection": {
+        "title": "Our partners",
+        "buttonLabel": "Become a partner",
+        "buttonLink": "partnership/become-partner",
+        "partnersList": [1, 2, 3, 4, 5, 6]
+      },
+      "helpSection": {
+        "title": "Need help?",
+        "description": "The Strength for the Strong Foundation is growing and looking for people with big hearts and open minds.",
+        "secondaryDescription": "If you want to support families of prisoners of war, work with a team of like-minded people, bring social initiatives to life, and invest your energy in something truly important, we would love to hear from you.",
+        "buttonLabel": "Fill in the form",
+        "buttonLink": "partnership/become-partner"
+      },
       "news": [
         {
           "title": "The title can be up to three lines long",
@@ -69,26 +184,29 @@
           "position": 3
         }
       ],
-      "ambassadors": [
-        {
-          "name": "Anastasiia Chakubash",
-          "role": "Co-founder",
-          "description": "Anastasiia Chakubash — co-founder with extensive experience in business development, process management, and team leadership.\nHer career includes creating and implementing diverse projects, leading companies, and building efficient ways of working.\nHer planning skills and structured approach help shape strategic initiatives, set clear priorities, and organize the Foundation’s work so it runs as a cohesive, well-functioning system.",
-          "socials": []
-        },
-        {
-          "name": "Vladyslava Kartsan",
-          "role": "Co-founder",
-          "description": "Vladyslava Kartsan — co-founder and initiator of the Foundation’s creation.\nHer background in HR management, together with hands-on experience supporting prisoners of war and their families, laid the groundwork for founding “Strength for the Strong.”\nThe idea for the Foundation grew out of work connected to the return of prisoners of war: taking part in public actions, drafting formal appeals, communicating with families and those who have been released from captivity, and organizing meetings with government officials.\nVladyslava’s determination and her ability to unite people became the cornerstone of the Strength for the Strong Foundation.",
-          "socials": []
-        },
-        {
-          "name": "Anastasiia Artemova",
-          "role": "Co-founder",
-          "description": "Anastasiia Artemova — co-founder who finds inspiration in interacting with people and working with information.\nAnastasiia has extensive communications management experience, spanning full-cycle partner engagement, international project coordination, and complex organizational delivery.\nHer commitment to communication, attention to detail, and ability to work with large volumes of data have become an important element in implementing the Foundation’s projects.",
-          "socials": []
-        }
-      ]
+      "ambassadorsSection": {
+        "title": "Foundation ambassadors",
+        "ambassadorsList": [
+          {
+            "name": "Anastasiia Chakubash",
+            "role": "Co-founder",
+            "description": "Anastasiia Chakubash — co-founder with extensive experience in business development, process management, and team leadership.\nHer career includes creating and implementing diverse projects, leading companies, and building efficient ways of working.\nHer planning skills and structured approach help shape strategic initiatives, set clear priorities, and organize the Foundation’s work so it runs as a cohesive, well-functioning system.",
+            "socials": []
+          },
+          {
+            "name": "Vladyslava Kartsan",
+            "role": "Co-founder",
+            "description": "Vladyslava Kartsan — co-founder and initiator of the Foundation’s creation.\nHer background in HR management, together with hands-on experience supporting prisoners of war and their families, laid the groundwork for founding “Strength for the Strong.”\nThe idea for the Foundation grew out of work connected to the return of prisoners of war: taking part in public actions, drafting formal appeals, communicating with families and those who have been released from captivity, and organizing meetings with government officials.\nVladyslava’s determination and her ability to unite people became the cornerstone of the Strength for the Strong Foundation.",
+            "socials": []
+          },
+          {
+            "name": "Anastasiia Artemova",
+            "role": "Co-founder",
+            "description": "Anastasiia Artemova — co-founder who finds inspiration in interacting with people and working with information.\nAnastasiia has extensive communications management experience, spanning full-cycle partner engagement, international project coordination, and complex organizational delivery.\nHer commitment to communication, attention to detail, and ability to work with large volumes of data have become an important element in implementing the Foundation’s projects.",
+            "socials": []
+          }
+        ]
+      }
     }
   }
 }
