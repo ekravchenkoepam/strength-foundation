@@ -27,6 +27,7 @@ type MediaCard = {
   date: string;
   title: string;
   link?: string;
+  imageUrl?: string;
 };
 
 type PartnerCard = {
@@ -73,6 +74,13 @@ type NewsListItemWithAttributes = {
     title?: string | null;
     date?: string | null;
     link?: string | null;
+    image?: {
+      data?: {
+        attributes?: {
+          url?: string | null;
+        };
+      } | null;
+    } | null;
   };
 };
 
@@ -81,6 +89,14 @@ type NewsListItemFlat = {
   title?: string | null;
   date?: string | null;
   link?: string | null;
+  image?: {
+    url?: string | null;
+    data?: {
+      attributes?: {
+        url?: string | null;
+      };
+    } | null;
+  } | null;
 };
 
 type NewsListItem = NewsListItemWithAttributes | NewsListItemFlat;
@@ -371,6 +387,7 @@ const mapNewsListItem = (item: NewsListItem): MediaCard => {
       title: item.attributes?.title || '',
       date: formatNewsDate(item.attributes?.date || ''),
       link: item.attributes?.link || undefined,
+      imageUrl: getStrapiMedia(item.attributes?.image?.data?.attributes?.url ?? ''),
     };
   }
 
@@ -379,6 +396,7 @@ const mapNewsListItem = (item: NewsListItem): MediaCard => {
     title: item.title || '',
     date: formatNewsDate(item.date || ''),
     link: item.link || undefined,
+    imageUrl: getStrapiMedia(item.image?.data?.attributes?.url || item.image?.url || ''),
   };
 };
 
@@ -860,7 +878,9 @@ export default function Home() {
             <div className={styles.mediaGrid}>
               {mediaItems.map(item => (
                 <article key={item.id} className={styles.mediaCard}>
-                  <div className={styles.mediaPreview} />
+                  <div className={styles.mediaPreview}>
+                    {item.imageUrl ? <Image src={item.imageUrl} alt={item.title} width={425} height={320} /> : null}
+                  </div>
                   <div className={styles.mediaBody}>
                     <p className={styles.mediaDate}>{item.date}</p>
                     <h3 className={styles.mediaTitle}>{item.title}</h3>
