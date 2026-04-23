@@ -255,6 +255,12 @@
   background: #c7c7c7;
 }
 
+.mediaPreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .mediaBody {
   display: flex;
   flex-direction: column;
