@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_project_items_contact_channels",
+  "info": {
+    "displayName": "Contact Channel",
+    "description": "Alternative communication channel (Telegram, Viber, WhatsApp, etc.)",
+    "icon": "phone"
+  },
+  "options": {},
+  "attributes": {
+    "platform": {
+      "type": "enumeration",
+      "enum": ["telegram", "viber", "whatsapp", "signal", "messenger"],
+      "required": true
+    },
+    "label": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

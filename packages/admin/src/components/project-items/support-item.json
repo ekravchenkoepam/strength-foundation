@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_project_items_support_items",
+  "info": {
+    "displayName": "Support Item",
+    "description": "Icon + title card used inside the Support Types section",
+    "icon": "shield"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"],
+      "required": false
+    }
+  }
+}

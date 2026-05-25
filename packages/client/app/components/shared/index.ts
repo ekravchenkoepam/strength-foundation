@@ -10,3 +10,4 @@ export { MemberCard } from './MemeberCard';
 export { Collapse } from './Collapse';
 export { Cards, Card } from './Cards';
 export type { CardItem, CardProps } from './Cards';
+export { LiquidGlass, LiquidGlassFilter } from './LiquidGlass';

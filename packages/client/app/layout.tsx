@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
+import { LiquidGlassFilter } from '@/app/components/shared/LiquidGlass';
 import { QueryProvider } from '@/app/providers/QueryProvider';
 
 import './globals.css';
@@ -37,6 +38,7 @@ export default async function RootLayout({
   return (
     <html lang="uk">
       <body className={`${eUkraine.variable} ${eUkraineHead.variable}`}>
+        <LiquidGlassFilter />
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>

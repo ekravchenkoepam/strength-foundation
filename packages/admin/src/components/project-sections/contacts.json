@@ -1,0 +1,46 @@
+{
+  "collectionName": "components_project_sections_contacts",
+  "info": {
+    "displayName": "Contacts",
+    "description": "Contact info block: channels, phone/email, QR code panel",
+    "icon": "phone"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "channelsLabel": {
+      "type": "string"
+    },
+    "channels": {
+      "type": "component",
+      "repeatable": true,
+      "component": "project-items.contact-channel"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "qrText": {
+      "type": "text"
+    },
+    "qrImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "qrButtonText": {
+      "type": "string"
+    },
+    "qrButtonHref": {
+      "type": "string"
+    },
+    "footnote": {
+      "type": "string"
+    }
+  }
+}

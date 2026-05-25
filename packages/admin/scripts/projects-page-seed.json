@@ -1,0 +1,246 @@
+{
+  "locales": {
+    "uk": {
+      "title": "Наші проєкти",
+      "projects": [
+        {
+          "title": "Вдома чекали",
+          "slug": "home-was-waiting",
+          "subtitle": "Проєкт адресований звільненим з ворожого полону захисникам та захисницям",
+          "description": "Зустрічаємо з теплом: пакунки, що кажуть - \"ми чекали кожного, вітаємо вдома!\"",
+          "buttonText": "Переглянути",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Вдома чекали",
+              "caption": "Для військових, які повернулися з полону.",
+              "intro": "Програма зі створення спільноти для військових, які повернулися з полону. Ми об'єднуємо людей із подібним досвідом, щоб разом проходити шлях адаптації, ділитися підтримкою та отримувати необхідну юридичну й психологічну допомогу.",
+              "quote": "Ми зустрічаємо героїв після кожного обміну на їхній першій зупинці й даруємо пакунки тепла, щоб сказати: «Тебе чекали вдома»."
+            },
+            {
+              "__component": "project-sections.support-types",
+              "title": "Основні види підтримки",
+              "items": [
+                { "title": "Групи взаємопідтримки" },
+                { "title": "Юридична допомога" },
+                { "title": "Психологічна допомога" }
+              ]
+            },
+            {
+              "__component": "project-sections.sub-projects",
+              "title": "Проєкти, які входять в програму \"Вдома чекали\"",
+              "projects": ["united-by-strength", "through-the-bars", "moving-forward-together"]
+            },
+            {
+              "__component": "project-sections.partnership",
+              "title": "Партнерство та як допомогти",
+              "items": [
+                {
+                  "title": "Фінансова підтримка",
+                  "description": "Зробіть пожертву на закупівлю матеріалів для пакунків та оплату послуг фахівців. Кожна гривня допомагає нам зустрічати більше героїв."
+                },
+                {
+                  "title": "Матеріальна допомога",
+                  "description": "Подаруйте або профінансуйте виробництво речей, що входять до пакунка, таких як прапори, браслети, іграшки."
+                },
+                {
+                  "title": "Інформаційна підтримка",
+                  "description": "Розкажіть про програму у своїх соцмережах і допоможіть більшій кількості родин дізнатися про підтримку."
+                },
+                {
+                  "title": "Волонтерська участь",
+                  "description": "Долучайтеся як волонтер: збирайте пакунки, зустрічайте героїв, допомагайте з логістикою та комунікацією."
+                }
+              ]
+            },
+            {
+              "__component": "project-sections.contacts",
+              "title": "Контактна інформація",
+              "channelsLabel": "Альтернативні канали зв'язку",
+              "channels": [
+                { "platform": "telegram", "url": "https://t.me/syla_dlya_sylnyh" },
+                { "platform": "viber", "url": "viber://chat?number=+380661234567" },
+                { "platform": "whatsapp", "url": "https://wa.me/380661234567" }
+              ],
+              "phone": "+380 66 123 45 67",
+              "email": "example@gmail.com",
+              "qrText": "Відскануйте QR-код або перейдіть за посиланням і долучіться до підтримки наших героїв",
+              "qrButtonText": "Долучитися до підтримки",
+              "qrButtonHref": "https://syla-dlya-sylnyh.org/donate",
+              "footnote": "Можливо додати якийсь текст"
+            }
+          ]
+        },
+        {
+          "title": "Об'єднані силою",
+          "slug": "united-by-strength",
+          "subtitle": "Проєкт підтримки для родин військовополонених та людей, чиї близькі зникли безвісти.",
+          "description": "Проєкт підтримки для родин військовополонених та зниклих безвісти.",
+          "buttonText": "Переглянути",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Об'єднані силою",
+              "caption": "Для родин військовополонених і зниклих безвісти.",
+              "intro": "Ми об'єднуємо родини, які чекають на повернення своїх близьких, у спільноту взаємопідтримки. Тут вони отримують юридичні консультації, психологічну допомогу та інформаційний супровід.",
+              "quote": ""
+            }
+          ]
+        },
+        {
+          "title": "Крізь грати: сила людського духу",
+          "slug": "through-the-bars",
+          "subtitle": "Інформаційно-адвокаційний проєкт, який нагадує про тих, хто досі в полоні або зник безвісти.",
+          "description": "Нагадуємо про тих, хто в полоні та зник безвісти.",
+          "buttonText": "Переглянути",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Крізь грати: сила людського духу",
+              "caption": "Голос для тих, хто за гратами.",
+              "intro": "Інформаційно-адвокаційний проєкт, який нагадує суспільству про тих, хто досі перебуває у ворожому полоні чи зник безвісти. Ми створюємо матеріали, проводимо акції й тримаємо тему повернення наших людей у фокусі уваги.",
+              "quote": ""
+            }
+          ]
+        },
+        {
+          "title": "Разом далі",
+          "slug": "moving-forward-together",
+          "subtitle": "Проєкт підтримки та відновлення для людей, які повертаються до життя після важких випробувань.",
+          "description": "Ми поруч, щоб рухатись далі.",
+          "buttonText": "Переглянути",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Разом далі",
+              "caption": "Підтримка на шляху відновлення.",
+              "intro": "Програма відновлення для людей, які повертаються до життя після важких випробувань. Допомагаємо знайти ресурс у новому етапі через групову роботу, індивідуальні консультації та спільні заходи.",
+              "quote": ""
+            }
+          ]
+        }
+      ]
+    },
+    "en": {
+      "title": "Our projects",
+      "projects": [
+        {
+          "title": "Home Was Waiting",
+          "slug": "home-was-waiting",
+          "subtitle": "A project dedicated to defenders who have been released from enemy captivity.",
+          "description": "We welcome people home with care: packages that say, \"we were waiting for everyone, welcome home.\"",
+          "buttonText": "View",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Home Was Waiting",
+              "caption": "For service members returning from captivity.",
+              "intro": "A community-building program for service members returning from captivity. We bring together people with shared experiences so they can walk the path of adjustment together, share support, and access the legal and psychological help they need.",
+              "quote": "We meet heroes at their first stop after every exchange and hand them a package of warmth that says: \"Home was waiting for you.\""
+            },
+            {
+              "__component": "project-sections.support-types",
+              "title": "Main types of support",
+              "items": [
+                { "title": "Peer support groups" },
+                { "title": "Legal assistance" },
+                { "title": "Psychological support" }
+              ]
+            },
+            {
+              "__component": "project-sections.sub-projects",
+              "title": "Projects included in the \"Home Was Waiting\" program",
+              "projects": ["united-by-strength", "through-the-bars", "moving-forward-together"]
+            },
+            {
+              "__component": "project-sections.partnership",
+              "title": "Partnership and how to help",
+              "items": [
+                {
+                  "title": "Financial support",
+                  "description": "Make a donation to fund the materials in our packages and the work of our specialists. Every contribution helps us meet more heroes."
+                },
+                {
+                  "title": "Material help",
+                  "description": "Donate or fund the production of items that go into each package — flags, bracelets, small toys."
+                },
+                {
+                  "title": "Information support",
+                  "description": "Share the program on your social channels and help more families learn that this support exists."
+                },
+                {
+                  "title": "Volunteer with us",
+                  "description": "Join as a volunteer: pack packages, greet heroes on arrival, help with logistics and communications."
+                }
+              ]
+            },
+            {
+              "__component": "project-sections.contacts",
+              "title": "Contact information",
+              "channelsLabel": "Alternative channels",
+              "channels": [
+                { "platform": "telegram", "url": "https://t.me/syla_dlya_sylnyh" },
+                { "platform": "viber", "url": "viber://chat?number=+380661234567" },
+                { "platform": "whatsapp", "url": "https://wa.me/380661234567" }
+              ],
+              "phone": "+380 66 123 45 67",
+              "email": "example@gmail.com",
+              "qrText": "Scan the QR code or open the link to support our heroes",
+              "qrButtonText": "Join the support",
+              "qrButtonHref": "https://syla-dlya-sylnyh.org/donate",
+              "footnote": "Optional supporting copy"
+            }
+          ]
+        },
+        {
+          "title": "United by Strength",
+          "slug": "united-by-strength",
+          "subtitle": "A support project for families of prisoners of war and people whose loved ones are missing in action.",
+          "description": "A support project for families of prisoners of war and those missing in action.",
+          "buttonText": "View",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "United by Strength",
+              "caption": "For families of POWs and the missing in action.",
+              "intro": "We bring together families waiting for the return of their loved ones into a community of mutual support, with access to legal consultations, psychological help, and information guidance.",
+              "quote": ""
+            }
+          ]
+        },
+        {
+          "title": "Through the Bars: The Strength of the Human Spirit",
+          "slug": "through-the-bars",
+          "subtitle": "An advocacy and awareness project that keeps attention on those still held in captivity or missing in action.",
+          "description": "We remind the world about those held in captivity and those missing in action.",
+          "buttonText": "View",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Through the Bars: The Strength of the Human Spirit",
+              "caption": "A voice for those still held captive.",
+              "intro": "An advocacy and awareness project that reminds society about those still held in enemy captivity or missing in action. We produce materials, hold public actions, and keep the return of our people in the spotlight.",
+              "quote": ""
+            }
+          ]
+        },
+        {
+          "title": "Moving Forward Together",
+          "slug": "moving-forward-together",
+          "subtitle": "A support and recovery project for people rebuilding life after profound hardship.",
+          "description": "We are here to keep moving forward together.",
+          "buttonText": "View",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Moving Forward Together",
+              "caption": "Support on the path to recovery.",
+              "intro": "A recovery program for people rebuilding their lives after profound hardship. We help find new footing through group work, individual consultations, and shared activities.",
+              "quote": ""
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

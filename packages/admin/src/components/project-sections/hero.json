@@ -1,0 +1,32 @@
+{
+  "collectionName": "components_project_sections_heroes",
+  "info": {
+    "displayName": "Hero",
+    "description": "Project page hero: title, image with overlay caption, intro paragraph",
+    "icon": "picture"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": ["images"]
+    },
+    "caption": {
+      "type": "text",
+      "required": false
+    },
+    "intro": {
+      "type": "text",
+      "required": false
+    },
+    "quote": {
+      "type": "text",
+      "required": false
+    }
+  }
+}

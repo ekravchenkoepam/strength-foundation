@@ -1,4 +1,4 @@
-const BLOCKED_SLUG_ROUTES = new Set(['uk/projects', 'en/projects']);
+const BLOCKED_SLUG_ROUTES = new Set<string>();
 
 const BLOCKED_SUBSLUG_ROUTES = new Set(['uk/about/contacts', 'en/about/contacts']);
 

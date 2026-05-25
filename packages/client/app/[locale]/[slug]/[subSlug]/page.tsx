@@ -3,7 +3,15 @@
 import { useParams, notFound } from 'next/navigation';
 import React, { FC } from 'react';
 
-import { ReportsPage, DocumentsPage, TeamPage, MissionPage, PartnerPage, VolunteerPage } from './components';
+import {
+  ReportsPage,
+  DocumentsPage,
+  TeamPage,
+  MissionPage,
+  PartnerPage,
+  VolunteerPage,
+  ProjectPage,
+} from './components';
 import { isBlockedSubSlugRoute } from '../../not-found-blacklist';
 import { PageProps } from '../types';
 
@@ -12,6 +20,14 @@ export default function SubPage() {
 
   if (isBlockedSubSlugRoute(locale as string, slug as string, subSlug as string)) {
     notFound();
+  }
+
+  if (slug === 'projects') {
+    return (
+      <div className="w-full">
+        <ProjectPage locale={locale} slug={slug} subSlug={subSlug} />
+      </div>
+    );
   }
 
   const pageMap: Record<string, FC<PageProps>> = {

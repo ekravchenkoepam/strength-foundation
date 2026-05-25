@@ -41,20 +41,8 @@ export default function Page() {
     notFound();
   }
 
-  if (slug === 'faq') {
-    return <PageComponent locale={locale} slug={slug} />;
-  }
-
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-      }}
-    >
+    <div className="w-full">
       <PageComponent locale={locale} slug={slug} />
     </div>
   );

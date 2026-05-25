@@ -197,13 +197,18 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+/* Base resets — must be inside @layer base so Tailwind utility classes
+   (e.g. `text-[var(--black-100)]`, `underline`) can override them. Without
+   the layer wrapper, these unlayered rules win the cascade against utilities. */
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-button:not(:disabled) {
-  cursor: pointer;
+  button:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
 ul {
@@ -292,4 +297,38 @@ ul {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* Liquid Glass                                                       */
+/*                                                                    */
+/* Two-tier progressive enhancement:                                  */
+/* 1. Base rule: blur + saturation. Works in every browser that       */
+/*    supports backdrop-filter (Chromium, Safari, Firefox 103+).      */
+/* 2. Enhancement rule: adds SVG displacement (the "lensing" warp).   */
+/*    Only parses in browsers that support url() inside               */
+/*    backdrop-filter (currently Chromium). If invalid, the whole     */
+/*    declaration is dropped and the base rule wins — exactly the     */
+/*    fallback we want.                                               */
+/*                                                                    */
+/* Pair with the <LiquidGlass> component, which adds the tint, border */
+/* and shadow layers via Tailwind classes.                            */
+/* ------------------------------------------------------------------ */
+.liquid-glass {
+  /* Base: minimal blur so underlying texture stays visible. Heavy blur was
+     killing the asphalt speckles and making transparent panels read as
+     uniform green. Tweak per-intensity below. */
+  backdrop-filter: blur(1px) saturate(140%);
+  -webkit-backdrop-filter: blur(1px) saturate(140%);
+}
+
+.liquid-glass[data-glass-intensity='subtle'] {
+  /* Subtle = barely-there glass. Low blur preserves textures; small
+     displacement scale (40 in the SVG filter) does the refraction work. */
+  backdrop-filter: url(#liquid-glass-subtle) blur(1px) saturate(140%);
+}
+
+.liquid-glass[data-glass-intensity='strong'] {
+  /* Strong = pronounced material for hero panels. More blur + saturation. */
+  backdrop-filter: url(#liquid-glass-strong) blur(12px) saturate(180%) brightness(1.05);
 }

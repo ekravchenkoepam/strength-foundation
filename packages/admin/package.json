@@ -15,6 +15,7 @@
     "seed:mission-page": "node scripts/seed-mission-page.js",
     "seed:navigation": "node scripts/seed-navigation.js",
     "seed:partners": "node scripts/seed-partners.js",
+    "seed:projects-page": "node scripts/seed-projects-page.js",
     "seed:team-page": "node scripts/seed-team-page.js",
     "seed:questionnaire": "node scripts/seed-questionnaire.js",
     "seed:testimonial": "node scripts/seed-testimonial.js"
