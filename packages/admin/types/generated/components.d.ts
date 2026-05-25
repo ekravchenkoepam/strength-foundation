@@ -186,6 +186,122 @@ export interface MissionPrinciple extends Schema.Component {
   };
 }
 
+export interface ProjectItemsContactChannel extends Schema.Component {
+  collectionName: 'components_project_items_contact_channels';
+  info: {
+    description: 'Alternative communication channel (Telegram, Viber, WhatsApp, etc.)';
+    displayName: 'Contact Channel';
+    icon: 'phone';
+  };
+  attributes: {
+    label: Attribute.String;
+    platform: Attribute.Enumeration<['telegram', 'viber', 'whatsapp', 'signal', 'messenger']> & Attribute.Required;
+    url: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface ProjectItemsPartnershipItem extends Schema.Component {
+  collectionName: 'components_project_items_partnership_items';
+  info: {
+    description: 'Expandable item shown inside the Partnership accordion';
+    displayName: 'Partnership Item';
+    icon: 'chevron-down';
+  };
+  attributes: {
+    description: Attribute.Text & Attribute.Required;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface ProjectItemsSupportItem extends Schema.Component {
+  collectionName: 'components_project_items_support_items';
+  info: {
+    description: 'Icon + title card used inside the Support Types section';
+    displayName: 'Support Item';
+    icon: 'shield';
+  };
+  attributes: {
+    icon: Attribute.Media<'images'>;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface ProjectSectionsContacts extends Schema.Component {
+  collectionName: 'components_project_sections_contacts';
+  info: {
+    description: 'Contact info block: channels, phone/email, QR code panel';
+    displayName: 'Contacts';
+    icon: 'phone';
+  };
+  attributes: {
+    channels: Attribute.Component<'project-items.contact-channel', true>;
+    channelsLabel: Attribute.String;
+    email: Attribute.String;
+    footnote: Attribute.String;
+    phone: Attribute.String;
+    qrButtonHref: Attribute.String;
+    qrButtonText: Attribute.String;
+    qrImage: Attribute.Media<'images'>;
+    qrText: Attribute.Text;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface ProjectSectionsHero extends Schema.Component {
+  collectionName: 'components_project_sections_heroes';
+  info: {
+    description: 'Project page hero: title, image with overlay caption, intro paragraph';
+    displayName: 'Hero';
+    icon: 'picture';
+  };
+  attributes: {
+    caption: Attribute.Text;
+    image: Attribute.Media<'images'>;
+    intro: Attribute.Text;
+    quote: Attribute.Text;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface ProjectSectionsPartnership extends Schema.Component {
+  collectionName: 'components_project_sections_partnerships';
+  info: {
+    description: "'How to help' accordion section";
+    displayName: 'Partnership';
+    icon: 'handshake';
+  };
+  attributes: {
+    items: Attribute.Component<'project-items.partnership-item', true>;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface ProjectSectionsSubProjects extends Schema.Component {
+  collectionName: 'components_project_sections_sub_projects';
+  info: {
+    description: 'Grid of cards linking to related Project entries';
+    displayName: 'Sub Projects';
+    icon: 'apps';
+  };
+  attributes: {
+    projects: Attribute.Relation<'project-sections.sub-projects', 'oneToMany', 'api::project.project'>;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface ProjectSectionsSupportTypes extends Schema.Component {
+  collectionName: 'components_project_sections_support_types';
+  info: {
+    description: 'Olive section listing the main kinds of support (icon + title cards)';
+    displayName: 'Support Types';
+    icon: 'grid';
+  };
+  attributes: {
+    items: Attribute.Component<'project-items.support-item', true>;
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
 export interface ReportsReport extends Schema.Component {
   collectionName: 'components_reports_reports';
   info: {
@@ -312,6 +428,14 @@ declare module '@strapi/types' {
       'home.partners-section': HomePartnersSection;
       'mission.mission-content': MissionMissionContent;
       'mission.principle': MissionPrinciple;
+      'project-items.contact-channel': ProjectItemsContactChannel;
+      'project-items.partnership-item': ProjectItemsPartnershipItem;
+      'project-items.support-item': ProjectItemsSupportItem;
+      'project-sections.contacts': ProjectSectionsContacts;
+      'project-sections.hero': ProjectSectionsHero;
+      'project-sections.partnership': ProjectSectionsPartnership;
+      'project-sections.sub-projects': ProjectSectionsSubProjects;
+      'project-sections.support-types': ProjectSectionsSupportTypes;
       'reports.report': ReportsReport;
       'reports.report-year': ReportsReportYear;
       'shared.button': SharedButton;

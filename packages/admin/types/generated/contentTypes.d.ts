@@ -913,6 +913,131 @@ export interface ApiPaymentTransactionPaymentTransaction extends Schema.Collecti
   };
 }
 
+export interface ApiProjectProject extends Schema.CollectionType {
+  collectionName: 'projects';
+  info: {
+    description: 'Projects cards and inner pages';
+    displayName: 'Projects';
+    pluralName: 'projects';
+    singularName: 'project';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    blocks: Attribute.DynamicZone<
+      [
+        'project-sections.hero',
+        'project-sections.support-types',
+        'project-sections.sub-projects',
+        'project-sections.partnership',
+        'project-sections.contacts'
+      ]
+    > &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    buttonText: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::project.project', 'oneToOne', 'admin::user'> & Attribute.Private;
+    description: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    image: Attribute.Media<'images'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    locale: Attribute.String;
+    localizations: Attribute.Relation<'api::project.project', 'oneToMany', 'api::project.project'>;
+    publishedAt: Attribute.DateTime;
+    slug: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
+    subtitle: Attribute.Text &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::project.project', 'oneToOne', 'admin::user'> & Attribute.Private;
+  };
+}
+
+export interface ApiProjectsPageProjectsPage extends Schema.SingleType {
+  collectionName: 'projects_pages';
+  info: {
+    description: '';
+    displayName: 'ProjectsPage';
+    pluralName: 'projects-pages';
+    singularName: 'projects-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::projects-page.projects-page', 'oneToOne', 'admin::user'> & Attribute.Private;
+    locale: Attribute.String;
+    localizations: Attribute.Relation<
+      'api::projects-page.projects-page',
+      'oneToMany',
+      'api::projects-page.projects-page'
+    >;
+    projects: Attribute.Relation<'api::projects-page.projects-page', 'oneToMany', 'api::project.project'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    publishedAt: Attribute.DateTime;
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::projects-page.projects-page', 'oneToOne', 'admin::user'> & Attribute.Private;
+  };
+}
+
 export interface ApiQuestionnaireQuestionnaire extends Schema.CollectionType {
   collectionName: 'questionnaires';
   info: {
@@ -1527,6 +1652,8 @@ declare module '@strapi/types' {
       'api::news.news': ApiNewsNews;
       'api::partner.partner': ApiPartnerPartner;
       'api::payment-transaction.payment-transaction': ApiPaymentTransactionPaymentTransaction;
+      'api::project.project': ApiProjectProject;
+      'api::projects-page.projects-page': ApiProjectsPageProjectsPage;
       'api::questionnaire.questionnaire': ApiQuestionnaireQuestionnaire;
       'api::report-type.report-type': ApiReportTypeReportType;
       'api::social.social': ApiSocialSocial;

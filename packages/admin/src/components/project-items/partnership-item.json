@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_project_items_partnership_items",
+  "info": {
+    "displayName": "Partnership Item",
+    "description": "Expandable item shown inside the Partnership accordion",
+    "icon": "chevron-down"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text",
+      "required": true
+    }
+  }
+}
