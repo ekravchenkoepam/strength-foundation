@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 
 import styles from '../page.module.scss';
 
-import { Button, ButtonTypeEnum, MemberCard } from '@/app/components/shared';
+import { Button, ButtonTypeEnum, LiquidGlass, MemberCard } from '@/app/components/shared';
 import { useApp } from '@/app/context/AppContext';
 import { getStrapiMedia } from '@/app/utils/api-helpers';
 import { fetchAPI } from '@/app/utils/fetch-api';
@@ -539,6 +539,35 @@ export default function Home() {
     };
   }, [activitiesApi]);
 
+  // Auto-height: Embla lays slides out as equal-height flex siblings, so short
+  // slides inherit the tallest slide's height and leave an empty gap below.
+  // Resize the viewport to the active slide's card height on select/resize.
+  useEffect(() => {
+    if (!activitiesApi) return;
+
+    const viewport = activitiesApi.rootNode();
+
+    const syncHeight = () => {
+      const index = activitiesApi.selectedScrollSnap();
+      const slide = activitiesApi.slideNodes()[index];
+      const card = slide?.firstElementChild as HTMLElement | undefined;
+      if (viewport && card) {
+        viewport.style.height = `${card.offsetHeight}px`;
+      }
+    };
+
+    syncHeight();
+    activitiesApi.on('select', syncHeight);
+    activitiesApi.on('reInit', syncHeight);
+    window.addEventListener('resize', syncHeight);
+
+    return () => {
+      activitiesApi.off('select', syncHeight);
+      activitiesApi.off('reInit', syncHeight);
+      window.removeEventListener('resize', syncHeight);
+    };
+  }, [activitiesApi]);
+
   const currentLocale = locale || 'uk';
   const partnerPlaceholderText = currentLocale === 'en' ? 'Place for your company' : 'Місце для вашої компанії';
 
@@ -645,7 +674,7 @@ export default function Home() {
   if (isLoading) {
     return (
       <div className={styles.homePage}>
-        <div className="px-[52px] pt-8 max-[960px]:px-5 max-[640px]:px-3 max-[420px]:px-2">
+        <div className="px-[52px] pt-8 max-[960px]:px-5 max-[640px]:px-3 max-[420px]:px-3">
           <div className="mb-4 h-[72px] w-3/4 animate-pulse rounded-lg bg-[#e8e5de] mx-auto" />
           <div
             className="h-[695px] max-[1200px]:h-[clamp(260px,40vw,470px)]
@@ -674,8 +703,8 @@ export default function Home() {
     <div className={styles.homePage}>
       {introSection ? (
         <section
-          className="mb-[120px] px-[52px] pt-8 max-[960px]:px-5 max-[960px]:pb-10 max-[960px]:pt-7
-          max-[640px]:px-3 max-[640px]:pb-7 max-[640px]:pt-6 max-[420px]:px-2"
+          className="mb-[120px] px-[52px] pt-8 max-[960px]:mb-0 max-[960px]:px-5 max-[960px]:pb-10 max-[960px]:pt-7
+          max-[640px]:px-3 max-[640px]:pb-7 max-[640px]:pt-6 max-[420px]:px-3"
         >
           <div className="w-full">
             <div className="flex w-full flex-col items-center gap-[6px] max-[640px]:gap-1">
@@ -695,32 +724,44 @@ export default function Home() {
             </div>
 
             <div
-              className="relative mt-4 h-[695px] overflow-hidden bg-[#f3efe5] max-[1200px]:h-[clamp(260px,40vw,470px)]
-              max-[960px]:h-[clamp(220px,42vw,300px)] max-[640px]:mt-4 max-[640px]:flex max-[640px]:h-auto
-              max-[640px]:flex-col max-[640px]:gap-[10px] max-[640px]:p-[10px]"
+              className="relative mt-4 h-[695px] overflow-hidden rounded-[12px] bg-[#f3efe5]
+              max-[1200px]:h-[clamp(260px,40vw,470px)]
+              max-[960px]:h-[clamp(220px,42vw,300px)]
+              max-[640px]:mt-4 max-[640px]:h-[360px] max-[420px]:h-[320px]"
             >
               {introSection.imageUrl ? (
                 <Image
                   src={introSection.imageUrl}
                   alt={introSection.imageAlt}
-                  className="h-full w-full rounded-[12px] object-cover object-center max-[640px]:h-[220px] max-[420px]:h-[190px]"
+                  className="h-full w-full rounded-[12px] object-cover object-center"
                   width={1200}
                   height={800}
                 />
               ) : (
-                <div className="h-full w-full rounded-[12px] bg-[#f3efe5] max-[640px]:h-[220px] max-[420px]:h-[190px]" />
+                <div className="h-full w-full rounded-[12px] bg-[#f3efe5]" />
               )}
-              <p
-                className="m-0 max-w-[470px] border px-3 py-[10px] text-[13px] leading-[1.4] text-[#2e2a21]
-                backdrop-blur-[5px] max-[960px]:max-w-[calc(100%-24px)] max-[960px]:text-[12px]
-                max-[960px]:leading-[1.35] max-[640px]:max-w-full max-[640px]:border-[#d7d7cf]
-                max-[640px]:bg-[#efefeb] max-[640px]:text-[12px] max-[640px]:leading-[1.45]
-                max-[640px]:backdrop-blur-none max-[420px]:px-[10px] max-[420px]:py-2 max-[420px]:text-[11px]
-                min-[641px]:absolute min-[641px]:bottom-4 min-[641px]:right-4 min-[641px]:rounded-[2px]
-                min-[641px]:border-white/80 min-[641px]:bg-[rgba(255,248,235,0.46)]"
+              <LiquidGlass
+                tint="neutral"
+                intensity="subtle"
+                /* Clear translucent plate — minimal blur keeps the photo
+                   readable through it so the edge refraction (displacement)
+                   stays visible, matching the design's glass-rim look.
+                   Inline style wins over TINT_CLASS regardless of utility order. */
+                style={{ background: 'rgba(255, 255, 255, 0.12)' }}
+                className="absolute right-5 bottom-5 max-w-[520px] rounded-[14px] px-6 py-5
+                max-[960px]:right-4 max-[960px]:bottom-4 max-[960px]:max-w-[calc(100%-32px)] max-[960px]:px-5 max-[960px]:py-4
+                max-[640px]:right-3 max-[640px]:bottom-3 max-[640px]:left-3 max-[640px]:max-w-none max-[640px]:px-4 max-[640px]:py-3
+                max-[420px]:right-2 max-[420px]:bottom-2 max-[420px]:left-2 max-[420px]:px-[14px] max-[420px]:py-[10px]"
               >
-                {introSection.description}
-              </p>
+                <p
+                  className="m-0 text-[18px] leading-[1.35] font-bold text-[var(--black-100)]
+                  max-[960px]:text-[16px]
+                  max-[640px]:text-[14px] max-[640px]:leading-[1.4]
+                  max-[420px]:text-[13px]"
+                >
+                  {introSection.description}
+                </p>
+              </LiquidGlass>
             </div>
           </div>
         </section>
@@ -729,17 +770,18 @@ export default function Home() {
       {aboutSection ? (
         <section
           className="px-[52px] pb-[68px] max-[960px]:px-5 max-[960px]:pb-[50px] max-[960px]:pt-[38px]
-          max-[640px]:px-3 max-[640px]:py-[44px] max-[420px]:px-2 max-[420px]:py-[32px]"
+          max-[640px]:px-3 max-[640px]:py-[44px] max-[420px]:px-3 max-[420px]:py-[32px]"
         >
           <div className="w-full">
             <h2 className={styles.sectionTitle}>{aboutSection.title}</h2>
 
-            <div className="mt-[58px] flex w-full items-start justify-around gap-[32px] max-[1200px]:gap-6 max-[960px]:flex-col">
-              <div className="flex flex-1 max-[960px]:block">
+            <div className="mt-[58px] flex w-full items-start justify-around gap-[32px] max-[1200px]:gap-6 max-[960px]:mt-10 max-[960px]:flex-col max-[960px]:gap-6 max-[640px]:mt-7">
+              <div className="flex flex-1 max-[960px]:block max-[960px]:w-full">
                 {aboutSection.imageUrl ? (
                   <Image
                     className="h-[clamp(420px,34vw,580px)] w-full rounded-[10px] bg-[#cfcfcf]
-                    object-cover [object-position:center_62%] max-[960px]:h-[clamp(220px,32vw,300px)]"
+                    object-cover [object-position:center_62%]
+                    max-[960px]:h-[clamp(280px,38vw,360px)] max-[640px]:h-[240px] max-[420px]:h-[210px]"
                     src={aboutSection.imageUrl}
                     alt={aboutSection.imageAlt}
                     width={1200}
@@ -747,7 +789,8 @@ export default function Home() {
                   />
                 ) : (
                   <div
-                    className="h-[clamp(420px,34vw,580px)] w-full rounded-[10px] bg-[#cfcfcf] max-[960px]:h-[clamp(220px,32vw,300px)]"
+                    className="h-[clamp(420px,34vw,580px)] w-full rounded-[10px] bg-[#cfcfcf]
+                    max-[960px]:h-[clamp(280px,38vw,360px)] max-[640px]:h-[240px] max-[420px]:h-[210px]"
                     aria-hidden
                   />
                 )}
@@ -755,7 +798,7 @@ export default function Home() {
 
               <div
                 className="flex h-[clamp(420px,34vw,580px)] w-full flex-1 flex-col gap-[14px] text-[16px]
-                leading-[1.62] text-[#151512] max-[960px]:h-auto max-[640px]:text-[15px]
+                leading-[1.62] tracking-[-0.01em] text-justify text-[#151512] max-[960px]:h-auto max-[640px]:text-[15px]
                 max-[420px]:gap-[10px] max-[420px]:text-[14px] max-[420px]:leading-[1.5]"
               >
                 {aboutSection.description.map((paragraph, index) => (
@@ -796,7 +839,7 @@ export default function Home() {
 
       {activitiesSection ? (
         <section className={styles.activitiesSection}>
-          <div className="w-full px-[52px] max-[960px]:px-5 max-[640px]:px-3 max-[420px]:px-2">
+          <div className="w-full px-[52px] max-[960px]:px-5 max-[640px]:px-3 max-[420px]:px-3">
             <h2 className={clsx(styles.sectionTitle, styles.sectionTitleLight)}>{activitiesSection.title}</h2>
 
             <Carousel setApi={setActivitiesApi} opts={{ align: 'start' }} className={styles.activitiesCarousel}>
