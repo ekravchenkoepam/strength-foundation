@@ -3,6 +3,16 @@
   color: var(--black-100);
 }
 
+/* Global text treatment for every section: tighter tracking + justified body
+   text. Scoped to p/div so headings (h1/h2) keep their own centred alignment;
+   letter-spacing still inherits down to those headings to keep it consistent. */
+.homePage p,
+.homePage div {
+  font-size: 13px;
+  letter-spacing: -1px;
+  text-align: justify;
+}
+
 .container {
   width: min(1240px, calc(100% - 104px));
   margin: 0 auto;
@@ -11,7 +21,7 @@
 .sectionTitle {
   margin: 0;
   text-align: center;
-  font-size: 44px;
+  font-size: 36px;
   line-height: 1.2;
   font-weight: var(--font-bold);
   font-family: var(--font-e-ukraine-head);
@@ -33,8 +43,16 @@
   margin-top: 68px;
 }
 
+/* Smooth the JS-driven auto-height resize (see syncHeight effect in page.tsx). */
+.activitiesCarousel :global([data-slot='carousel-content']) {
+  transition: height 0.25s ease;
+}
+
 .activitiesCarousel :global([data-slot='carousel-content'] > div) {
   margin-left: 0 !important;
+  /* Don't stretch slides to equal height — let each take its content height so
+     the auto-height resize lands on the active slide's real size. */
+  align-items: flex-start;
 }
 
 .activitySlide {
@@ -473,6 +491,10 @@
     justify-content: center;
   }
 
+  .mediaContainer {
+    padding: 0 20px;
+  }
+
   .mediaGrid {
     grid-template-columns: 1fr;
   }
@@ -487,6 +509,10 @@
 
   .partnerCardHighlight {
     grid-column: span 2;
+  }
+
+  .ambassadorsContainer {
+    padding: 0 20px;
   }
 
   .ambassadorsGrid {
@@ -514,7 +540,7 @@
   }
 
   .sectionTitle {
-    font-size: 30px;
+    font-size: 24px;
   }
 
   .helpSection,
@@ -523,6 +549,10 @@
   .ambassadorsSection {
     padding-top: 44px;
     padding-bottom: 52px;
+  }
+
+  .ambassadorsContainer {
+    padding: 0 12px;
   }
 
   .helpText {
@@ -556,6 +586,18 @@
     font-size: 16px;
   }
 
+  .mediaContainer {
+    padding: 0 12px;
+  }
+
+  /* Title → content gap is too large on mobile; tighten the section grids. */
+  .activitiesCarousel,
+  .mediaGrid,
+  .partnersGrid,
+  .ambassadorsGrid {
+    margin-top: 24px;
+  }
+
   .mediaPreview {
     height: 160px;
   }
@@ -574,12 +616,17 @@
   }
 
   .partnersGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
-  .partnerCard,
-  .partnerCardHighlight {
+  .partnerCard {
     grid-column: span 1;
+    min-height: 86px;
+    font-size: 20px;
+  }
+
+  .partnerCardHighlight {
+    grid-column: span 2;
     min-height: 86px;
     font-size: 20px;
   }
@@ -611,11 +658,11 @@
 
 @media (max-width: 420px) {
   .container {
-    width: min(1240px, calc(100% - 16px));
+    width: min(1240px, calc(100% - 24px));
   }
 
   .sectionTitle {
-    font-size: 26px;
+    font-size: 22px;
   }
 
   .activitiesSection,
@@ -625,6 +672,11 @@
   .ambassadorsSection {
     padding-top: 32px;
     padding-bottom: 38px;
+  }
+
+  .mediaContainer,
+  .ambassadorsContainer {
+    padding: 0 12px;
   }
 
   .mediaPreview {
