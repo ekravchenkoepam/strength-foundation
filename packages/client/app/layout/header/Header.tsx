@@ -1,20 +1,17 @@
 'use client';
 
 import clsx from 'clsx';
-import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import styles from './header.module.scss';
-
 import { ArrowDown } from '@/app/components/icons';
-import { Button, ButtonTypeEnum, Logo, Socials } from '@/app/components/shared';
+import { Button, ButtonTypeEnum, LiquidGlass, Logo, Socials } from '@/app/components/shared';
 import { useApp } from '@/app/context/AppContext';
 import { sortByPosition } from '@/app/helpers';
+import { NavBar } from '@/app/layout/header/components/NavBar/NavBar';
 import { SOCIALS_STYLES } from '@/app/layout/header/constants';
 import { getHeaderTranslations } from '@/app/layout/header/i18n';
-import { LanguageSwitch } from '@/app/layout/header/LanguageSwitch';
 import { LinkType } from '@/app/types';
 
 // Persists across remounts (locale changes) so initial state is always correct
@@ -82,70 +79,21 @@ export const Header = () => {
               type={ButtonTypeEnum.Primary}
               className="
                 border-2 border-[var(--green-100)] px-4 py-2 text-sm leading-5 transition-colors
-                hover:!bg-[var(--green-100)] hover:!text-[var(--white-100)]
+                hover:!bg-[var(--green-80)] border-2 border-[var(--green-100)] hover:!text-[var(--white-100)]
                 sm:px-5 sm:py-3 lg:px-[30px] lg:py-[14px] lg:text-base
               "
               onClick={() => router.push(`/${locale}/donate`)}
             />
           </div>
         </div>
-
-        <div
-          className={clsx(
-            'grid w-full grid-cols-[1fr_auto_auto] items-center border-b-2 border-[var(--yellow-100)]',
-            'px-4 py-3 md:px-6 md:py-4 lg:grid-cols-[auto_1fr_auto] lg:px-[70px] lg:py-[22px]',
-            'transition-all duration-300',
-            scrolled
-              ? 'bg-[rgba(255,255,255,0.82)] backdrop-blur-md'
-              : 'bg-[var(--white-100)]'
-          )}
-        >
-          <div className="justify-self-start">
-            <Logo />
-          </div>
-
-          <nav className="hidden items-center justify-center lg:flex lg:px-16">
-            <ul className={styles.desktopLinksContainer}>
-              {visibleLinks?.map(({ href, title, sublinks }: LinkType) => (
-                <li key={title}>
-                  <Link href={`/${locale}/${href}`} className="h6 flex items-center text-[var(--black-100)]">
-                    {title}
-                    {hasSublinks(sublinks) && <ArrowDown />}
-                  </Link>
-
-                  {hasSublinks(sublinks) && (
-                    <ul className={styles.sublinks}>
-                      {sublinks.map((sublink: LinkType) => (
-                        <li key={sublink.title}>
-                          <Link href={`/${locale}/${href}/${sublink.href}`}>{sublink.title}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          <div className="hidden justify-self-end lg:block">
-            <LanguageSwitch />
-          </div>
-
-          <div className="ml-2 flex items-center gap-3 justify-self-end lg:hidden">
-            <LanguageSwitch />
-            <button
-              type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-md text-[var(--green-100)]"
-              onClick={() => setIsMenuOpen(prev => !prev)}
-              aria-expanded={isMenuOpen}
-              aria-controls="mobile-menu"
-              aria-label={isMenuOpen ? t.closeMenuLabel : t.openMenuLabel}
-            >
-              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
-          </div>
-        </div>
-
+        <NavBar
+          isMenuOpen={isMenuOpen}
+          setIsMenuOpen={setIsMenuOpen}
+          scrolled={scrolled}
+          locale={locale}
+          visibleLinks={visibleLinks}
+          hasSublinks={hasSublinks}
+        />
         <div
           id="mobile-menu"
           className={clsx(
