@@ -79,7 +79,7 @@ export const Header = () => {
               type={ButtonTypeEnum.Primary}
               className="
                 border-2 border-[var(--green-100)] px-4 py-2 text-sm leading-5 transition-colors
-                hover:!bg-[var(--green-80)] border-2 border-[var(--green-100)] hover:!text-[var(--white-100)]
+                hover:!bg-[var(--green-100)] hover:!border-[var(--white-100)] hover:!text-[var(--white-100)]
                 sm:px-5 sm:py-3 lg:px-[30px] lg:py-[14px] lg:text-base
               "
               onClick={() => router.push(`/${locale}/donate`)}
@@ -155,7 +155,7 @@ export const Header = () => {
                 type={ButtonTypeEnum.Primary}
                 className="
                   w-full justify-center border-2 border-[var(--green-100)] transition-colors
-                  hover:!bg-[var(--green-100)] hover:!text-[var(--white-100)]
+                  hover:!bg-[var(--green-100)] hover:!border-[var(--white-100)] hover:!text-[var(--white-100)]
                 "
                 onClick={() => {
                   closeMenu();
