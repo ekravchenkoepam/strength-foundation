@@ -51,7 +51,7 @@ function readSeedFile() {
   return data.locales;
 }
 
-function normalizeProjectItem(projectItem) {
+function normalizeProjectItem(projectItem, index) {
   if (projectItem && typeof projectItem === 'object') {
     return {
       title: projectItem.title,
@@ -59,6 +59,8 @@ function normalizeProjectItem(projectItem) {
       subtitle: projectItem.subtitle || '',
       description: projectItem.description || '',
       buttonText: projectItem.buttonText || '',
+      position: Number.isFinite(projectItem.position) ? projectItem.position : index + 1,
+      hidden: projectItem.hidden === true,
       // `blocks` is the dynamic zone — keep raw, normalized at apply-time so
       // we can resolve sub-projects relations after the first seeding pass.
       blocks: Array.isArray(projectItem.blocks) ? projectItem.blocks : [],
@@ -101,6 +103,8 @@ async function upsertLocalizedProject(strapi, locale, projectItem, localizationI
     subtitle: projectItem.subtitle,
     description: projectItem.description,
     buttonText: projectItem.buttonText,
+    position: projectItem.position,
+    hidden: projectItem.hidden,
     publishedAt: new Date().toISOString(),
   };
 

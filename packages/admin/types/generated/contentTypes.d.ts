@@ -960,6 +960,13 @@ export interface ApiProjectProject extends Schema.CollectionType {
           localized: true;
         };
       }>;
+    hidden: Attribute.Boolean &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Attribute.DefaultTo<false>;
     image: Attribute.Media<'images'> &
       Attribute.SetPluginOptions<{
         i18n: {
@@ -968,6 +975,13 @@ export interface ApiProjectProject extends Schema.CollectionType {
       }>;
     locale: Attribute.String;
     localizations: Attribute.Relation<'api::project.project', 'oneToMany', 'api::project.project'>;
+    position: Attribute.Integer &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }> &
+      Attribute.DefaultTo<0>;
     publishedAt: Attribute.DateTime;
     slug: Attribute.String &
       Attribute.Required &

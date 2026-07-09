@@ -168,6 +168,7 @@
           "subtitle": "Серія зустрічей для звільнених військовополонених.",
           "description": "Серія зустрічей для звільнених військовополонених, спрямована на формування спільноти та мʼяку адаптацію після повернення. У безпечному середовищі учасники зможуть відновлювати ресурс через спілкування, взаємопідтримку та дозвіллєві формати.",
           "buttonText": "Переглянути",
+          "hidden": true,
           "blocks": [
             {
               "__component": "project-sections.hero",
@@ -184,6 +185,7 @@
           "subtitle": "Юридичний супровід після повернення з полону.",
           "description": "Звільнені з полону військові після повернення стикаються зі складними юридичними та бюрократичними процедурами, зокрема оформленням статусів, відновленням документів і отриманням виплат. Програма юридичної допомоги забезпечує зрозумілий супровід у взаємодії з державними органами.",
           "buttonText": "Переглянути",
+          "hidden": true,
           "blocks": [
             {
               "__component": "project-sections.hero",
@@ -200,6 +202,7 @@
           "subtitle": "Психологічна підтримка та супровід адаптації.",
           "description": "Програма психологічної допомоги створює безпечний простір підтримки та надає фаховий супровід для відновлення, стабілізації й поступового повернення до життя.",
           "buttonText": "Переглянути",
+          "hidden": true,
           "blocks": [
             {
               "__component": "project-sections.hero",
@@ -216,6 +219,7 @@
           "subtitle": "Тестова копія проєкту для перевірки пагінації.",
           "description": "Серія зустрічей для звільнених військовополонених, спрямована на формування спільноти та мʼяку адаптацію після повернення. У безпечному середовищі учасники зможуть відновлювати ресурс через спілкування, взаємопідтримку та дозвіллєві формати.",
           "buttonText": "Переглянути",
+          "hidden": true,
           "blocks": [
             {
               "__component": "project-sections.hero",
@@ -232,6 +236,7 @@
           "subtitle": "Тестова копія проєкту для перевірки пагінації.",
           "description": "Звільнені з полону військові після повернення стикаються зі складними юридичними та бюрократичними процедурами, зокрема оформленням статусів, відновленням документів і отриманням виплат. Програма юридичної допомоги забезпечує зрозумілий супровід у взаємодії з державними органами.",
           "buttonText": "Переглянути",
+          "hidden": true,
           "blocks": [
             {
               "__component": "project-sections.hero",
@@ -248,6 +253,7 @@
           "subtitle": "Тестова копія проєкту для перевірки пагінації.",
           "description": "Програма психологічної допомоги створює безпечний простір підтримки та надає фаховий супровід для відновлення, стабілізації й поступового повернення до життя.",
           "buttonText": "Переглянути",
+          "hidden": true,
           "blocks": [
             {
               "__component": "project-sections.hero",
@@ -428,6 +434,7 @@
           "subtitle": "A series of meetings for released prisoners of war.",
           "description": "A series of meetings for released prisoners of war focused on building community and supporting a gentle adaptation after returning home. In a safe environment, participants can restore their resources through conversation, mutual support, and shared leisure formats.",
           "buttonText": "View",
+          "hidden": true,
           "blocks": [
             {
               "__component": "project-sections.hero",
@@ -444,6 +451,7 @@
           "subtitle": "Legal support after returning from captivity.",
           "description": "After returning from captivity, released service members face complex legal and bureaucratic procedures, including status registration, document restoration, and access to payments. The legal assistance program provides clear support in communication with state institutions.",
           "buttonText": "View",
+          "hidden": true,
           "blocks": [
             {
               "__component": "project-sections.hero",
@@ -460,6 +468,7 @@
           "subtitle": "Psychological support and adaptation guidance.",
           "description": "The psychological assistance program creates a safe space for support and provides professional guidance for recovery, stabilization, and a gradual return to everyday life.",
           "buttonText": "View",
+          "hidden": true,
           "blocks": [
             {
               "__component": "project-sections.hero",
@@ -476,6 +485,7 @@
           "subtitle": "A test copy of the project for pagination checks.",
           "description": "A series of meetings for released prisoners of war focused on building community and supporting a gentle adaptation after returning home. In a safe environment, participants can restore their resources through conversation, mutual support, and shared leisure formats.",
           "buttonText": "View",
+          "hidden": true,
           "blocks": [
             {
               "__component": "project-sections.hero",
@@ -492,6 +502,7 @@
           "subtitle": "A test copy of the project for pagination checks.",
           "description": "After returning from captivity, released service members face complex legal and bureaucratic procedures, including status registration, document restoration, and access to payments. The legal assistance program provides clear support in communication with state institutions.",
           "buttonText": "View",
+          "hidden": true,
           "blocks": [
             {
               "__component": "project-sections.hero",
@@ -508,6 +519,7 @@
           "subtitle": "A test copy of the project for pagination checks.",
           "description": "The psychological assistance program creates a safe space for support and provides professional guidance for recovery, stabilization, and a gradual return to everyday life.",
           "buttonText": "View",
+          "hidden": true,
           "blocks": [
             {
               "__component": "project-sections.hero",
