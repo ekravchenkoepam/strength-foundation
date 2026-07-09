@@ -110,11 +110,11 @@ export const ProjectsPage = ({ locale }: PageProps) => {
         <h1 className="h1 mb-8 text-center text-[var(--black-100)] md:mb-12 lg:mb-[68px]">{title}</h1>
 
         {projects.length ? (
-          <div className="grid gap-[32px] md:grid-cols-2 xl:grid-cols-3">
+          <div className="mx-auto grid w-full grid-cols-1 justify-center gap-[32px] md:grid-cols-2 lg:w-3/4">
             {projects.map(project => (
               <article
                 key={project.id}
-                className="group relative isolate h-[420px] overflow-hidden rounded-[18px] bg-[var(--green-20)] shadow-[0_22px_48px_rgba(0,0,0,0.14)] md:h-[460px]"
+                className="group relative isolate h-[420px] overflow-hidden rounded-[18px] bg-[var(--green-20)] shadow-[0_22px_48px_rgba(0,0,0,0.14)] md:h-[460px] xl:h-[560px]"
               >
                 {project.imageUrl ? (
                   <img
@@ -129,7 +129,7 @@ export const ProjectsPage = ({ locale }: PageProps) => {
                 <LiquidGlass
                   tint="dark"
                   intensity="strong"
-                  className="absolute inset-x-5 top-[38%] bottom-5 flex flex-col gap-3 rounded-[16px] p-6 md:inset-x-[22px] md:bottom-[22px]"
+                  className="absolute inset-x-5 top-[44%] bottom-5 flex flex-col gap-3 rounded-[16px] p-6 md:inset-x-[22px] md:bottom-[22px] xl:top-[48%]"
                 >
                   <h2 className="m-0 line-clamp-2 text-[22px] leading-[1.2] font-bold tracking-[-0.01em] text-white md:text-[24px]">
                     {project.title}

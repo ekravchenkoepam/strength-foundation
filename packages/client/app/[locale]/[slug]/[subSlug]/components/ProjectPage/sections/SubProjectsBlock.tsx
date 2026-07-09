@@ -1,10 +1,11 @@
 'use client';
 
+import clsx from 'clsx';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 
-import { getStrapiMedia } from '@/app/utils/api-helpers';
+import styles from './SubProjectsBlock.module.scss';
 
 import { SubProjectsBlock as SubProjectsBlockProps } from '../types';
 
@@ -22,6 +23,8 @@ export const SubProjectsBlock = ({ title, projects }: SubProjectsBlockProps) => 
   const items = projects?.data ?? [];
   const totalPages = Math.max(1, Math.ceil(items.length / PAGE_SIZE));
   const [page, setPage] = useState(1);
+  const [animationDirection, setAnimationDirection] = useState<'next' | 'prev'>('next');
+  const [hasPaged, setHasPaged] = useState(false);
 
   const pageItems = useMemo(() => {
     const start = (page - 1) * PAGE_SIZE;
@@ -30,14 +33,27 @@ export const SubProjectsBlock = ({ title, projects }: SubProjectsBlockProps) => 
 
   if (!items.length) return null;
 
+  const changePage = (nextPage: number) => {
+    if (nextPage === page) return;
+
+    setAnimationDirection(nextPage > page ? 'next' : 'prev');
+    setHasPaged(true);
+    setPage(nextPage);
+  };
+
   return (
     <section className="flex w-full flex-col gap-10 py-[60px]">
       <h2 className="m-0 text-center text-[28px] font-bold text-[var(--black-100)] md:text-[32px]">{title}</h2>
 
-      <div className="grid grid-cols-1 gap-[32px] md:grid-cols-3">
+      <div
+        key={page}
+        className={clsx(
+          'grid grid-cols-1 gap-[32px] md:grid-cols-3',
+          hasPaged && (animationDirection === 'next' ? styles.slideNext : styles.slidePrev)
+        )}
+      >
         {pageItems.map(project => {
           const attrs = project.attributes;
-          const imageUrl = attrs?.image?.data?.attributes?.url;
           const slug = attrs?.slug;
 
           return (
@@ -46,14 +62,6 @@ export const SubProjectsBlock = ({ title, projects }: SubProjectsBlockProps) => 
               className="overflow-hidden rounded-[10px] bg-[#C4C4C4] p-[30px]"
             >
               <div className="flex h-full min-h-[296px] flex-col gap-4 rounded-[8px] bg-black/40 p-[18px] text-white">
-                {imageUrl ? (
-                  <div
-                    className="h-[100px] w-full overflow-hidden rounded-[6px] bg-cover bg-center"
-                    style={{ backgroundImage: `url(${getStrapiMedia(imageUrl)})` }}
-                    aria-hidden="true"
-                  />
-                ) : null}
-
                 <h3 className="m-0 text-[20px] leading-[1.25] font-bold">{attrs?.title}</h3>
 
                 {attrs?.description ? (
@@ -77,16 +85,16 @@ export const SubProjectsBlock = ({ title, projects }: SubProjectsBlockProps) => 
       </div>
 
       {totalPages > 1 ? (
-        <nav className="flex justify-end gap-3" aria-label="Sub-projects pagination">
+        <nav className="flex justify-end gap-[10px]" aria-label="Sub-projects pagination">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map(n => (
             <button
               key={n}
               type="button"
-              onClick={() => setPage(n)}
-              className={`flex h-10 w-10 items-center justify-center rounded-full border-[1.5px] text-[14px] font-semibold transition-colors duration-150 ease-out ${
+              onClick={() => changePage(n)}
+              className={`flex h-10 w-10 items-center justify-center rounded-full border text-[16px] leading-none font-semibold transition-colors duration-150 ease-out ${
                 n === page
                   ? 'border-[var(--green-100)] bg-[var(--green-100)] text-white'
-                  : 'border-[var(--yellow-100)] bg-transparent text-[var(--black-100)] hover:bg-[var(--yellow-100)]/15'
+                  : 'border-[var(--green-80)] bg-transparent text-[var(--green-80)] hover:bg-[var(--green-80)]/10'
               }`}
               aria-current={n === page ? 'page' : undefined}
             >

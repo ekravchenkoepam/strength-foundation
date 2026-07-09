@@ -9,10 +9,10 @@ export const PartnershipBlock = ({ title, items = [] }: PartnershipBlockProps) =
   const [openId, setOpenId] = useState<number | null>(items[0]?.id ?? null);
 
   return (
-    <section className="mx-auto flex w-full max-w-[1100px] flex-col gap-6">
+    <section className="flex w-full flex-col gap-6 pb-[100px]">
       <h2 className="m-0 text-center text-[26px] font-bold text-[var(--black-100)] md:text-3xl">{title}</h2>
 
-      <div className="flex flex-col gap-4 rounded-[18px] bg-white p-[18px] shadow-[0_18px_40px_rgba(0,0,0,0.06)] md:p-[20px]">
+      <div className="flex w-full flex-col gap-4 rounded-[18px] bg-white p-[18px] shadow-[0_18px_40px_rgba(0,0,0,0.06)] md:p-[32px]">
         {items.map(item => {
           const isOpen = openId === item.id;
           return (

@@ -29,6 +29,9 @@ export const SupportTypesBlock = ({ title, items = [] }: SupportTypesBlockProps)
                 </div>
               ) : null}
               <h3 className="m-0 text-base font-semibold text-white">{item.title}</h3>
+              {item.description ? (
+                <p className="m-0 text-[14px] leading-[1.45] text-white">{item.description}</p>
+              ) : null}
             </LiquidGlass>
           );
         })}

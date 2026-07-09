@@ -47,9 +47,9 @@ export const ProjectPage = ({ locale, subSlug }: PageProps) => {
   const blocks = project.attributes.blocks;
 
   return (
-    <section className="w-full bg-[var(--white-80)] pb-14 md:pb-20 lg:pb-24">
+    <section className="w-full bg-[var(--white-80)]">
       <div className="flex w-full flex-col px-[52px]">
-        <BlockRenderer blocks={blocks} />
+        <BlockRenderer blocks={blocks} locale={locale} />
       </div>
     </section>
   );

@@ -25,6 +25,7 @@ export type HeroBlock = {
 export type SupportItem = {
   id: number;
   title: string;
+  description?: string | null;
   icon?: StrapiMedia;
 };
 
