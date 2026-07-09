@@ -71,6 +71,12 @@ export const ProjectsPage = ({ locale }: PageProps) => {
           locale,
           populate: {
             projects: {
+              sort: ['position:asc', 'id:asc'],
+              filters: {
+                hidden: {
+                  $ne: true,
+                },
+              },
               populate: {
                 image: '*',
               },
