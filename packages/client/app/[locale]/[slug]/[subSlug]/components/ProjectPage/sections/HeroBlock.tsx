@@ -38,9 +38,7 @@ export const HeroBlock = ({ title, image, caption, intro, quote }: HeroBlockProp
 
       {quote ? (
         <blockquote className="mx-auto flex w-full max-w-[820px] flex-col gap-3 rounded-2xl border-2 border-[var(--yellow-100,#f5cf3e)] bg-white p-7 md:p-9">
-          <span className="font-serif text-[56px] leading-[0.6] text-[var(--yellow-100,#f5cf3e)]" aria-hidden="true">
-            &ldquo;
-          </span>
+          <img src="/images/quotes.svg" alt="" className="h-[53px] w-[84px]" aria-hidden="true" />
           <p className="m-0 text-lg leading-[1.45] font-semibold text-[var(--black-100)] md:text-xl">{quote}</p>
         </blockquote>
       ) : null}

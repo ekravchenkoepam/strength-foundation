@@ -221,6 +221,7 @@ export interface ProjectItemsSupportItem extends Schema.Component {
     icon: 'shield';
   };
   attributes: {
+    description: Attribute.Text;
     icon: Attribute.Media<'images'>;
     title: Attribute.String & Attribute.Required;
   };

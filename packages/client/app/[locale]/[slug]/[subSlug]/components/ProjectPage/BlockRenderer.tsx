@@ -3,9 +3,10 @@ import { ProjectBlock } from './types';
 
 type Props = {
   blocks?: ProjectBlock[] | null;
+  locale: string;
 };
 
-export const BlockRenderer = ({ blocks }: Props) => {
+export const BlockRenderer = ({ blocks, locale }: Props) => {
   if (!blocks?.length) return null;
 
   return (
@@ -21,7 +22,7 @@ export const BlockRenderer = ({ blocks }: Props) => {
           case 'project-sections.partnership':
             return <PartnershipBlock key={`${block.__component}-${block.id}`} {...block} />;
           case 'project-sections.contacts':
-            return <ContactsBlock key={`${block.__component}-${block.id}`} {...block} />;
+            return <ContactsBlock key={`${block.__component}-${block.id}`} {...block} locale={locale} />;
           default: {
             if (process.env.NODE_ENV !== 'production') {
               // eslint-disable-next-line no-console

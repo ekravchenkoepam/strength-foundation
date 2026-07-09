@@ -1,7 +1,7 @@
 {
   "locales": {
     "uk": {
-      "title": "Наші проєкти",
+      "title": "Наші програми",
       "projects": [
         {
           "title": "Вдома чекали",
@@ -28,8 +28,15 @@
             },
             {
               "__component": "project-sections.sub-projects",
-              "title": "Проєкти, які входять в програму \"Вдома чекали\"",
-              "projects": ["united-by-strength", "through-the-bars", "moving-forward-together"]
+              "title": "Проєкти які входять в програму “Вдома чекали”",
+              "projects": [
+                "svoi",
+                "legal-assistance",
+                "psychological-assistance",
+                "svoi-test",
+                "legal-assistance-test",
+                "psychological-assistance-test"
+              ]
             },
             {
               "__component": "project-sections.partnership",
@@ -84,37 +91,169 @@
               "caption": "Для родин військовополонених і зниклих безвісти.",
               "intro": "Ми об'єднуємо родини, які чекають на повернення своїх близьких, у спільноту взаємопідтримки. Тут вони отримують юридичні консультації, психологічну допомогу та інформаційний супровід.",
               "quote": ""
+            },
+            {
+              "__component": "project-sections.support-types",
+              "title": "Основні види підтримки",
+              "items": [
+                {
+                  "title": "Спільнота підтримки та відновлення",
+                  "description": "Формуємо спільноту підтримки для родин через регулярні зустрічі, групові формати та спільні активності. Це безпечний простір, де зменшується ізоляція, з’являється довіра і можливість відновлюватися поруч з людьми з подібним досвідом."
+                },
+                {
+                  "title": "Ресурси емоційної підтримки",
+                  "description": "Надаємо родинам доступ до ресурсів емоційної підтримки через книжки, культурні події та дозвіллєві формати."
+                },
+                {
+                  "title": "Голос, памʼять і видимість",
+                  "description": "Підвищуємо обізнаність про досвід родин зниклих безвісти та військовополонених і формуємо емпатію та розуміння в суспільстві. Через публічні формати також підсилюємо адвокацію цієї теми та робимо голоси родин більш видимими."
+                }
+              ]
+            },
+            {
+              "__component": "project-sections.sub-projects",
+              "title": "Проєкти які входять в програму “Вдома чекали”",
+              "projects": [
+                "svoi",
+                "legal-assistance",
+                "psychological-assistance",
+                "svoi-test",
+                "legal-assistance-test",
+                "psychological-assistance-test"
+              ]
+            },
+            {
+              "__component": "project-sections.partnership",
+              "title": "Партнерство та як допомогти",
+              "items": [
+                {
+                  "title": "Фінансова підтримка",
+                  "description": "Зробіть пожертву на закупівлю матеріалів для пакунків та оплату послуг фахівців. Кожна гривня допомагає нам зустрічати більше героїв."
+                },
+                {
+                  "title": "Матеріальна допомога",
+                  "description": "Подаруйте або профінансуйте виробництво речей, що входять до пакунка, таких як прапори, браслети, іграшки."
+                },
+                {
+                  "title": "Інформаційна підтримка",
+                  "description": "Розкажіть про програму у своїх соцмережах і допоможіть більшій кількості родин дізнатися про підтримку."
+                },
+                {
+                  "title": "Волонтерська участь",
+                  "description": "Долучайтеся як волонтер: збирайте пакунки, зустрічайте героїв, допомагайте з логістикою та комунікацією."
+                }
+              ]
+            },
+            {
+              "__component": "project-sections.contacts",
+              "title": "Контактна інформація",
+              "channelsLabel": "Альтернативні канали зв'язку",
+              "channels": [
+                { "platform": "telegram", "url": "https://t.me/syla_dlya_sylnyh" },
+                { "platform": "viber", "url": "viber://chat?number=+380661234567" },
+                { "platform": "whatsapp", "url": "https://wa.me/380661234567" }
+              ],
+              "phone": "+380 66 123 45 67",
+              "email": "example@gmail.com",
+              "qrText": "Відскануйте QR-код або перейдіть за посиланням і долучіться до підтримки наших героїв",
+              "qrButtonText": "Долучитися до підтримки",
+              "qrButtonHref": "https://syla-dlya-sylnyh.org/donate",
+              "footnote": "Можливо додати якийсь текст"
             }
           ]
         },
         {
-          "title": "Крізь грати: сила людського духу",
-          "slug": "through-the-bars",
-          "subtitle": "Інформаційно-адвокаційний проєкт, який нагадує про тих, хто досі в полоні або зник безвісти.",
-          "description": "Нагадуємо про тих, хто в полоні та зник безвісти.",
+          "title": "Свої",
+          "slug": "svoi",
+          "subtitle": "Серія зустрічей для звільнених військовополонених.",
+          "description": "Серія зустрічей для звільнених військовополонених, спрямована на формування спільноти та мʼяку адаптацію після повернення. У безпечному середовищі учасники зможуть відновлювати ресурс через спілкування, взаємопідтримку та дозвіллєві формати.",
           "buttonText": "Переглянути",
           "blocks": [
             {
               "__component": "project-sections.hero",
-              "title": "Крізь грати: сила людського духу",
-              "caption": "Голос для тих, хто за гратами.",
-              "intro": "Інформаційно-адвокаційний проєкт, який нагадує суспільству про тих, хто досі перебуває у ворожому полоні чи зник безвісти. Ми створюємо матеріали, проводимо акції й тримаємо тему повернення наших людей у фокусі уваги.",
+              "title": "Свої",
+              "caption": "",
+              "intro": "Серія зустрічей для звільнених військовополонених, спрямована на формування спільноти та мʼяку адаптацію після повернення. У безпечному середовищі учасники зможуть відновлювати ресурс через спілкування, взаємопідтримку та дозвіллєві формати.",
               "quote": ""
             }
           ]
         },
         {
-          "title": "Разом далі",
-          "slug": "moving-forward-together",
-          "subtitle": "Проєкт підтримки та відновлення для людей, які повертаються до життя після важких випробувань.",
-          "description": "Ми поруч, щоб рухатись далі.",
+          "title": "Юридична допомога",
+          "slug": "legal-assistance",
+          "subtitle": "Юридичний супровід після повернення з полону.",
+          "description": "Звільнені з полону військові після повернення стикаються зі складними юридичними та бюрократичними процедурами, зокрема оформленням статусів, відновленням документів і отриманням виплат. Програма юридичної допомоги забезпечує зрозумілий супровід у взаємодії з державними органами.",
           "buttonText": "Переглянути",
           "blocks": [
             {
               "__component": "project-sections.hero",
-              "title": "Разом далі",
-              "caption": "Підтримка на шляху відновлення.",
-              "intro": "Програма відновлення для людей, які повертаються до життя після важких випробувань. Допомагаємо знайти ресурс у новому етапі через групову роботу, індивідуальні консультації та спільні заходи.",
+              "title": "Юридична допомога",
+              "caption": "",
+              "intro": "Звільнені з полону військові після повернення стикаються зі складними юридичними та бюрократичними процедурами, зокрема оформленням статусів, відновленням документів і отриманням виплат. Програма юридичної допомоги забезпечує зрозумілий супровід у взаємодії з державними органами.",
+              "quote": ""
+            }
+          ]
+        },
+        {
+          "title": "Психологічна допомога",
+          "slug": "psychological-assistance",
+          "subtitle": "Психологічна підтримка та супровід адаптації.",
+          "description": "Програма психологічної допомоги створює безпечний простір підтримки та надає фаховий супровід для відновлення, стабілізації й поступового повернення до життя.",
+          "buttonText": "Переглянути",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Психологічна допомога",
+              "caption": "",
+              "intro": "Програма психологічної допомоги створює безпечний простір підтримки та надає фаховий супровід для відновлення, стабілізації й поступового повернення до життя.",
+              "quote": ""
+            }
+          ]
+        },
+        {
+          "title": "Свої тест",
+          "slug": "svoi-test",
+          "subtitle": "Тестова копія проєкту для перевірки пагінації.",
+          "description": "Серія зустрічей для звільнених військовополонених, спрямована на формування спільноти та мʼяку адаптацію після повернення. У безпечному середовищі учасники зможуть відновлювати ресурс через спілкування, взаємопідтримку та дозвіллєві формати.",
+          "buttonText": "Переглянути",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Свої тест",
+              "caption": "",
+              "intro": "Серія зустрічей для звільнених військовополонених, спрямована на формування спільноти та мʼяку адаптацію після повернення. У безпечному середовищі учасники зможуть відновлювати ресурс через спілкування, взаємопідтримку та дозвіллєві формати.",
+              "quote": ""
+            }
+          ]
+        },
+        {
+          "title": "Юридична допомога тест",
+          "slug": "legal-assistance-test",
+          "subtitle": "Тестова копія проєкту для перевірки пагінації.",
+          "description": "Звільнені з полону військові після повернення стикаються зі складними юридичними та бюрократичними процедурами, зокрема оформленням статусів, відновленням документів і отриманням виплат. Програма юридичної допомоги забезпечує зрозумілий супровід у взаємодії з державними органами.",
+          "buttonText": "Переглянути",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Юридична допомога тест",
+              "caption": "",
+              "intro": "Звільнені з полону військові після повернення стикаються зі складними юридичними та бюрократичними процедурами, зокрема оформленням статусів, відновленням документів і отриманням виплат. Програма юридичної допомоги забезпечує зрозумілий супровід у взаємодії з державними органами.",
+              "quote": ""
+            }
+          ]
+        },
+        {
+          "title": "Психологічна допомога тест",
+          "slug": "psychological-assistance-test",
+          "subtitle": "Тестова копія проєкту для перевірки пагінації.",
+          "description": "Програма психологічної допомоги створює безпечний простір підтримки та надає фаховий супровід для відновлення, стабілізації й поступового повернення до життя.",
+          "buttonText": "Переглянути",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Психологічна допомога тест",
+              "caption": "",
+              "intro": "Програма психологічної допомоги створює безпечний простір підтримки та надає фаховий супровід для відновлення, стабілізації й поступового повернення до життя.",
               "quote": ""
             }
           ]
@@ -150,7 +289,14 @@
             {
               "__component": "project-sections.sub-projects",
               "title": "Projects included in the \"Home Was Waiting\" program",
-              "projects": ["united-by-strength", "through-the-bars", "moving-forward-together"]
+              "projects": [
+                "svoi",
+                "legal-assistance",
+                "psychological-assistance",
+                "svoi-test",
+                "legal-assistance-test",
+                "psychological-assistance-test"
+              ]
             },
             {
               "__component": "project-sections.partnership",
@@ -205,37 +351,169 @@
               "caption": "For families of POWs and the missing in action.",
               "intro": "We bring together families waiting for the return of their loved ones into a community of mutual support, with access to legal consultations, psychological help, and information guidance.",
               "quote": ""
+            },
+            {
+              "__component": "project-sections.support-types",
+              "title": "Main types of support",
+              "items": [
+                {
+                  "title": "Community of support and recovery",
+                  "description": "We build a support community for families through regular meetings, group formats, and shared activities. It is a safe space where isolation decreases, trust grows, and people can recover alongside others with similar experiences."
+                },
+                {
+                  "title": "Emotional support resources",
+                  "description": "We give families access to emotional support resources through books, cultural events, and leisure formats."
+                },
+                {
+                  "title": "Voice, memory, and visibility",
+                  "description": "We raise awareness of the experiences of families of missing service members and prisoners of war, building empathy and understanding in society. Through public formats, we also strengthen advocacy around this topic and make families' voices more visible."
+                }
+              ]
+            },
+            {
+              "__component": "project-sections.sub-projects",
+              "title": "Projects included in the \"Home Was Waiting\" program",
+              "projects": [
+                "svoi",
+                "legal-assistance",
+                "psychological-assistance",
+                "svoi-test",
+                "legal-assistance-test",
+                "psychological-assistance-test"
+              ]
+            },
+            {
+              "__component": "project-sections.partnership",
+              "title": "Partnership and how to help",
+              "items": [
+                {
+                  "title": "Financial support",
+                  "description": "Make a donation to fund the materials in our packages and the work of our specialists. Every contribution helps us meet more heroes."
+                },
+                {
+                  "title": "Material help",
+                  "description": "Donate or fund the production of items that go into each package — flags, bracelets, small toys."
+                },
+                {
+                  "title": "Information support",
+                  "description": "Share the program on your social channels and help more families learn that this support exists."
+                },
+                {
+                  "title": "Volunteer with us",
+                  "description": "Join as a volunteer: pack packages, greet heroes on arrival, help with logistics and communications."
+                }
+              ]
+            },
+            {
+              "__component": "project-sections.contacts",
+              "title": "Contact information",
+              "channelsLabel": "Alternative channels",
+              "channels": [
+                { "platform": "telegram", "url": "https://t.me/syla_dlya_sylnyh" },
+                { "platform": "viber", "url": "viber://chat?number=+380661234567" },
+                { "platform": "whatsapp", "url": "https://wa.me/380661234567" }
+              ],
+              "phone": "+380 66 123 45 67",
+              "email": "example@gmail.com",
+              "qrText": "Scan the QR code or open the link to support our heroes",
+              "qrButtonText": "Join the support",
+              "qrButtonHref": "https://syla-dlya-sylnyh.org/donate",
+              "footnote": "Optional supporting copy"
             }
           ]
         },
         {
-          "title": "Through the Bars: The Strength of the Human Spirit",
-          "slug": "through-the-bars",
-          "subtitle": "An advocacy and awareness project that keeps attention on those still held in captivity or missing in action.",
-          "description": "We remind the world about those held in captivity and those missing in action.",
+          "title": "Svoi",
+          "slug": "svoi",
+          "subtitle": "A series of meetings for released prisoners of war.",
+          "description": "A series of meetings for released prisoners of war focused on building community and supporting a gentle adaptation after returning home. In a safe environment, participants can restore their resources through conversation, mutual support, and shared leisure formats.",
           "buttonText": "View",
           "blocks": [
             {
               "__component": "project-sections.hero",
-              "title": "Through the Bars: The Strength of the Human Spirit",
-              "caption": "A voice for those still held captive.",
-              "intro": "An advocacy and awareness project that reminds society about those still held in enemy captivity or missing in action. We produce materials, hold public actions, and keep the return of our people in the spotlight.",
+              "title": "Svoi",
+              "caption": "",
+              "intro": "A series of meetings for released prisoners of war focused on building community and supporting a gentle adaptation after returning home. In a safe environment, participants can restore their resources through conversation, mutual support, and shared leisure formats.",
               "quote": ""
             }
           ]
         },
         {
-          "title": "Moving Forward Together",
-          "slug": "moving-forward-together",
-          "subtitle": "A support and recovery project for people rebuilding life after profound hardship.",
-          "description": "We are here to keep moving forward together.",
+          "title": "Legal Assistance",
+          "slug": "legal-assistance",
+          "subtitle": "Legal support after returning from captivity.",
+          "description": "After returning from captivity, released service members face complex legal and bureaucratic procedures, including status registration, document restoration, and access to payments. The legal assistance program provides clear support in communication with state institutions.",
           "buttonText": "View",
           "blocks": [
             {
               "__component": "project-sections.hero",
-              "title": "Moving Forward Together",
-              "caption": "Support on the path to recovery.",
-              "intro": "A recovery program for people rebuilding their lives after profound hardship. We help find new footing through group work, individual consultations, and shared activities.",
+              "title": "Legal Assistance",
+              "caption": "",
+              "intro": "After returning from captivity, released service members face complex legal and bureaucratic procedures, including status registration, document restoration, and access to payments. The legal assistance program provides clear support in communication with state institutions.",
+              "quote": ""
+            }
+          ]
+        },
+        {
+          "title": "Psychological Assistance",
+          "slug": "psychological-assistance",
+          "subtitle": "Psychological support and adaptation guidance.",
+          "description": "The psychological assistance program creates a safe space for support and provides professional guidance for recovery, stabilization, and a gradual return to everyday life.",
+          "buttonText": "View",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Psychological Assistance",
+              "caption": "",
+              "intro": "The psychological assistance program creates a safe space for support and provides professional guidance for recovery, stabilization, and a gradual return to everyday life.",
+              "quote": ""
+            }
+          ]
+        },
+        {
+          "title": "Svoi Test",
+          "slug": "svoi-test",
+          "subtitle": "A test copy of the project for pagination checks.",
+          "description": "A series of meetings for released prisoners of war focused on building community and supporting a gentle adaptation after returning home. In a safe environment, participants can restore their resources through conversation, mutual support, and shared leisure formats.",
+          "buttonText": "View",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Svoi Test",
+              "caption": "",
+              "intro": "A series of meetings for released prisoners of war focused on building community and supporting a gentle adaptation after returning home. In a safe environment, participants can restore their resources through conversation, mutual support, and shared leisure formats.",
+              "quote": ""
+            }
+          ]
+        },
+        {
+          "title": "Legal Assistance Test",
+          "slug": "legal-assistance-test",
+          "subtitle": "A test copy of the project for pagination checks.",
+          "description": "After returning from captivity, released service members face complex legal and bureaucratic procedures, including status registration, document restoration, and access to payments. The legal assistance program provides clear support in communication with state institutions.",
+          "buttonText": "View",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Legal Assistance Test",
+              "caption": "",
+              "intro": "After returning from captivity, released service members face complex legal and bureaucratic procedures, including status registration, document restoration, and access to payments. The legal assistance program provides clear support in communication with state institutions.",
+              "quote": ""
+            }
+          ]
+        },
+        {
+          "title": "Psychological Assistance Test",
+          "slug": "psychological-assistance-test",
+          "subtitle": "A test copy of the project for pagination checks.",
+          "description": "The psychological assistance program creates a safe space for support and provides professional guidance for recovery, stabilization, and a gradual return to everyday life.",
+          "buttonText": "View",
+          "blocks": [
+            {
+              "__component": "project-sections.hero",
+              "title": "Psychological Assistance Test",
+              "caption": "",
+              "intro": "The psychological assistance program creates a safe space for support and provides professional guidance for recovery, stabilization, and a gradual return to everyday life.",
               "quote": ""
             }
           ]
