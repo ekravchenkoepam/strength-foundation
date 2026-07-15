@@ -1,14 +1,23 @@
 import Image from 'next/image';
 import React from 'react';
 
-import { FacebookIcon, InstagramIcon, LinkedinIcon } from '@/app/components/icons';
+import {
+  FacebookIcon,
+  InstagramIcon,
+  LinkedinIcon,
+  SpotifyIcon,
+  TelegramIcon,
+  TiktokIcon,
+  YoutubeIcon,
+} from '@/app/components/icons';
+import type { SocialName } from '@/app/components/shared/Socials/types';
 import { getStrapiMedia } from '@/app/utils/api-helpers';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface Social {
   id: number;
   link: string;
-  icon: 'linkedin' | 'facebook' | 'instagram';
+  icon: SocialName;
 }
 
 interface Member {
@@ -30,11 +39,15 @@ interface MemberCardProps {
   member: Member;
 }
 
-const SocialIcon = ({ icon, link }: { icon: 'linkedin' | 'facebook' | 'instagram'; link: string }) => {
+const SocialIcon = ({ icon, link }: { icon: SocialName; link: string }) => {
   const iconMap = {
+    telegram: TelegramIcon,
     linkedin: LinkedinIcon,
     facebook: FacebookIcon,
     instagram: InstagramIcon,
+    tiktok: TiktokIcon,
+    youtube: YoutubeIcon,
+    spotify: SpotifyIcon,
   };
 
   const Icon = iconMap[icon];
@@ -44,6 +57,7 @@ const SocialIcon = ({ icon, link }: { icon: 'linkedin' | 'facebook' | 'instagram
   return (
     <a
       href={link}
+      aria-label={icon}
       target="_blank"
       rel="noopener noreferrer"
       className="w-8 h-8 rounded-full flex items-center justify-center transition-colors"
@@ -67,9 +81,7 @@ export const MemberCard = ({ member }: MemberCardProps) => {
   return (
     <Card className="bg-[#ffffff] border-0 rounded-xl overflow-hidden flex flex-col p-0 w-full min-w-0 lg:min-w-0 lg:w-full">
       <div className="relative h-[425px] w-full bg-[#cfcfcf]">
-        {imgUrl ? (
-          <Image src={imgUrl} alt={member.name} fill className="object-cover object-top lg:object-center" />
-        ) : null}
+        {imgUrl ? <Image src={imgUrl} alt={member.name} fill className="object-cover object-top" /> : null}
 
         <div className="absolute bottom-0 left-0 right-0 p-6">
           <div className="border border-white/30 rounded-lg p-4 backdrop-blur-sm bg-white/10">

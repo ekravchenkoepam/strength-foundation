@@ -68,7 +68,10 @@ export const TeamPage: FC<PageProps> = ({ locale }) => {
       "
       >
         <div className="mx-auto w-full max-w-[1200px]">
-          <div className="flex w-full flex-col gap-4 pb-3 md:gap-6 lg:grid lg:grid-cols-2 xl:grid-cols-3 lg:gap-8">
+          <div
+            className="grid w-full gap-4 pb-3 md:gap-6 lg:gap-8"
+            style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))' }}
+          >
             {members.map((member: any) => (
               <MemberCard key={member.id} member={member} />
             ))}

@@ -3,14 +3,8 @@
   color: var(--black-100);
 }
 
-/* Global text treatment for every section: tighter tracking + justified body
-   text. Scoped to p/div so headings (h1/h2) keep their own centred alignment;
-   letter-spacing still inherits down to those headings to keep it consistent. */
-.homePage p,
-.homePage div {
-  font-size: 13px;
-  letter-spacing: -1px;
-  text-align: justify;
+.homePage .introSubtitle {
+  text-align: right;
 }
 
 .container {
@@ -535,6 +529,10 @@
 }
 
 @media (max-width: 640px) {
+  .homePage .introSubtitle {
+    text-align: center;
+  }
+
   .container {
     width: min(1240px, calc(100% - 24px));
   }
