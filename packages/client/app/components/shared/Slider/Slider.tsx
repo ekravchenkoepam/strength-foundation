@@ -31,13 +31,13 @@ export const Slider = ({ images = [] }: SliderProps) => {
   return (
     <div className="w-full flex flex-col items-center">
       <div className="w-full px-4 md:px-6 lg:px-[52px]">
-        <Carousel className="relative">
+        <Carousel className="relative w-full">
           {/* SLIDES */}
           <CarouselContent className="-ml-0">
             {images.map((image, index) => (
               <CarouselItem key={image.id} className="pl-0">
                 <div
-                  className="relative w-full rounded-xl overflow-hidden bg-[var(--white-80)] max-h-[650px]"
+                  className="relative w-full rounded-xl overflow-hidden bg-[var(--white-80)]"
                   style={{
                     aspectRatio: `${image.attributes.width || 16} / ${image.attributes.height || 10}`,
                   }}

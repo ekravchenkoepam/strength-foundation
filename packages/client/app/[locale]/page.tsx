@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import styles from '../page.module.scss';
 
 import { Button, ButtonTypeEnum, LiquidGlass, MemberCard } from '@/app/components/shared';
+import type { SocialName } from '@/app/components/shared/Socials/types';
 import { useApp } from '@/app/context/AppContext';
 import { getStrapiMedia } from '@/app/utils/api-helpers';
 import { fetchAPI } from '@/app/utils/fetch-api';
@@ -126,12 +127,25 @@ type AmbassadorCard = {
   } | null;
   socials?: Array<{
     id: number;
-    icon: 'linkedin' | 'facebook' | 'instagram';
+    icon: SocialName;
     link: string;
   }> | null;
 };
 
 type AmbassadorSocial = NonNullable<AmbassadorCard['socials']>[number];
+
+const ambassadorSocialIcons = new Set<SocialName>([
+  'telegram',
+  'linkedin',
+  'facebook',
+  'instagram',
+  'tiktok',
+  'youtube',
+  'spotify',
+]);
+
+const isSocialName = (icon: unknown): icon is SocialName =>
+  typeof icon === 'string' && ambassadorSocialIcons.has(icon as SocialName);
 
 type HomePageApiResponse = {
   data?: {
@@ -271,7 +285,7 @@ type HomePageApiResponse = {
             } | null;
           };
           socials?: Array<{
-            icon?: 'linkedin' | 'facebook' | 'instagram';
+            icon?: SocialName;
             link?: string;
           }>;
         }> | null;
@@ -444,10 +458,7 @@ const mapHomePageData = (response: HomePageApiResponse): HomePageContent => {
         ): social is {
           icon: AmbassadorSocial['icon'];
           link: string;
-        } =>
-          (social?.icon === 'linkedin' || social?.icon === 'facebook' || social?.icon === 'instagram') &&
-          typeof social?.link === 'string' &&
-          social.link.length > 0
+        } => isSocialName(social?.icon) && typeof social?.link === 'string' && social.link.length > 0
       )
       .map((social, index) => ({
         id: index + 1,
@@ -709,15 +720,18 @@ export default function Home() {
           <div className="w-full">
             <div className="flex w-full flex-col items-center gap-[6px] max-[640px]:gap-1">
               <h1
-                className="m-0 w-full text-center font-bold text-[86px] leading-[0.92] tracking-[-0.02em] text-[#151512]
-                max-[1200px]:text-[125px] max-[960px]:text-[64px] max-[640px]:text-[48px] max-[420px]:text-[40px]"
+                className="m-0 w-full text-center font-bold text-[125px] leading-[0.92] text-[#151512]
+                max-[1200px]:text-[86px] max-[960px]:text-[64px] max-[640px]:text-[48px] max-[420px]:text-[40px]"
               >
                 {introSection.title}
               </h1>
               <p
-                className="m-0 w-full text-right text-[24px] font-medium leading-[1.15] text-[#151512]
-                max-[1200px]:text-[22px] max-[960px]:text-[20px] max-[640px]:mx-auto max-[640px]:w-auto
-                max-[640px]:text-center max-[640px]:text-[15px] max-[420px]:text-[13px]"
+                className={clsx(
+                  styles.introSubtitle,
+                  `m-0 w-full text-[28px] leading-[32px] font-bold text-[#151512]
+                  max-[1200px]:text-[22px] max-[1200px]:leading-[1.15] max-[960px]:text-[20px] max-[640px]:mx-auto max-[640px]:w-auto
+                  max-[640px]:text-[15px] max-[420px]:text-[13px]`
+                )}
               >
                 {introSection.subtitle}
               </p>
@@ -748,13 +762,15 @@ export default function Home() {
                    stays visible, matching the design's glass-rim look.
                    Inline style wins over TINT_CLASS regardless of utility order. */
                 style={{ background: 'rgba(255, 255, 255, 0.12)' }}
-                className="absolute right-5 bottom-5 max-w-[520px] rounded-[14px] px-6 py-5
+                className="absolute right-8 bottom-20 max-w-[610px] rounded-[14px] px-6 py-6
+                max-[1200px]:right-5 max-[1200px]:bottom-5 max-[1200px]:max-w-[520px] max-[1200px]:py-5
                 max-[960px]:right-4 max-[960px]:bottom-4 max-[960px]:max-w-[calc(100%-32px)] max-[960px]:px-5 max-[960px]:py-4
                 max-[640px]:right-3 max-[640px]:bottom-3 max-[640px]:left-3 max-[640px]:max-w-none max-[640px]:px-4 max-[640px]:py-3
                 max-[420px]:right-2 max-[420px]:bottom-2 max-[420px]:left-2 max-[420px]:px-[14px] max-[420px]:py-[10px]"
               >
                 <p
-                  className="m-0 text-[18px] leading-[1.35] font-bold text-[var(--black-100)]
+                  className="m-0 text-[20px] leading-[24px] font-bold text-[var(--black-100)]
+                  max-[1200px]:text-[18px] max-[1200px]:leading-[1.35]
                   max-[960px]:text-[16px]
                   max-[640px]:text-[14px] max-[640px]:leading-[1.4]
                   max-[420px]:text-[13px]"
@@ -798,7 +814,7 @@ export default function Home() {
 
               <div
                 className="flex h-[clamp(420px,34vw,580px)] w-full flex-1 flex-col gap-[14px] text-[16px]
-                leading-[1.62] tracking-[-0.01em] text-justify text-[#151512] max-[960px]:h-auto max-[640px]:text-[15px]
+                leading-[1.62] text-justify text-[#151512] max-[960px]:h-auto max-[640px]:text-[15px]
                 max-[420px]:gap-[10px] max-[420px]:text-[14px] max-[420px]:leading-[1.5]"
               >
                 {aboutSection.description.map((paragraph, index) => (
