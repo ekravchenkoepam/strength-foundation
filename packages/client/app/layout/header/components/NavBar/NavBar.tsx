@@ -35,7 +35,7 @@ const NavBarDropdown = ({ sublinks, locale, href }: NavBarDropdownProps) => (
     intensity="subtle"
     className={clsx(
       styles.sublinks,
-      'bg-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),inset_0_-1px_0_rgba(0,0,0,0.04),0_10px_28px_rgba(0,0,0,0.12)]'
+      'bg-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),inset_0_-1px_0_rgba(0,0,0,0.04),0_10px_28px_rgba(0,0,0,0.12)]'
     )}
   >
     <ul>
@@ -58,6 +58,7 @@ export const NavBar = ({ isMenuOpen, setIsMenuOpen, scrolled, locale, visibleLin
           'grid w-full grid-cols-[1fr_auto_auto] items-center border-b-2 border-[var(--yellow-100)]',
           'px-4 py-3 md:px-6 md:py-4 lg:grid-cols-[auto_1fr_auto] lg:px-[70px] lg:py-[22px]',
           'transition-all duration-300',
+          'bg-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),inset_0_-1px_0_rgba(0,0,0,0.04),0_10px_28px_rgba(0,0,0,0.12)]',
           scrolled ? 'backdrop-blur-md' : ''
         )}
       >
