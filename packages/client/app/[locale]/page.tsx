@@ -962,7 +962,7 @@ export default function Home() {
       ) : null}
 
       <section className={styles.partnersSection}>
-        <div className={styles.container}>
+        <div className={styles.partnersContainer}>
           <h2 className={styles.sectionTitle}>{partnersSectionTitle}</h2>
 
           <div className={styles.partnersGrid}>
