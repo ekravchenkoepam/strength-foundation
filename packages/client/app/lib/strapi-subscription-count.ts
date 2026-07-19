@@ -2,12 +2,9 @@ import 'server-only';
 
 type StrapiSubscriptionResponse = {
   data: Array<{ id: number }>;
-  meta?: {
-    pagination?: {
-      total?: number;
-    };
-  };
 };
+
+const SUBSCRIPTION_PAGE_SIZE = 100;
 
 const getStrapiConfig = (): { baseUrl: string; token?: string } => {
   const baseUrl = (process.env.STRAPI_API_URL || process.env.NEXT_PUBLIC_STRAPI_API_URL || '').replace(/\/$/, '');
@@ -21,33 +18,45 @@ const getStrapiConfig = (): { baseUrl: string; token?: string } => {
 };
 
 const fetchActiveSubscriptionCount = async (baseUrl: string, token?: string): Promise<number> => {
-  const query = new URLSearchParams({
-    'filters[isActive][$eq]': 'true',
-    'filters[status][$eq]': 'subscribed',
-    'pagination[pageSize]': '1',
-    'pagination[withCount]': 'true',
-  });
+  let page = 1;
+  let count = 0;
 
-  const response = await fetch(`${baseUrl}/api/subscriptions?${query}`, {
-    headers: {
-      Accept: 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    cache: 'no-store',
-  });
+  while (true) {
+    const query = new URLSearchParams({
+      'filters[isActive][$eq]': 'true',
+      'filters[status][$eq]': 'subscribed',
+      'pagination[page]': String(page),
+      'pagination[pageSize]': String(SUBSCRIPTION_PAGE_SIZE),
+      'pagination[withCount]': 'false',
+      sort: 'id:asc',
+    });
 
-  if (!response.ok) {
-    throw new Error(`Strapi subscription count failed: HTTP ${response.status}`);
+    const response = await fetch(`${baseUrl}/api/subscriptions?${query}`, {
+      headers: {
+        Accept: 'application/json',
+        'Cache-Control': 'no-cache',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      throw new Error(`Strapi subscription count failed: HTTP ${response.status}`);
+    }
+
+    const payload = (await response.json()) as StrapiSubscriptionResponse;
+    if (!Array.isArray(payload.data)) {
+      throw new Error('Strapi subscription count response did not include a valid data array');
+    }
+
+    count += payload.data.length;
+
+    if (payload.data.length < SUBSCRIPTION_PAGE_SIZE) {
+      return count;
+    }
+
+    page += 1;
   }
-
-  const payload = (await response.json()) as StrapiSubscriptionResponse;
-  const count = payload.meta?.pagination?.total;
-
-  if (!Number.isInteger(count) || Number(count) < 0) {
-    throw new Error('Strapi subscription count response did not include a valid total');
-  }
-
-  return Number(count);
 };
 
 export const getActiveSubscriberCount = async (): Promise<number> => {
