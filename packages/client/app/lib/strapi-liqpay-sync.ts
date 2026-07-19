@@ -13,7 +13,8 @@ type SyncEventInput = {
 
 type StrapiEntity<T> = {
   id: number;
-  attributes: T;
+  attributes?: T;
+  [key: string]: unknown;
 };
 
 type StrapiListResponse<T> = {
@@ -32,6 +33,11 @@ const toNumberSafe = (value: unknown): number | null => {
 };
 
 const normalizeEmail = (value: unknown): string => toStringSafe(value).trim().toLowerCase();
+
+const getEntityFields = (entity: StrapiEntity<Record<string, unknown>> | null): Record<string, unknown> => {
+  if (!entity) return {};
+  return entity.attributes ?? entity;
+};
 
 const toIsoDateSafe = (value: unknown, fallbackIso: string): string => {
   const numeric = toNumberSafe(value);
@@ -134,13 +140,39 @@ const upsertPaymentTransaction = async (baseUrl: string, token: string, event: S
   const payment = event.payment;
   const eventType = classifyEventType(payment);
   const eventAt = toIsoDateSafe(payment.end_date, event.receivedAt);
+  const eventKey = `${event.source}:${event.eventId}`;
+  const orderId = toStringSafe(payment.order_id).trim();
+  const subscribeId = toStringSafe(payment.subscribe_id).trim();
+  const existing = await findOneByField(baseUrl, token, 'payment-transactions', 'eventKey', eventKey);
+  const existingFields = getEntityFields(existing);
+
+  let inheritedEmail = '';
+  const incomingEmail = normalizeEmail(payment.sender_email);
+
+  if (!incomingEmail) {
+    const relatedTransaction = orderId
+      ? await findOneByField(baseUrl, token, 'payment-transactions', 'orderId', orderId)
+      : subscribeId
+        ? await findOneByField(baseUrl, token, 'payment-transactions', 'subscribeId', subscribeId)
+        : null;
+    const relatedSubscription = orderId
+      ? await findOneByField(baseUrl, token, 'subscriptions', 'orderId', orderId)
+      : subscribeId
+        ? await findOneByField(baseUrl, token, 'subscriptions', 'subscribeId', subscribeId)
+        : null;
+
+    inheritedEmail =
+      normalizeEmail(existingFields.email) ||
+      normalizeEmail(getEntityFields(relatedTransaction).email) ||
+      normalizeEmail(getEntityFields(relatedSubscription).email);
+  }
 
   const data: Record<string, unknown> = {
-    eventKey: `${event.source}:${event.eventId}`,
+    eventKey,
     source: event.source,
     eventType,
     eventAt,
-    orderId: toStringSafe(payment.order_id),
+    orderId,
     liqpayOrderId: toStringSafe(payment.liqpay_order_id),
     liqpayId: toStringSafe(payment.payment_id || payment.transaction_id || payment.id),
     description: toStringSafe(payment.description),
@@ -155,14 +187,12 @@ const upsertPaymentTransaction = async (baseUrl: string, token: string, event: S
     periodicity: toStringSafe(payment.subscribe_periodicity || payment.periodicity),
     amount: toNumberSafe(payment.amount),
     currency: toStringSafe(payment.currency),
-    subscribeId: toStringSafe(payment.subscribe_id),
-    email: normalizeEmail(payment.sender_email) || null,
+    subscribeId,
+    email: incomingEmail || inheritedEmail || null,
     signatureValid: event.signatureValid,
     payload: payment,
     requestMeta: event.requestMeta ?? null,
   };
-
-  const existing = await findOneByField(baseUrl, token, 'payment-transactions', 'eventKey', String(data.eventKey));
 
   if (existing) {
     await strapiRequest(`${baseUrl}/api/payment-transactions/${existing.id}`, token, {
@@ -200,9 +230,9 @@ const upsertSubscription = async (baseUrl: string, token: string, event: SyncEve
   const isActive = !(action === 'unsubscribe' || status === 'unsubscribed' || status === 'failure');
   const eventAt = toIsoDateSafe(payment.end_date, event.receivedAt);
   const existing = await findOneByField(baseUrl, token, 'subscriptions', 'orderId', orderId);
-  const existingAttributes = existing?.attributes ?? {};
+  const existingAttributes = getEntityFields(existing);
   const checkoutTransaction = await findOneByField(baseUrl, token, 'payment-transactions', 'orderId', orderId);
-  const checkoutAttributes = checkoutTransaction?.attributes ?? {};
+  const checkoutAttributes = getEntityFields(checkoutTransaction);
 
   const incomingEmail = normalizeEmail(payment.sender_email);
   const existingEmail = normalizeEmail(existingAttributes.email);
