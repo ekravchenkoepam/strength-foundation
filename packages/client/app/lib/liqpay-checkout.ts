@@ -1,7 +1,9 @@
 import { createLiqPayData, createLiqPaySignature } from '@/app/lib/liqpay';
+import { DEFAULT_CURRENCY, isLiqPayCurrency } from '@/app/lib/liqpay-currencies';
 
-type CheckoutBody = {
+export type CheckoutBody = {
   amount?: number;
+  currency?: string;
   email?: string;
   locale?: string;
   mode?: 'pay' | 'subscribe';
@@ -32,6 +34,11 @@ export const buildLiqPayCheckout = ({
     throw new Error('Amount must be a positive number');
   }
 
+  const currency = body.currency ?? DEFAULT_CURRENCY;
+  if (!isLiqPayCurrency(currency)) {
+    throw new Error('Unsupported currency');
+  }
+
   const locale = body.locale === 'en' ? 'en' : 'uk';
   const mode = body.mode === 'subscribe' ? 'subscribe' : 'pay';
   const senderEmail = String(body.email ?? '').trim();
@@ -48,7 +55,7 @@ export const buildLiqPayCheckout = ({
     public_key: publicKey,
     action: mode,
     amount: Number(amount.toFixed(2)),
-    currency: 'UAH',
+    currency,
     description: mode === 'subscribe' ? 'Регулярний внесок (PoC)' : 'Разовий внесок (PoC)',
     order_id: orderId,
     language: locale,
@@ -78,6 +85,7 @@ export const buildLiqPayCheckout = ({
     mode,
     periodicity,
     amount: Number(amount.toFixed(2)),
+    currency,
     senderEmail: senderEmail || null,
     publicBaseUrl,
     subscribeDateStart: mode === 'subscribe' ? String(payload.subscribe_date_start ?? '') : null,

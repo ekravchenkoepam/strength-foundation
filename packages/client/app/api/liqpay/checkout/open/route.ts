@@ -1,15 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { buildLiqPayCheckout } from '@/app/lib/liqpay-checkout';
-
-type CheckoutBody = {
-  amount?: number;
-  email?: string;
-  locale?: string;
-  mode?: 'pay' | 'subscribe';
-  periodicity?: 'month' | 'year';
-  subscribeDateStart?: string;
-};
+import { buildLiqPayCheckout, type CheckoutBody } from '@/app/lib/liqpay-checkout';
 
 const escapeHtml = (value: string): string => {
   return value

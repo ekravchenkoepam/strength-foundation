@@ -35,7 +35,7 @@
     "liqpayOrderId": {
       "type": "string"
     },
-    "paymentId": {
+    "liqpayId": {
       "type": "string"
     },
     "description": {

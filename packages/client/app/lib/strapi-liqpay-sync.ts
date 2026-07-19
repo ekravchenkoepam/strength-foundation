@@ -53,11 +53,7 @@ const toIsoDateSafe = (value: unknown, fallbackIso: string): string => {
 };
 
 const getStrapiConfig = (): { baseUrl: string; token: string } | null => {
-  const baseUrl = (
-    process.env.STRAPI_API_URL ||
-    process.env.NEXT_PUBLIC_STRAPI_API_URL ||
-    ''
-  ).replace(/\/$/, '');
+  const baseUrl = (process.env.STRAPI_API_URL || process.env.NEXT_PUBLIC_STRAPI_API_URL || '').replace(/\/$/, '');
 
   const token = process.env.STRAPI_API_TOKEN || process.env.NEXT_PUBLIC_STRAPI_API_TOKEN || '';
 
@@ -68,11 +64,7 @@ const getStrapiConfig = (): { baseUrl: string; token: string } | null => {
   return { baseUrl, token };
 };
 
-const strapiRequest = async <T>(
-  path: string,
-  token: string,
-  options: RequestInit = {}
-): Promise<T> => {
+const strapiRequest = async <T>(path: string, token: string, options: RequestInit = {}): Promise<T> => {
   const response = await fetch(path, {
     ...options,
     headers: {
@@ -124,24 +116,21 @@ const findOneByField = async (
   endpoint: string,
   field: string,
   value: string
-): Promise<number | null> => {
+): Promise<StrapiEntity<Record<string, unknown>> | null> => {
   const query = new URLSearchParams();
   query.set(`filters[${field}][$eq]`, value);
   query.set('pagination[pageSize]', '1');
+  query.set('sort', 'id:asc');
 
   const response = await strapiRequest<StrapiListResponse<Record<string, unknown>>>(
     `${baseUrl}/api/${endpoint}?${query.toString()}`,
     token
   );
 
-  return response.data[0]?.id ?? null;
+  return response.data[0] ?? null;
 };
 
-const upsertPaymentTransaction = async (
-  baseUrl: string,
-  token: string,
-  event: SyncEventInput
-): Promise<void> => {
+const upsertPaymentTransaction = async (baseUrl: string, token: string, event: SyncEventInput): Promise<void> => {
   const payment = event.payment;
   const eventType = classifyEventType(payment);
   const eventAt = toIsoDateSafe(payment.end_date, event.receivedAt);
@@ -153,14 +142,16 @@ const upsertPaymentTransaction = async (
     eventAt,
     orderId: toStringSafe(payment.order_id),
     liqpayOrderId: toStringSafe(payment.liqpay_order_id),
-    paymentId: toStringSafe(payment.payment_id || payment.transaction_id || payment.id),
+    liqpayId: toStringSafe(payment.payment_id || payment.transaction_id || payment.id),
     description: toStringSafe(payment.description),
     senderPhone: toStringSafe(payment.sender_phone || payment.confirm_phone),
     paymentType: toStringSafe(payment.paytype || payment.pay_type),
     action: toStringSafe(payment.action),
     status: toStringSafe(payment.status),
     type: toStringSafe(payment.type),
-    mode: toStringSafe(payment.mode || payment.outgoing_action),
+    mode:
+      toStringSafe(payment.mode || payment.outgoing_action) ||
+      (eventType === 'subscription' ? 'subscribe' : eventType === 'payment' ? 'pay' : ''),
     periodicity: toStringSafe(payment.subscribe_periodicity || payment.periodicity),
     amount: toNumberSafe(payment.amount),
     currency: toStringSafe(payment.currency),
@@ -171,10 +162,10 @@ const upsertPaymentTransaction = async (
     requestMeta: event.requestMeta ?? null,
   };
 
-  const existingId = await findOneByField(baseUrl, token, 'payment-transactions', 'eventKey', String(data.eventKey));
+  const existing = await findOneByField(baseUrl, token, 'payment-transactions', 'eventKey', String(data.eventKey));
 
-  if (existingId) {
-    await strapiRequest(`${baseUrl}/api/payment-transactions/${existingId}`, token, {
+  if (existing) {
+    await strapiRequest(`${baseUrl}/api/payment-transactions/${existing.id}`, token, {
       method: 'PUT',
       body: JSON.stringify({ data }),
     });
@@ -201,29 +192,62 @@ const upsertSubscription = async (baseUrl: string, token: string, event: SyncEve
 
   const action = toStringSafe(payment.action);
   const status = toStringSafe(payment.status);
+
+  if (event.source === 'checkout_init' || action === 'checkout_init') {
+    return;
+  }
+
   const isActive = !(action === 'unsubscribe' || status === 'unsubscribed' || status === 'failure');
   const eventAt = toIsoDateSafe(payment.end_date, event.receivedAt);
+  const existing = await findOneByField(baseUrl, token, 'subscriptions', 'orderId', orderId);
+  const existingAttributes = existing?.attributes ?? {};
+  const checkoutTransaction = await findOneByField(baseUrl, token, 'payment-transactions', 'orderId', orderId);
+  const checkoutAttributes = checkoutTransaction?.attributes ?? {};
+
+  const incomingEmail = normalizeEmail(payment.sender_email);
+  const existingEmail = normalizeEmail(existingAttributes.email);
+  const checkoutEmail = normalizeEmail(checkoutAttributes.email);
+
+  const amount = toNumberSafe(payment.amount);
+  const existingAmount = toNumberSafe(existingAttributes.amount);
+  const checkoutAmount = toNumberSafe(checkoutAttributes.amount);
 
   const data: Record<string, unknown> = {
     orderId,
-    subscribeId: toStringSafe(payment.subscribe_id) || null,
-    email: normalizeEmail(payment.sender_email) || null,
-    customer: toStringSafe(payment.customer || `${toStringSafe(payment.sender_first_name)} ${toStringSafe(payment.sender_last_name)}`.trim()) || null,
-    status: status || 'unknown',
-    action: action || null,
+    subscribeId: toStringSafe(payment.subscribe_id) || toStringSafe(existingAttributes.subscribeId) || null,
+    email: incomingEmail || existingEmail || checkoutEmail || null,
+    customer:
+      toStringSafe(
+        payment.customer ||
+          `${toStringSafe(payment.sender_first_name)} ${toStringSafe(payment.sender_last_name)}`.trim()
+      ) ||
+      toStringSafe(existingAttributes.customer) ||
+      null,
+    status: status || toStringSafe(existingAttributes.status) || 'unknown',
+    action: action || toStringSafe(existingAttributes.action) || null,
     isActive,
-    amount: toNumberSafe(payment.amount),
-    currency: toStringSafe(payment.currency) || null,
-    periodicity: toStringSafe(payment.subscribe_periodicity || payment.periodicity) || null,
+    amount: amount ?? existingAmount ?? checkoutAmount,
+    currency:
+      toStringSafe(payment.currency) ||
+      toStringSafe(existingAttributes.currency) ||
+      toStringSafe(checkoutAttributes.currency) ||
+      null,
+    periodicity:
+      toStringSafe(payment.subscribe_periodicity || payment.periodicity) ||
+      toStringSafe(existingAttributes.periodicity) ||
+      toStringSafe(checkoutAttributes.periodicity) ||
+      null,
     lastEventAt: eventAt,
-    lastPaymentId: toStringSafe(payment.payment_id || payment.transaction_id) || null,
+    liqpayId:
+      (action === 'subscribe' ? toStringSafe(payment.payment_id || payment.transaction_id) : '') ||
+      toStringSafe(existingAttributes.liqpayId) ||
+      null,
     source: event.source,
     payload: payment,
   };
 
-  const existingId = await findOneByField(baseUrl, token, 'subscriptions', 'orderId', orderId);
-  if (existingId) {
-    await strapiRequest(`${baseUrl}/api/subscriptions/${existingId}`, token, {
+  if (existing) {
+    await strapiRequest(`${baseUrl}/api/subscriptions/${existing.id}`, token, {
       method: 'PUT',
       body: JSON.stringify({ data }),
     });

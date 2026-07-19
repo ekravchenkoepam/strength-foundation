@@ -10,7 +10,7 @@ type HistoryItem = {
   eventId: string;
   receivedAt: string;
   orderId: string;
-  paymentId: string;
+  liqpayId: string;
   action: string;
   status: string;
   amount: string;
@@ -59,10 +59,7 @@ export async function GET(request: NextRequest) {
   const privateKey = process.env.LIQPAY_PRIVATE_KEY;
 
   if (!publicKey || !privateKey) {
-    return NextResponse.json(
-      { error: 'LiqPay keys are not configured on the server' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'LiqPay keys are not configured on the server' }, { status: 500 });
   }
 
   const type = (request.nextUrl.searchParams.get('type') ?? 'all') as HistoryType;
@@ -105,7 +102,7 @@ export async function GET(request: NextRequest) {
       eventId: event.id,
       receivedAt: event.receivedAt,
       orderId: toStringSafe(payment.order_id),
-      paymentId: toStringSafe(payment.payment_id || payment.transaction_id),
+      liqpayId: toStringSafe(payment.payment_id || payment.transaction_id),
       action: toStringSafe(payment.action),
       status: toStringSafe(payment.status),
       amount: toStringSafe(payment.amount),
@@ -120,9 +117,7 @@ export async function GET(request: NextRequest) {
 
   const candidateOrderIds = Array.from(
     new Set(
-      store.events
-        .map((event) => toStringSafe((event.payment as Record<string, unknown>).order_id))
-        .filter(Boolean)
+      store.events.map(event => toStringSafe((event.payment as Record<string, unknown>).order_id)).filter(Boolean)
     )
   );
 
@@ -156,7 +151,7 @@ export async function GET(request: NextRequest) {
           eventId: `status_${candidateOrderId}`,
           receivedAt: new Date(Number(liqPayResponse.end_date ?? Date.now())).toISOString(),
           orderId: toStringSafe(liqPayResponse.order_id),
-          paymentId: toStringSafe(liqPayResponse.payment_id || liqPayResponse.transaction_id),
+          liqpayId: toStringSafe(liqPayResponse.payment_id || liqPayResponse.transaction_id),
           action: toStringSafe(liqPayResponse.action),
           status: toStringSafe(liqPayResponse.status),
           amount: toStringSafe(liqPayResponse.amount),
@@ -182,13 +177,13 @@ export async function GET(request: NextRequest) {
   }
 
   const allItemsMap = new Map<string, HistoryItem>();
-  [...callbackItems, ...statusItems].forEach((item) => {
-    const key = `${item.orderId}:${item.paymentId}:${item.action}:${item.source}`;
+  [...callbackItems, ...statusItems].forEach(item => {
+    const key = `${item.orderId}:${item.liqpayId}:${item.action}:${item.source}`;
     allItemsMap.set(key, item);
   });
   const allItems = Array.from(allItemsMap.values()).sort((a, b) => (a.receivedAt < b.receivedAt ? 1 : -1));
 
-  const filtered = allItems.filter((item) => {
+  const filtered = allItems.filter(item => {
     if (type !== 'all' && item.type !== type) return false;
     if (status && item.status !== status) return false;
     if (orderId && item.orderId !== orderId) return false;
@@ -216,8 +211,8 @@ export async function GET(request: NextRequest) {
     },
     summary: {
       total: filtered.length,
-      payments: filtered.filter((item) => item.type === 'payment').length,
-      subscriptions: filtered.filter((item) => item.type === 'subscription').length,
+      payments: filtered.filter(item => item.type === 'payment').length,
+      subscriptions: filtered.filter(item => item.type === 'subscription').length,
     },
     items,
   });

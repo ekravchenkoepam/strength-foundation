@@ -1,17 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { buildLiqPayCheckout } from '@/app/lib/liqpay-checkout';
+import { buildLiqPayCheckout, type CheckoutBody } from '@/app/lib/liqpay-checkout';
 import { saveCallbackEvent } from '@/app/lib/liqpay-store';
 import { syncLiqPayEventToStrapi } from '@/app/lib/strapi-liqpay-sync';
-
-type CheckoutBody = {
-  amount?: number;
-  email?: string;
-  locale?: string;
-  mode?: 'pay' | 'subscribe';
-  periodicity?: 'month' | 'year';
-  subscribeDateStart?: string;
-};
 
 export async function POST(request: NextRequest) {
   const publicKey = process.env.LIQPAY_PUBLIC_KEY;
@@ -60,7 +51,7 @@ export async function POST(request: NextRequest) {
       periodicity: checkout.mode === 'subscribe' ? checkout.periodicity : 'none',
       subscribe_date_start: checkout.subscribeDateStart,
       amount: checkout.amount,
-      currency: 'UAH',
+      currency: checkout.currency,
       sender_email: checkout.senderEmail,
       public_base_url: checkout.publicBaseUrl,
       callback_url: `${checkout.publicBaseUrl}/api/liqpay/callback`,

@@ -1,7 +1,21 @@
 'use client';
 
+import { ChevronDownIcon } from 'lucide-react';
 import { useParams, useSearchParams } from 'next/navigation';
-import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
+
+import { Breadcrumbs } from '@/app/components/shared';
+import { AVAILABLE_CURRENCIES, DEFAULT_CURRENCY, type LiqPayCurrency } from '@/app/lib/liqpay-currencies';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
+import { getDonateTranslations } from './i18n';
+import styles from './page.module.scss';
 
 type CheckoutResponse = {
   checkoutUrl: string;
@@ -12,149 +26,114 @@ type CheckoutResponse = {
 };
 
 type CheckoutMode = 'pay' | 'subscribe';
-type Periodicity = 'month' | 'year';
 
-type LiqPayStoreResponse = {
-  events: Array<{
-    id: string;
-    receivedAt: string;
-    payment: Record<string, string | number | boolean | null>;
-  }>;
-  subscriptions: Record<
-    string,
-    {
-      orderId: string;
-      status: string;
-      action?: string;
-      lastUpdateAt: string;
-    }
-  >;
+type SubscriberCountResponse = {
+  count?: number;
 };
 
-type CancelResponse = {
-  ok?: boolean;
-  error?: string;
-  orderId?: string | null;
-};
-
-type CancelByEmailResponse = {
-  ok?: boolean;
-  error?: string;
-  cancelled?: string[];
-  failed?: Array<{ orderId: string; error: string }>;
-  totalFound?: number;
-};
-
-const labelClass = 'text-sm leading-[18px] text-[var(--black-80)]';
-const inputClass =
-  'h-[52px] w-full rounded-[10px] border border-transparent bg-[#e4e4e4] px-4 text-[18px] text-[#1d1d1d] outline-none placeholder:text-[#767676] focus:border-[#b7b7b7]';
-const messageSuccessClass =
-  'mb-4 rounded-[10px] border border-[#6f9e58] bg-[#eef8e8] px-3 py-2.5 text-sm text-[#244116]';
-const messageErrorClass =
-  'mt-1.5 rounded-[10px] border border-[#c43838] bg-[#fff0f0] px-3 py-2.5 text-sm text-[#7f2020]';
-
-const getEventKind = (payment: Record<string, string | number | boolean | null>): string => {
-  const action = String(payment.action ?? '');
-  const mode = String(payment.mode ?? '');
-  const type = String(payment.type ?? '');
-  const subscribeId = String(payment.subscribe_id ?? '');
-
-  if (action === 'checkout_init' && mode === 'subscribe') return 'subscription intent';
-  if (action === 'checkout_init' && mode === 'pay') return 'one-time intent';
-  if (action === 'regular') return 'subscription charge';
-  if (action === 'subscribe' || subscribeId) return 'subscription created';
-  if (action === 'pay' || type === 'buy') return 'one-time payment';
-  return 'unknown';
-};
+const presetAmounts = [100, 200, 500, 1000];
 
 export default function DonatePage() {
   const { locale } = useParams<{ locale: string }>();
+  const t = getDonateTranslations(locale);
   const searchParams = useSearchParams();
   const externalFormRef = useRef<HTMLFormElement>(null);
 
   const [mode, setMode] = useState<CheckoutMode>('pay');
-  const [periodicity, setPeriodicity] = useState<Periodicity>('month');
-  const [amount, setAmount] = useState<number>(100);
-  const [email, setEmail] = useState<string>('');
-  const [cancelOrderId, setCancelOrderId] = useState<string>('');
-  const [data, setData] = useState<string>('');
-  const [signature, setSignature] = useState<string>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isCanceling, setIsCanceling] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
-  const [cancelError, setCancelError] = useState<string>('');
-  const [cancelSuccess, setCancelSuccess] = useState<string>('');
-  const [manageEmail, setManageEmail] = useState<string>('');
-  const [manageError, setManageError] = useState<string>('');
-  const [manageSuccess, setManageSuccess] = useState<string>('');
-  const [isCancelingByEmail, setIsCancelingByEmail] = useState<boolean>(false);
-  const [store, setStore] = useState<LiqPayStoreResponse | null>(null);
-  const [storeError, setStoreError] = useState<string>('');
+  const [amount, setAmount] = useState('');
+  const [currency, setCurrency] = useState<LiqPayCurrency>(DEFAULT_CURRENCY);
+  const [email, setEmail] = useState('');
+  const [data, setData] = useState('');
+  const [signature, setSignature] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [supporterCount, setSupporterCount] = useState<number | null>(null);
 
-  const status = searchParams.get('status');
-  const order = searchParams.get('order');
-  const modeFromQuery = searchParams.get('mode');
-  const isSuccess = status === 'success';
-
-  const loadEvents = useCallback(async () => {
-    try {
-      setStoreError('');
-      const response = await fetch('/api/liqpay/events', { cache: 'no-store' });
-      if (!response.ok) {
-        throw new Error(`Failed to load events: HTTP ${response.status}`);
-      }
-      const payload = (await response.json()) as LiqPayStoreResponse;
-      setStore(payload);
-    } catch (loadError) {
-      setStoreError(loadError instanceof Error ? loadError.message : 'Failed to load events');
-    }
-  }, []);
+  const isSuccess = searchParams.get('status') === 'success';
+  const formattedSupporterCount =
+    supporterCount === null ? '—' : new Intl.NumberFormat(locale === 'en' ? 'en-US' : 'uk-UA').format(supporterCount);
+  const supporterPluralCategory = new Intl.PluralRules(locale === 'en' ? 'en-US' : 'uk-UA').select(supporterCount ?? 0);
+  const supporterPrefix = t.supporterPrefix[supporterPluralCategory] ?? t.supporterPrefix.other;
+  const supporterNoun = t.supporterNoun[supporterPluralCategory] ?? t.supporterNoun.other;
+  const supporterAriaLabel = t.supporterAriaLabel
+    .replace('{prefix}', supporterPrefix)
+    .replace('{count}', formattedSupporterCount)
+    .replace('{noun}', supporterNoun);
 
   useEffect(() => {
-    void loadEvents();
-  }, [loadEvents]);
+    const controller = new AbortController();
 
-  useEffect(() => {
-    if (!isSuccess || !order) return;
-
-    const syncStatus = async () => {
+    const loadSupporterCount = async () => {
       try {
-        await fetch(`/api/liqpay/status?orderId=${encodeURIComponent(order)}`, { cache: 'no-store' });
-      } catch {
-        // Keep UI resilient even if status sync fails.
-      } finally {
-        await loadEvents();
+        const response = await fetch('/api/subscriptions/count', {
+          cache: 'no-store',
+          signal: controller.signal,
+        });
+        const payload = (await response.json()) as SubscriberCountResponse;
+
+        if (response.ok && Number.isInteger(payload.count) && Number(payload.count) >= 0) {
+          setSupporterCount(Number(payload.count));
+        }
+      } catch (countError) {
+        if (!(countError instanceof DOMException && countError.name === 'AbortError')) {
+          console.error('Failed to load active subscriber count', countError);
+        }
       }
     };
 
-    void syncStatus();
-  }, [isSuccess, order, loadEvents]);
+    void loadSupporterCount();
+
+    return () => controller.abort();
+  }, []);
+
+  const selectMode = (nextMode: CheckoutMode) => {
+    setMode(nextMode);
+    setError('');
+  };
+
+  const addPresetAmount = (preset: number) => {
+    setAmount(currentAmount => {
+      const parsedAmount = Number(currentAmount);
+      const baseAmount = Number.isFinite(parsedAmount) ? parsedAmount : 0;
+
+      return String(baseAmount + preset);
+    });
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError('');
+
+    const parsedAmount = Number(amount);
+    if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
+      setError(t.amountValidationError);
+      return;
+    }
+
+    if (mode === 'subscribe' && !email.trim()) {
+      setError(t.emailValidationError);
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      if (mode === 'subscribe' && !email.trim()) {
-        throw new Error('Email is required for subscription management');
-      }
-
       const response = await fetch('/api/liqpay/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           mode,
-          periodicity,
-          amount,
-          email: email || undefined,
+          periodicity: 'month',
+          amount: parsedAmount,
+          currency,
+          email: email.trim() || undefined,
           locale: locale ?? 'uk',
         }),
       });
 
       const payload = (await response.json()) as CheckoutResponse;
       if (!response.ok || !payload.data || !payload.signature || payload.error) {
-        throw new Error(payload.error || 'Failed to prepare checkout form');
+        throw new Error(payload.error || t.prepareCheckoutError);
       }
 
       setData(payload.data);
@@ -164,273 +143,202 @@ export default function DonatePage() {
         externalFormRef.current?.submit();
       });
     } catch (submitError) {
-      const message = submitError instanceof Error ? submitError.message : 'Failed to start payment';
-      setError(message);
+      setError(submitError instanceof Error ? submitError.message : t.startCheckoutError);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleCancelSubscription = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setCancelError('');
-    setCancelSuccess('');
-    setIsCanceling(true);
-
-    try {
-      if (!cancelOrderId.trim()) {
-        throw new Error('Вкажіть order_id (poc_...)');
-      }
-
-      const response = await fetch('/api/liqpay/subscriptions/cancel', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          orderId: cancelOrderId || undefined,
-        }),
-      });
-
-      const payload = (await response.json()) as CancelResponse;
-      if (!response.ok || payload.error) {
-        throw new Error(payload.error || 'Failed to cancel subscription');
-      }
-
-      const successId = payload.orderId || cancelOrderId;
-      setCancelSuccess(`Підписка скасована: ${successId}`);
-      setCancelOrderId('');
-      await loadEvents();
-    } catch (cancelRequestError) {
-      const message =
-        cancelRequestError instanceof Error ? cancelRequestError.message : 'Failed to cancel subscription';
-      setCancelError(message);
-    } finally {
-      setIsCanceling(false);
-    }
-  };
-
-  const handleCancelByEmail = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setManageError('');
-    setManageSuccess('');
-    setIsCancelingByEmail(true);
-
-    try {
-      const emailToUse = (manageEmail || email).trim();
-      if (!emailToUse) {
-        throw new Error('Вкажіть email для скасування підписки');
-      }
-
-      const response = await fetch('/api/liqpay/subscriptions/cancel-by-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: emailToUse,
-        }),
-      });
-
-      const payload = (await response.json()) as CancelByEmailResponse;
-      if (!response.ok || payload.error) {
-        throw new Error(payload.error || 'Failed to cancel subscriptions');
-      }
-
-      const cancelledCount = payload.cancelled?.length ?? 0;
-      const failedCount = payload.failed?.length ?? 0;
-      setManageSuccess(`Скасовано: ${cancelledCount}. Помилок: ${failedCount}.`);
-      await loadEvents();
-    } catch (requestError) {
-      setManageError(requestError instanceof Error ? requestError.message : 'Failed to cancel subscriptions');
-    } finally {
-      setIsCancelingByEmail(false);
-    }
-  };
-
   return (
-    <main className="flex min-h-[70vh] items-center justify-center bg-[#4a4d39] px-4 py-8 sm:px-6">
-      <div className="w-full max-w-[560px] rounded-[12px] bg-[#f3f3f1] p-5 shadow-[0_16px_40px_rgba(0,0,0,0.22)] sm:p-7">
-        <h1 className="font-[var(--font-e-ukraine-head)] text-[29px] leading-[32px] uppercase tracking-[-0.02em] text-[#151515] sm:text-[34px] sm:leading-[38px]">
-          Підтримка через LiqPay
-        </h1>
-        <p className="mb-5 mt-2 text-[15px] text-[#525252]">PoC інтеграції LiqPay (sandbox)</p>
+    <>
+      <Breadcrumbs
+        locale={locale ?? 'uk'}
+        breadcrumbs={[
+          { href: '/', title: t.homeBreadcrumb },
+          { href: 'donate', title: t.donateBreadcrumb },
+        ]}
+      />
 
-        {isSuccess && (
-          <div className={messageSuccessClass}>
-            Повернення з LiqPay отримано. order_id: {order ?? 'n/a'}, mode: {modeFromQuery ?? 'n/a'}.
-          </div>
-        )}
+      <main className={styles.page}>
+        <div className={styles.pageContainer}>
+          <h1 className={styles.pageTitle}>{t.title}</h1>
+          <p className={styles.pageIntro}>{t.intro}</p>
 
-        <form className="flex flex-col gap-2.5" onSubmit={handleSubmit}>
-          <div className="mb-1 grid grid-cols-2 gap-2.5">
-            <button
-              type="button"
-              className={
-                mode === 'pay'
-                  ? 'h-11 rounded-[10px] border border-[#2c2c2c] bg-[#ffffff] text-[17px] font-medium text-[#1c1c1c]'
-                  : 'h-11 rounded-[10px] border border-transparent bg-[#dddddd] text-[17px] font-medium text-[#676767]'
-              }
-              onClick={() => setMode('pay')}
-            >
-              Разово
-            </button>
-            <button
-              type="button"
-              className={
-                mode === 'subscribe'
-                  ? 'h-11 rounded-[10px] border border-[#2c2c2c] bg-[#ffffff] text-[17px] font-medium text-[#1c1c1c]'
-                  : 'h-11 rounded-[10px] border border-transparent bg-[#dddddd] text-[17px] font-medium text-[#676767]'
-              }
-              onClick={() => setMode('subscribe')}
-            >
-              Підписка
-            </button>
-          </div>
-
-          {mode === 'subscribe' && (
-            <>
-              <label className={labelClass} htmlFor="periodicity">
-                Періодичність
-              </label>
-              <select
-                id="periodicity"
-                value={periodicity}
-                onChange={event => setPeriodicity(event.target.value as Periodicity)}
-                className={inputClass}
-              >
-                <option value="month">Щомісяця</option>
-                <option value="year">Щороку</option>
-              </select>
-            </>
-          )}
-
-          <label className={labelClass} htmlFor="amount">
-            {mode === 'subscribe' ? 'Сума підписки (UAH)' : 'Сума внеску (UAH)'}
-          </label>
-          <input
-            id="amount"
-            type="number"
-            min={1}
-            step="1"
-            value={amount}
-            onChange={event => setAmount(Number(event.target.value))}
-            required
-            className={inputClass}
-          />
-
-          <label className={labelClass} htmlFor="email">
-            {mode === 'subscribe' ? 'Email (required for subscription management)' : 'Email (optional)'}
-          </label>
-          <input
-            id="email"
-            type="email"
-            placeholder="example@example.com"
-            value={email}
-            onChange={event => setEmail(event.target.value)}
-            className={inputClass}
-            required={mode === 'subscribe'}
-          />
-
-          {error && <div className={messageErrorClass}>{error}</div>}
-
-          <button
-            type="submit"
-            className="mt-4 h-[54px] rounded-[10px] border-0 bg-[#e2bd35] px-5 text-[26px] font-[var(--font-e-ukraine-head)] uppercase text-[#171717] transition-colors hover:bg-[#d6b12a] disabled:opacity-60 sm:text-[28px]"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Створюємо оплату...' : mode === 'subscribe' ? 'Оформити підписку' : 'Підтримати разово'}
-          </button>
-        </form>
-
-        <div className="my-5 h-px bg-[#d3d3d3]" />
-
-        <form className="flex flex-col gap-2.5" onSubmit={handleCancelSubscription}>
-          <h2 className="text-lg leading-6 text-[#161616]">Скасувати підписку</h2>
-          <label className={labelClass} htmlFor="cancelOrderId">
-            order_id підписки (наприклад, poc_...)
-          </label>
-          <input
-            id="cancelOrderId"
-            type="text"
-            value={cancelOrderId}
-            onChange={event => setCancelOrderId(event.target.value)}
-            className={inputClass}
-            required
-          />
-          {cancelError && <div className={messageErrorClass}>{cancelError}</div>}
-          {cancelSuccess && <div className={messageSuccessClass}>{cancelSuccess}</div>}
-          <button
-            type="submit"
-            className="mt-1.5 h-12 rounded-[10px] border border-[#6b6b6b] bg-[#f8f8f8] text-base text-[#242424] transition-colors hover:bg-[#ececec]"
-            disabled={isCanceling}
-          >
-            {isCanceling ? 'Скасовуємо...' : 'Скасувати підписку'}
-          </button>
-        </form>
-
-        <div className="my-5 h-px bg-[#d3d3d3]" />
-
-        <form className="flex flex-col gap-2.5" onSubmit={handleCancelByEmail}>
-          <h2 className="text-lg leading-6 text-[#161616]">Скасувати підписку за email</h2>
-          <label className={labelClass} htmlFor="manageEmail">
-            Email підписника
-          </label>
-          <input
-            id="manageEmail"
-            type="email"
-            value={manageEmail}
-            onChange={event => setManageEmail(event.target.value)}
-            className={inputClass}
-            placeholder={email || 'example@example.com'}
-          />
-          {manageError && <div className={messageErrorClass}>{manageError}</div>}
-          {manageSuccess && <div className={messageSuccessClass}>{manageSuccess}</div>}
-          <button
-            type="submit"
-            className="mt-1.5 h-12 rounded-[10px] border border-[#6b6b6b] bg-[#f8f8f8] text-base text-[#242424] transition-colors hover:bg-[#ececec]"
-            disabled={isCancelingByEmail}
-          >
-            {isCancelingByEmail ? 'Скасовуємо...' : 'Скасувати підписки за email'}
-          </button>
-        </form>
-
-        <div className="my-5 h-px bg-[#d3d3d3]" />
-
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-lg leading-6 text-[#161616]">Callback статуси</h2>
-          <button
-            type="button"
-            className="h-[34px] rounded-[9px] border border-[#8f8f8f] bg-[#f8f8f8] px-3 text-[13px] text-[#2f2f2f] transition-colors hover:bg-[#ececec]"
-            onClick={() => void loadEvents()}
-          >
-            Оновити
-          </button>
-        </div>
-        {storeError && <div className={messageErrorClass}>{storeError}</div>}
-
-        <div className="flex flex-col gap-2.5">
-          {(store?.events ?? []).slice(0, 8).map(eventItem => (
-            <div
-              key={eventItem.id}
-              className="rounded-[10px] border border-[#d0d0d0] bg-[#ededeb] px-3 py-2.5 text-[13px] leading-[18px] text-[#2e2e2e]"
-            >
-              <div>type: {getEventKind(eventItem.payment)}</div>
-              <div>time: {eventItem.receivedAt}</div>
-              <div>action: {String(eventItem.payment.action ?? '')}</div>
-              <div>status: {String(eventItem.payment.status ?? '')}</div>
-              <div>order_id: {String(eventItem.payment.order_id ?? '')}</div>
-              <div>amount: {String(eventItem.payment.amount ?? '')}</div>
-              <div>mode: {String(eventItem.payment.mode ?? eventItem.payment.outgoing_action ?? '')}</div>
-              <div>
-                periodicity: {String(eventItem.payment.periodicity ?? eventItem.payment.subscribe_periodicity ?? '')}
+          <section className={styles.donationPanel} aria-labelledby="liqpay-title">
+            <div className={styles.fundsNotice}>
+              <span className={styles.noticeIcon} aria-hidden="true">
+                ℹ️
+              </span>
+              <div className={styles.noticeContent}>
+                <h2 className={styles.noticeTitle}>{t.fundsTitle}</h2>
+                <p className={styles.noticeDescription} title={t.fundsDescription}>
+                  {t.fundsDescription}
+                </p>
               </div>
             </div>
-          ))}
-          {!store?.events?.length && <div className="text-sm text-[var(--black-60)]">Поки немає callback подій</div>}
-        </div>
 
-        <form ref={externalFormRef} method="POST" action="https://www.liqpay.ua/api/3/checkout" className="hidden">
-          <input type="hidden" name="data" value={data} />
-          <input type="hidden" name="signature" value={signature} />
-        </form>
-      </div>
-    </main>
+            <h2 id="liqpay-title" className={styles.formTitle}>
+              {t.liqpayTitle}
+            </h2>
+
+            {isSuccess && <div className={styles.successMessage}>{t.successMessage}</div>}
+
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <fieldset className={styles.modeFieldset}>
+                <legend className={styles.fieldLabel}>{t.periodicity}</legend>
+                <div className={styles.modeSwitch}>
+                  <button
+                    type="button"
+                    className={`${styles.modeButton} ${mode === 'pay' ? styles.modeButtonActive : ''}`}
+                    onClick={() => selectMode('pay')}
+                    aria-pressed={mode === 'pay'}
+                  >
+                    {t.oneTime}
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.modeButton} ${mode === 'subscribe' ? styles.modeButtonActive : ''}`}
+                    onClick={() => selectMode('subscribe')}
+                    aria-pressed={mode === 'subscribe'}
+                  >
+                    {t.subscription}
+                  </button>
+                </div>
+              </fieldset>
+
+              {mode === 'subscribe' && (
+                <aside className={styles.subscriptionBenefit} aria-labelledby="subscription-benefit-title">
+                  <div className={styles.subscriptionBenefitCopy}>
+                    <span className={styles.noticeIcon} aria-hidden="true">
+                      ℹ️
+                    </span>
+                    <div className={styles.noticeContent}>
+                      <h3 id="subscription-benefit-title" className={styles.noticeTitle}>
+                        {t.recurringBenefitTitle}
+                      </h3>
+                      <p className={styles.noticeDescription}>{t.recurringBenefitDescription}</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.supporterStat} aria-label={supporterAriaLabel} aria-live="polite">
+                    <span>{supporterPrefix}</span>
+                    <strong>{formattedSupporterCount}</strong>
+                    <span>{supporterNoun}</span>
+                  </div>
+                </aside>
+              )}
+
+              <div className={styles.amountField}>
+                <label className={styles.fieldLabel} htmlFor="amount">
+                  {mode === 'subscribe' ? t.subscriptionAmountLabel : t.donationAmountLabel}
+                </label>
+                <div className={styles.amountControl}>
+                  <input
+                    id="amount"
+                    type="number"
+                    min="1"
+                    step="1"
+                    inputMode="numeric"
+                    placeholder={t.amountPlaceholder}
+                    value={amount}
+                    onChange={event => setAmount(event.target.value)}
+                    className={styles.amountInput}
+                    required
+                  />
+                  <div className={styles.currencyControl}>
+                    <DropdownMenu modal={false}>
+                      <DropdownMenuTrigger className={styles.currencyTrigger} aria-label={t.currencyLabel}>
+                        <span>{AVAILABLE_CURRENCIES.find(option => option.code === currency)?.label}</span>
+                        <ChevronDownIcon aria-hidden="true" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className={styles.currencyMenu} align="end" sideOffset={8}>
+                        <DropdownMenuRadioGroup
+                          value={currency}
+                          onValueChange={value => setCurrency(value as LiqPayCurrency)}
+                        >
+                          {AVAILABLE_CURRENCIES.map(option => (
+                            <DropdownMenuRadioItem
+                              className={styles.currencyOption}
+                              key={option.code}
+                              value={option.code}
+                            >
+                              {option.label}
+                            </DropdownMenuRadioItem>
+                          ))}
+                        </DropdownMenuRadioGroup>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.presetGrid} aria-label={t.quickAmountLabel}>
+                {presetAmounts.map(preset => (
+                  <button
+                    key={preset}
+                    type="button"
+                    className={styles.presetButton}
+                    onClick={() => addPresetAmount(preset)}
+                  >
+                    +{preset} {currency}
+                  </button>
+                ))}
+              </div>
+
+              {mode === 'subscribe' && (
+                <div className={styles.subscriptionEmailField}>
+                  <label className={styles.fieldLabel} htmlFor="email">
+                    {t.emailLabel}
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="Example@example.com"
+                    value={email}
+                    onChange={event => setEmail(event.target.value)}
+                    className={styles.textInput}
+                    required
+                  />
+                </div>
+              )}
+
+              {error && (
+                <div className={styles.errorMessage} role="alert">
+                  {error}
+                </div>
+              )}
+
+              <button type="submit" className={styles.submitButton} disabled={isLoading}>
+                {isLoading ? t.submitLoading : t.submit}
+              </button>
+
+              <p className={styles.securityNote}>
+                <span aria-hidden="true">🔒</span>
+                {t.secureTransaction}
+              </p>
+
+              {mode === 'subscribe' && (
+                <aside className={styles.subscriptionTerms} aria-labelledby="subscription-terms-title">
+                  <span className={styles.noticeIcon} aria-hidden="true">
+                    ℹ️
+                  </span>
+                  <div className={styles.noticeContent}>
+                    <h3 id="subscription-terms-title" className={styles.noticeTitle}>
+                      {t.subscriptionTermsTitle}
+                    </h3>
+                    <p className={styles.subscriptionTermsDescription}>{t.subscriptionTermsDescription}</p>
+                  </div>
+                </aside>
+              )}
+            </form>
+
+            <form ref={externalFormRef} method="POST" action="https://www.liqpay.ua/api/3/checkout" hidden>
+              <input type="hidden" name="data" value={data} />
+              <input type="hidden" name="signature" value={signature} />
+            </form>
+          </section>
+        </div>
+      </main>
+    </>
   );
 }
