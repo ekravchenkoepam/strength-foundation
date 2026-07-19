@@ -19,6 +19,7 @@ export type ActiveSubscriberCount = {
   total: number;
   active: number;
   subscribed: number;
+  activeAndSubscribed: number;
 };
 
 const getStrapiConfig = (): { baseUrl: string; token?: string } => {
@@ -39,6 +40,7 @@ const fetchActiveSubscriptionCount = async (baseUrl: string, token?: string): Pr
     total: 0,
     active: 0,
     subscribed: 0,
+    activeAndSubscribed: 0,
   };
 
   while (true) {
@@ -79,9 +81,12 @@ const fetchActiveSubscriptionCount = async (baseUrl: string, token?: string): Pr
           .trim()
           .toLowerCase() === 'subscribed';
 
-      if (isActive) result.active += 1;
+      if (isActive) {
+        result.active += 1;
+        result.count += 1;
+      }
       if (isSubscribed) result.subscribed += 1;
-      if (isActive && isSubscribed) result.count += 1;
+      if (isActive && isSubscribed) result.activeAndSubscribed += 1;
     }
 
     if (payload.data.length < SUBSCRIPTION_PAGE_SIZE) {

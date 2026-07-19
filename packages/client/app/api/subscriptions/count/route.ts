@@ -12,7 +12,8 @@ export async function GET() {
       total: result.total,
       active: result.active,
       subscribed: result.subscribed,
-      activeAndSubscribed: result.count,
+      activeAndSubscribed: result.activeAndSubscribed,
+      returnedCount: result.count,
     });
 
     return NextResponse.json(
