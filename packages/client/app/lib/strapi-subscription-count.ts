@@ -9,18 +9,18 @@ type StrapiSubscriptionResponse = {
   };
 };
 
-const getStrapiConfig = (): { baseUrl: string; token: string } => {
+const getStrapiConfig = (): { baseUrl: string; token?: string } => {
   const baseUrl = (process.env.STRAPI_API_URL || process.env.NEXT_PUBLIC_STRAPI_API_URL || '').replace(/\/$/, '');
   const token = process.env.STRAPI_API_TOKEN || process.env.NEXT_PUBLIC_STRAPI_API_TOKEN || '';
 
-  if (!baseUrl || !token) {
+  if (!baseUrl) {
     throw new Error('Strapi subscription count is not configured');
   }
 
-  return { baseUrl, token };
+  return { baseUrl, ...(token ? { token } : {}) };
 };
 
-const fetchActiveSubscriptionCount = async (baseUrl: string, token: string): Promise<number> => {
+const fetchActiveSubscriptionCount = async (baseUrl: string, token?: string): Promise<number> => {
   const query = new URLSearchParams({
     'filters[isActive][$eq]': 'true',
     'filters[status][$eq]': 'subscribed',
@@ -31,7 +31,7 @@ const fetchActiveSubscriptionCount = async (baseUrl: string, token: string): Pro
   const response = await fetch(`${baseUrl}/api/subscriptions?${query}`, {
     headers: {
       Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     cache: 'no-store',
   });
