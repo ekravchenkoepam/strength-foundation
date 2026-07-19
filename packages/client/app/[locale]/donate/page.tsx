@@ -38,13 +38,13 @@ export default function DonatePage() {
   const t = getDonateTranslations(locale);
   const searchParams = useSearchParams();
   const externalFormRef = useRef<HTMLFormElement>(null);
+  const checkoutDataRef = useRef<HTMLInputElement>(null);
+  const checkoutSignatureRef = useRef<HTMLInputElement>(null);
 
   const [mode, setMode] = useState<CheckoutMode>('pay');
   const [amount, setAmount] = useState('');
   const [currency, setCurrency] = useState<LiqPayCurrency>(DEFAULT_CURRENCY);
   const [email, setEmail] = useState('');
-  const [data, setData] = useState('');
-  const [signature, setSignature] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [supporterCount, setSupporterCount] = useState<number | null>(null);
@@ -136,12 +136,18 @@ export default function DonatePage() {
         throw new Error(payload.error || t.prepareCheckoutError);
       }
 
-      setData(payload.data);
-      setSignature(payload.signature);
+      const checkoutForm = externalFormRef.current;
+      const checkoutData = checkoutDataRef.current;
+      const checkoutSignature = checkoutSignatureRef.current;
 
-      requestAnimationFrame(() => {
-        externalFormRef.current?.submit();
-      });
+      if (!checkoutForm || !checkoutData || !checkoutSignature) {
+        throw new Error(t.prepareCheckoutError);
+      }
+
+      checkoutForm.action = payload.checkoutUrl;
+      checkoutData.value = payload.data;
+      checkoutSignature.value = payload.signature;
+      checkoutForm.submit();
     } catch (submitError) {
       setError(submitError instanceof Error ? submitError.message : t.startCheckoutError);
     } finally {
@@ -333,8 +339,8 @@ export default function DonatePage() {
             </form>
 
             <form ref={externalFormRef} method="POST" action="https://www.liqpay.ua/api/3/checkout" hidden>
-              <input type="hidden" name="data" value={data} />
-              <input type="hidden" name="signature" value={signature} />
+              <input ref={checkoutDataRef} type="hidden" name="data" />
+              <input ref={checkoutSignatureRef} type="hidden" name="signature" />
             </form>
           </section>
         </div>
