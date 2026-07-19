@@ -892,11 +892,11 @@ export interface ApiPaymentTransactionPaymentTransaction extends Schema.Collecti
     eventAt: Attribute.DateTime;
     eventKey: Attribute.String & Attribute.Required & Attribute.Unique;
     eventType: Attribute.Enumeration<['payment', 'subscription', 'intent', 'unknown']> & Attribute.DefaultTo<'unknown'>;
+    liqpayId: Attribute.String;
     liqpayOrderId: Attribute.String;
     mode: Attribute.String;
     orderId: Attribute.String;
     payload: Attribute.JSON;
-    paymentId: Attribute.String;
     paymentType: Attribute.String;
     periodicity: Attribute.String;
     requestMeta: Attribute.JSON;
@@ -1206,7 +1206,7 @@ export interface ApiSubscriptionSubscription extends Schema.CollectionType {
     email: Attribute.Email;
     isActive: Attribute.Boolean & Attribute.DefaultTo<false>;
     lastEventAt: Attribute.DateTime;
-    lastPaymentId: Attribute.String;
+    liqpayId: Attribute.String;
     orderId: Attribute.String & Attribute.Required & Attribute.Unique;
     payload: Attribute.JSON;
     periodicity: Attribute.String;

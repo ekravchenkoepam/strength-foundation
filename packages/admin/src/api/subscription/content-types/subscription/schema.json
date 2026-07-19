@@ -47,7 +47,7 @@
     "lastEventAt": {
       "type": "datetime"
     },
-    "lastPaymentId": {
+    "liqpayId": {
       "type": "string"
     },
     "source": {
