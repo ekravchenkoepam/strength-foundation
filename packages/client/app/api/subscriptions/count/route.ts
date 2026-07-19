@@ -6,13 +6,21 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const count = await getActiveSubscriberCount();
+    const result = await getActiveSubscriberCount();
+
+    console.info('[Subscription count] Loaded subscription aggregates', {
+      total: result.total,
+      active: result.active,
+      subscribed: result.subscribed,
+      activeAndSubscribed: result.count,
+    });
 
     return NextResponse.json(
-      { count },
+      { count: result.count },
       {
         headers: {
           'Cache-Control': 'no-store',
+          'X-Subscription-Count-Strategy': 'records-v2',
         },
       }
     );
