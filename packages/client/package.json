@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "postbuild": "cp -R public .next/standalone/packages/client/public && cp -R .next/static .next/standalone/packages/client/.next/static",
+    "start": "node .next/standalone/packages/client/server.js",
     "lint": "next lint",
     "type-check": "tsc"
   },
