@@ -112,7 +112,7 @@ export const ProjectsPage = ({ locale }: PageProps) => {
 
   return (
     <div className="w-full bg-[var(--white-80)] pb-14 md:pb-20 lg:pb-[96px]">
-      <section className="w-full px-4 pt-6 md:px-8 md:pt-8 lg:px-[52px] lg:pt-[36px]">
+      <section className="w-full px-6 pt-6 md:px-8 md:pt-8 lg:px-[52px] lg:pt-[36px]">
         <h1 className="h1 mb-8 text-center text-[var(--black-100)] md:mb-12 lg:mb-[68px]">{title}</h1>
 
         {projects.length ? (
@@ -120,7 +120,7 @@ export const ProjectsPage = ({ locale }: PageProps) => {
             {projects.map(project => (
               <article
                 key={project.id}
-                className="group relative isolate h-[420px] overflow-hidden rounded-[18px] bg-[var(--green-20)] shadow-[0_22px_48px_rgba(0,0,0,0.14)] md:h-[460px] xl:h-[560px]"
+                className="group relative isolate flex min-h-[420px] flex-col justify-end overflow-hidden rounded-[18px] bg-[var(--green-20)] p-5 shadow-[0_22px_48px_rgba(0,0,0,0.14)] md:min-h-[460px] md:p-[22px] xl:min-h-[560px]"
               >
                 {project.imageUrl ? (
                   <img
@@ -135,12 +135,12 @@ export const ProjectsPage = ({ locale }: PageProps) => {
                 <LiquidGlass
                   tint="dark"
                   intensity="strong"
-                  className="absolute inset-x-5 top-[44%] bottom-5 flex flex-col gap-3 rounded-[16px] p-6 md:inset-x-[22px] md:bottom-[22px] xl:top-[48%]"
+                  className="relative flex w-full flex-col gap-3 rounded-[16px] p-6"
                 >
                   <h2 className="m-0 line-clamp-2 text-[22px] leading-[1.2] font-bold tracking-[-0.01em] text-white md:text-[24px]">
                     {project.title}
                   </h2>
-                  <p className="m-0 line-clamp-4 flex-1 text-[14px] leading-[1.45] whitespace-pre-line text-white md:text-[15px]">
+                  <p className="m-0 line-clamp-4 text-[14px] leading-[1.45] whitespace-pre-line text-white md:text-[15px]">
                     {project.description}
                   </p>
 

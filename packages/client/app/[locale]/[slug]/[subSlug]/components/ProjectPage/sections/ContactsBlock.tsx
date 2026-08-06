@@ -22,7 +22,7 @@ export const ContactsBlock = ({
   const donateHref = `/${locale}/donate`;
 
   return (
-    <section className="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[var(--green-100)] px-[52px] py-14 text-white md:py-[72px]">
+    <section className="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[var(--green-100)] px-6 py-14 text-white md:py-[72px] lg:px-[52px]">
       <div className="flex flex-col gap-[80px]">
         <h2 className="m-0 text-center text-[28px] font-bold md:text-[32px]">{title}</h2>
 

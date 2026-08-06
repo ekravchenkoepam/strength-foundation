@@ -10,7 +10,7 @@ export const Loading: FC<LoadingProps> = ({ headerText }) => (
   <div
     className="
       mx-auto flex w-full max-w-[980px] flex-col items-center gap-8
-      px-4 pb-16 pt-8 md:px-[50px] md:pb-[100px] md:pt-12
+      px-6 pb-16 pt-8 md:px-[50px] md:pb-[100px] md:pt-12
     "
   >
     {headerText && <h1 className="h1 m-0 text-center">{headerText}</h1>}

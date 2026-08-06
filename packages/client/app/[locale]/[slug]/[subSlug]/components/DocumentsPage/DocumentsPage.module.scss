@@ -24,3 +24,9 @@
 .listContainer {
   width: 100%;
 }
+
+@media (max-width: 767px) {
+  .wrapper {
+    padding: 0 24px 72px;
+  }
+}

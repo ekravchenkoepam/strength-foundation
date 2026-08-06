@@ -89,7 +89,7 @@ export default function DonateManagePage() {
   };
 
   return (
-    <main className="flex min-h-[70vh] items-center justify-center bg-[#4a4d39] px-4 py-8 sm:px-6">
+    <main className="flex min-h-[70vh] items-center justify-center bg-[#4a4d39] px-6 py-8">
       <div className="w-full max-w-[680px] rounded-[12px] bg-[#f3f3f1] p-5 shadow-[0_16px_40px_rgba(0,0,0,0.22)] sm:p-7">
         <h1 className="font-[var(--font-e-ukraine-head)] text-[28px] uppercase text-[#151515]">Керування підписками</h1>
         {email && <p className="mt-2 text-[#545454]">Email: {email}</p>}

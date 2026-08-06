@@ -90,22 +90,11 @@
   line-height: var(--h9-line);
 }
 
-.successMessage,
 .errorMessage {
   border-radius: 10px;
   padding: 10px 12px;
   font-size: var(--h9-size);
   line-height: var(--h9-line);
-}
-
-.successMessage {
-  margin-top: 16px;
-  border: 1px solid #9acb7c;
-  background: #f2ffea;
-  color: #2d5121;
-}
-
-.errorMessage {
   border: 1px solid #c43838;
   background: #fff0f0;
   color: #7f2020;
@@ -383,6 +372,34 @@
   color: var(--white-100);
 }
 
+.cancelSubscriptionRow {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.cancelSubscriptionLink {
+  border: 0;
+  padding: 2px 0;
+  background: transparent;
+  color: var(--green-100);
+  font: inherit;
+  font-size: var(--h9-size);
+  line-height: var(--h9-line);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.cancelSubscriptionLink:hover {
+  text-decoration-thickness: 2px;
+}
+
+.cancelSubscriptionLink:focus-visible {
+  border-radius: 3px;
+  outline: 2px solid var(--green-80);
+  outline-offset: 3px;
+}
+
 .subscriptionEmailField {
   margin-top: 24px;
 }
@@ -445,10 +462,239 @@
   line-height: var(--h8-line);
 }
 
+.successModalBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(24, 24, 24, 0.58);
+  backdrop-filter: blur(4px);
+}
+
+.successModal {
+  position: relative;
+  width: min(728px, 100%);
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  border-radius: 16px;
+  padding: 72px 92px 42px;
+  background: var(--white-100);
+  color: var(--black-100);
+  box-shadow: 0 28px 80px rgba(24, 24, 24, 0.3);
+}
+
+.successModalClose {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  padding: 0;
+  background: transparent;
+  color: var(--black-100);
+  transition: background-color 160ms ease;
+}
+
+.successModalClose:hover {
+  background: var(--white-80);
+}
+
+.successModalClose:focus-visible,
+.successModalDone:focus-visible {
+  outline: 2px solid var(--green-80);
+  outline-offset: 3px;
+}
+
+.successModalClose svg {
+  width: 28px;
+  height: 28px;
+}
+
+.successModalHeart {
+  margin-bottom: 30px;
+  text-align: center;
+  font-size: 42px;
+  line-height: 1;
+}
+
+.successModalContent {
+  max-width: 544px;
+  margin: 0 auto;
+}
+
+.successModalTitle {
+  margin: 0 0 18px;
+  font-size: 30px;
+  line-height: 38px;
+  font-weight: var(--font-bold);
+}
+
+.successModalBody {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.successModalBody p {
+  margin: 0;
+}
+
+.successModalDone {
+  min-width: 146px;
+  min-height: 48px;
+  margin-top: 28px;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px 30px;
+  background: var(--yellow-100);
+  color: var(--black-100);
+  font: inherit;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: var(--font-bold);
+  transition: background-color 160ms ease;
+}
+
+.successModalDone:hover {
+  background: var(--yellow-80);
+}
+
+.cancellationModal {
+  width: min(804px, 100%);
+  padding: 88px 100px 72px;
+}
+
+.cancellationModalIcon {
+  margin-bottom: 32px;
+  text-align: center;
+  font-size: 42px;
+  line-height: 1;
+}
+
+.cancellationModalContent {
+  max-width: 604px;
+  margin: 0 auto;
+}
+
+.cancellationModalTitle {
+  margin: 0 0 20px;
+  color: var(--black-100);
+  font-size: 30px;
+  line-height: 36px;
+  font-weight: var(--font-bold);
+}
+
+.cancellationModalBody {
+  margin: 0;
+  color: var(--black-100);
+  font-size: 17px;
+  line-height: 26px;
+}
+
+.cancellationModalBody p {
+  margin: 0;
+}
+
+.cancellationPoints {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cancellationPoints li {
+  position: relative;
+  padding-left: 18px;
+}
+
+.cancellationPoints li::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '✓';
+  font-weight: var(--font-bold);
+}
+
+.cancellationEmailField {
+  margin-top: 24px;
+}
+
+.cancellationError {
+  margin-top: 12px;
+  border: 1px solid #c43838;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff0f0;
+  color: #7f2020;
+  font-size: var(--h9-size);
+  line-height: var(--h9-line);
+}
+
+.cancellationModalActions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.cancellationPrimaryButton,
+.cancellationSecondaryButton {
+  min-height: 54px;
+  border-radius: 10px;
+  padding: 12px 20px;
+  color: var(--black-100);
+  font: inherit;
+  font-size: 17px;
+  line-height: 24px;
+  font-weight: var(--font-bold);
+  transition: background-color 160ms ease, opacity 160ms ease;
+}
+
+.cancellationPrimaryButton {
+  border: 2px solid var(--yellow-100);
+  background: var(--yellow-100);
+}
+
+.cancellationPrimaryButton:hover:not(:disabled) {
+  border-color: var(--yellow-80);
+  background: var(--yellow-80);
+}
+
+.cancellationSecondaryButton {
+  border: 2px solid var(--green-80);
+  background: var(--white-100);
+}
+
+.cancellationSecondaryButton:hover:not(:disabled) {
+  background: var(--white-80);
+}
+
+.cancellationPrimaryButton:focus-visible,
+.cancellationSecondaryButton:focus-visible {
+  outline: 2px solid var(--green-80);
+  outline-offset: 3px;
+}
+
+.cancellationPrimaryButton:disabled,
+.cancellationSecondaryButton:disabled {
+  cursor: wait;
+  opacity: 0.62;
+}
+
+.cancellationStartButton {
+  min-width: 294px;
+  margin-top: 32px;
+}
+
 @media (max-width: 767px) {
   .page {
     min-height: 0;
-    padding: 24px 16px 48px;
+    padding: 24px 24px 48px;
   }
 
   .pageTitle {
@@ -531,6 +777,85 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
     margin-top: 16px;
+  }
+
+  .cancelSubscriptionRow {
+    margin-top: 18px;
+  }
+
+  .successModalBackdrop {
+    padding: 16px;
+  }
+
+  .successModal {
+    max-height: calc(100dvh - 32px);
+    border-radius: 14px;
+    padding: 56px 24px 24px;
+  }
+
+  .successModalClose {
+    top: 12px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .successModalClose svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .successModalHeart {
+    margin-bottom: 22px;
+    font-size: 36px;
+  }
+
+  .successModalTitle {
+    margin-bottom: 16px;
+    font-size: 26px;
+    line-height: 32px;
+  }
+
+  .successModalBody {
+    font-size: 15px;
+    line-height: 23px;
+  }
+
+  .successModalDone {
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  .cancellationModal {
+    padding: 56px 24px 24px;
+  }
+
+  .cancellationModalIcon {
+    margin-bottom: 22px;
+    font-size: 36px;
+  }
+
+  .cancellationModalTitle {
+    margin-bottom: 16px;
+    font-size: 26px;
+    line-height: 32px;
+  }
+
+  .cancellationModalBody {
+    font-size: 15px;
+    line-height: 23px;
+  }
+
+  .cancellationModalActions {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .cancellationStartButton {
+    width: 100%;
+    min-width: 0;
+    margin-top: 24px;
   }
 }
 

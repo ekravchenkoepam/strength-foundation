@@ -5,7 +5,7 @@ type PageProps = {
 
 export const DocumentsAndReportsPage = ({ locale, slug }: PageProps) => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+    <div className="flex flex-col items-center justify-center px-6 lg:px-[52px]">
       <h1>Documents and Reports Page</h1>
       <p>Locale: <strong>{locale}</strong></p>
       <p>Slug: <strong>{slug}</strong></p>

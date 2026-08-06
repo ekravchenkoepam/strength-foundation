@@ -137,7 +137,7 @@ export const FaqPage: FC<PageProps> = ({ locale }) => {
 
   return (
     <div className="w-full text-[16px] text-[var(--color-dark)]">
-      <section className="bg-[var(--white-80)] px-4 pt-8 pb-10 md:px-8 md:pt-10 md:pb-14 lg:px-[52px] lg:pt-[32px] lg:pb-[90px]">
+      <section className="bg-[var(--white-80)] px-6 pt-8 pb-10 md:px-8 md:pt-10 md:pb-14 lg:px-[52px] lg:pt-[32px] lg:pb-[90px]">
         <div className="mx-auto flex w-full flex-col items-center text-center">
           <div className="h1 mb-8 md:mb-12 lg:mb-[74px]">{title}</div>
           <div className="max-w-[760px] text-left text-[18px] leading-8 text-[var(--black-80)] md:text-[16px] md:leading-7">
@@ -149,7 +149,7 @@ export const FaqPage: FC<PageProps> = ({ locale }) => {
       <section
         className="
           bg-[var(--green-100)] bg-[url('/images/asphalt-bg.png')] bg-cover bg-center
-          px-4 py-10 text-[var(--color-light)] md:px-8 md:py-14 lg:px-[50px] lg:py-[100px]
+          px-6 py-10 text-[var(--color-light)] md:px-8 md:py-14 lg:px-[50px] lg:py-[100px]
         "
       >
         <div className="mx-auto">
@@ -193,7 +193,7 @@ export const FaqPage: FC<PageProps> = ({ locale }) => {
         </div>
       </section>
 
-      <section className="bg-[var(--white-80)] px-4 py-10 md:px-8 md:py-12 lg:px-[50px] lg:py-[72px]">
+      <section className="bg-[var(--white-80)] px-6 py-10 md:px-8 md:py-12 lg:px-[50px] lg:py-[72px]">
         <div className="h2 mb-8 text-center md:mb-10 lg:mb-[46px]">{faqTitle}</div>
         <div className="mx-auto flex w-full flex-col gap-8 md:gap-10 lg:gap-[72px] lg:px-[50px]">
           {categories.map(category => (
