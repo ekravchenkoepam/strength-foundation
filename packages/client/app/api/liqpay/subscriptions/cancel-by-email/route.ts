@@ -7,6 +7,10 @@ import {
   saveCallbackEvent,
 } from '@/app/lib/liqpay-store';
 import { syncLiqPayEventToStrapi } from '@/app/lib/strapi-liqpay-sync';
+import {
+  getActiveStrapiSubscriptionsByEmail,
+  type SubscriptionCancellationCandidate,
+} from '@/app/lib/strapi-subscription-lookup';
 
 type CancelByEmailBody = {
   email?: string;
@@ -43,21 +47,59 @@ export async function POST(request: NextRequest) {
   }
 
   const subscriptions = await getSubscriptionsByEmail(email);
-  const directOrderIds = subscriptions.filter(sub => sub.action !== 'unsubscribe').map(sub => sub.orderId);
+  const localCandidates: SubscriptionCancellationCandidate[] = subscriptions
+    .filter(sub => sub.action !== 'unsubscribe' && sub.status !== 'unsubscribed' && sub.status !== 'failure')
+    .map(sub => ({ orderId: sub.orderId, subscribeId: String(sub.subscribeId ?? '').trim() }));
   const eventOrderIds = await getSubscriptionOrderIdsByEmailFromEvents(email);
-  const candidateOrderIds = Array.from(new Set([...directOrderIds, ...eventOrderIds]));
+  const inactiveLocalOrderIds = new Set(
+    subscriptions
+      .filter(sub => sub.action === 'unsubscribe' || sub.status === 'unsubscribed' || sub.status === 'failure')
+      .map(sub => sub.orderId)
+  );
 
-  if (!candidateOrderIds.length) {
+  let strapiCandidates: SubscriptionCancellationCandidate[] = [];
+  let strapiLookupFailed = false;
+  try {
+    strapiCandidates = await getActiveStrapiSubscriptionsByEmail(email);
+  } catch (error) {
+    strapiLookupFailed = true;
+    console.error('[LiqPay cancellation] Failed to look up subscriptions in Strapi', {
+      error: error instanceof Error ? error.message : String(error),
+    });
+  }
+
+  const candidatesByOrderId = new Map<string, SubscriptionCancellationCandidate>();
+  for (const candidate of [...localCandidates, ...strapiCandidates]) {
+    const existing = candidatesByOrderId.get(candidate.orderId);
+    candidatesByOrderId.set(candidate.orderId, {
+      orderId: candidate.orderId,
+      subscribeId: existing?.subscribeId || candidate.subscribeId,
+    });
+  }
+
+  for (const orderId of eventOrderIds) {
+    if (!inactiveLocalOrderIds.has(orderId) && !candidatesByOrderId.has(orderId)) {
+      candidatesByOrderId.set(orderId, { orderId, subscribeId: '' });
+    }
+  }
+
+  const candidates = Array.from(candidatesByOrderId.values());
+
+  if (!candidates.length && strapiLookupFailed) {
+    return NextResponse.json({ error: 'Unable to look up active subscriptions' }, { status: 503 });
+  }
+
+  if (!candidates.length) {
     return NextResponse.json({ error: 'No active subscriptions found for this email' }, { status: 404 });
   }
 
   const cancelled: string[] = [];
   const failed: Array<{ orderId: string; error: string }> = [];
 
-  for (const orderId of candidateOrderIds) {
+  for (const candidate of candidates) {
+    const { orderId } = candidate;
     try {
-      const sub = subscriptions.find(item => item.orderId === orderId);
-      let subscribeId = String(sub?.subscribeId ?? '').trim();
+      let subscribeId = candidate.subscribeId;
 
       if (!subscribeId) {
         const statusResponse = await callLiqPayApi<Record<string, string | number | boolean | null | undefined>>(
@@ -145,7 +187,7 @@ export async function POST(request: NextRequest) {
   return NextResponse.json({
     ok: failed.length === 0,
     email,
-    totalFound: candidateOrderIds.length,
+    totalFound: candidates.length,
     cancelled,
     failed,
   });
