@@ -23,6 +23,7 @@ const PARTNERSHIP_FORM_TRANSLATIONS = {
     submitting: 'Надсилання...',
     success: 'Дякуємо! Ваш запит надіслано.',
     error: 'Не вдалося надіслати запит. Спробуйте ще раз.',
+    fieldError: 'Перевірте, чи поле заповнене коректно.',
   },
   en: {
     headingLine1: 'Leave your request — and our specialist',
@@ -38,18 +39,26 @@ const PARTNERSHIP_FORM_TRANSLATIONS = {
     submitting: 'Sending...',
     success: 'Thank you! Your request has been sent.',
     error: 'Failed to send the request. Please try again.',
+    fieldError: 'Please check that this field is filled in correctly.',
   },
 } as const;
 
 const inputClassName = [
-  'mt-2 h-[54px] w-full rounded-[10px] border border-[var(--black-20)] bg-white px-4',
+  'peer mt-2 h-[54px] w-full rounded-[10px] border border-transparent bg-white px-4',
   'text-[14px] font-normal text-[var(--black-100)] outline-none',
-  'placeholder:text-[var(--black-40)] focus:border-[var(--yellow-100)]',
-  'focus:ring-2 focus:ring-[var(--yellow-40)]',
+  'placeholder:text-[var(--black-40)] transition-colors',
+  'focus:border-[var(--yellow-100)]',
+  'user-invalid:border-[#c43838] user-invalid:focus:border-[#c43838]',
+  'disabled:cursor-not-allowed disabled:bg-[var(--black-20)] disabled:text-[var(--black-40)]',
+].join(' ');
+
+const fieldErrorClassName = [
+  'mt-1 hidden text-[12px] leading-4 text-[#c43838]',
+  'peer-user-invalid:block',
 ].join(' ');
 
 const formClassName = [
-  'min-h-[720px] rounded-[10px] bg-[var(--white-100)] px-[18px] pb-7 pt-7',
+  'min-h-[720px] rounded-[10px] bg-[var(--white-80)] px-[18px] pb-7 pt-7',
   'text-[var(--black-100)] sm:min-h-[770px] sm:px-6 sm:pb-9 sm:pt-9',
 ].join(' ');
 
@@ -123,6 +132,7 @@ export const PartnershipForm = ({ locale }: PartnershipFormProps) => {
             maxLength={120}
             required
           />
+          <span className={fieldErrorClassName}>{translations.fieldError}</span>
         </label>
 
         <label className="block text-[16px] font-medium leading-5">
@@ -136,6 +146,7 @@ export const PartnershipForm = ({ locale }: PartnershipFormProps) => {
             maxLength={50}
             required
           />
+          <span className={fieldErrorClassName}>{translations.fieldError}</span>
         </label>
 
         <label className="block text-[16px] font-medium leading-5">
@@ -149,6 +160,7 @@ export const PartnershipForm = ({ locale }: PartnershipFormProps) => {
             maxLength={254}
             required
           />
+          <span className={fieldErrorClassName}>{translations.fieldError}</span>
         </label>
 
         <label className="block text-[16px] font-medium leading-5">

@@ -1,8 +1,8 @@
 'use client';
 
-import { ChevronDownIcon } from 'lucide-react';
-import { useParams, useSearchParams } from 'next/navigation';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { ChevronDownIcon, X } from 'lucide-react';
+import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 
 import { Breadcrumbs } from '@/app/components/shared';
 import { AVAILABLE_CURRENCIES, DEFAULT_CURRENCY, type LiqPayCurrency } from '@/app/lib/liqpay-currencies';
@@ -27,6 +27,14 @@ type CheckoutResponse = {
 
 type CheckoutMode = 'pay' | 'subscribe';
 
+type CancellationStep = 'confirm' | 'email' | 'success';
+
+type CancelSubscriptionResponse = {
+  ok?: boolean;
+  cancelled?: string[];
+  error?: string;
+};
+
 type SubscriberCountResponse = {
   count?: number;
 };
@@ -36,10 +44,15 @@ const presetAmounts = [100, 200, 500, 1000];
 export default function DonatePage() {
   const { locale } = useParams<{ locale: string }>();
   const t = getDonateTranslations(locale);
+  const pathname = usePathname();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const externalFormRef = useRef<HTMLFormElement>(null);
   const checkoutDataRef = useRef<HTMLInputElement>(null);
   const checkoutSignatureRef = useRef<HTMLInputElement>(null);
+  const activeModalCloseRef = useRef<HTMLButtonElement>(null);
+  const cancelSubscriptionTriggerRef = useRef<HTMLButtonElement>(null);
+  const cancellationRequestIdRef = useRef(0);
 
   const [mode, setMode] = useState<CheckoutMode>('pay');
   const [amount, setAmount] = useState('');
@@ -48,6 +61,10 @@ export default function DonatePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [supporterCount, setSupporterCount] = useState<number | null>(null);
+  const [cancellationStep, setCancellationStep] = useState<CancellationStep | null>(null);
+  const [cancellationEmail, setCancellationEmail] = useState('');
+  const [cancellationError, setCancellationError] = useState('');
+  const [isCancelling, setIsCancelling] = useState(false);
 
   const isSuccess = searchParams.get('status') === 'success';
   const formattedSupporterCount =
@@ -59,6 +76,76 @@ export default function DonatePage() {
     .replace('{prefix}', supporterPrefix)
     .replace('{count}', formattedSupporterCount)
     .replace('{noun}', supporterNoun);
+
+  const dismissSuccessModal = useCallback(() => {
+    const nextSearchParams = new URLSearchParams(searchParams.toString());
+    nextSearchParams.delete('status');
+
+    const query = nextSearchParams.toString();
+    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+  }, [pathname, router, searchParams]);
+
+  const closeCancellationFlow = useCallback(() => {
+    cancellationRequestIdRef.current += 1;
+    setCancellationStep(null);
+    setCancellationEmail('');
+    setCancellationError('');
+    setIsCancelling(false);
+
+    window.requestAnimationFrame(() => cancelSubscriptionTriggerRef.current?.focus());
+  }, []);
+
+  const hasActiveModal = isSuccess || cancellationStep !== null;
+
+  useEffect(() => {
+    if (!hasActiveModal) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const focusFrame = window.requestAnimationFrame(() => activeModalCloseRef.current?.focus());
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (cancellationStep) {
+          closeCancellationFlow();
+        } else {
+          dismissSuccessModal();
+        }
+      }
+
+      if (event.key === 'Tab') {
+        const dialog = activeModalCloseRef.current?.closest<HTMLElement>('[role="dialog"]');
+        const focusableElements = dialog
+          ? Array.from(
+              dialog.querySelectorAll<HTMLElement>(
+                'button:not(:disabled), input:not(:disabled), [href], [tabindex]:not([tabindex="-1"])'
+              )
+            )
+          : [];
+
+        if (!focusableElements.length) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (event.shiftKey && document.activeElement === firstElement) {
+          event.preventDefault();
+          lastElement.focus();
+        } else if (!event.shiftKey && document.activeElement === lastElement) {
+          event.preventDefault();
+          firstElement.focus();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [cancellationStep, closeCancellationFlow, dismissSuccessModal, hasActiveModal]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -98,6 +185,63 @@ export default function DonatePage() {
 
       return String(baseAmount + preset);
     });
+  };
+
+  const openCancellationFlow = () => {
+    setCancellationEmail('');
+    setCancellationError('');
+    setCancellationStep('confirm');
+  };
+
+  const showCancellationEmailStep = () => {
+    setCancellationError('');
+    setCancellationStep('email');
+  };
+
+  const handleCancellationSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setCancellationError('');
+
+    const normalizedEmail = cancellationEmail.trim().toLowerCase();
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail);
+
+    if (!isValidEmail) {
+      setCancellationError(t.cancelErrorInvalidEmail);
+      return;
+    }
+
+    setIsCancelling(true);
+    let localizedCancellationError = t.cancelErrorGeneric;
+    const requestId = cancellationRequestIdRef.current + 1;
+    cancellationRequestIdRef.current = requestId;
+
+    try {
+      const response = await fetch('/api/liqpay/subscriptions/cancel-by-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: normalizedEmail }),
+      });
+      const payload = (await response.json()) as CancelSubscriptionResponse;
+
+      if (response.status === 404) {
+        localizedCancellationError = t.cancelErrorNoSubscription;
+        throw new Error('subscription-not-found');
+      }
+
+      if (!response.ok || !payload.ok || !payload.cancelled?.length) {
+        throw new Error('subscription-cancellation-failed');
+      }
+
+      if (cancellationRequestIdRef.current !== requestId) return;
+      setCancellationStep('success');
+    } catch {
+      if (cancellationRequestIdRef.current !== requestId) return;
+      setCancellationError(localizedCancellationError);
+    } finally {
+      if (cancellationRequestIdRef.current === requestId) {
+        setIsCancelling(false);
+      }
+    }
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -186,8 +330,6 @@ export default function DonatePage() {
             <h2 id="liqpay-title" className={styles.formTitle}>
               {t.liqpayTitle}
             </h2>
-
-            {isSuccess && <div className={styles.successMessage}>{t.successMessage}</div>}
 
             <form className={styles.form} onSubmit={handleSubmit}>
               <fieldset className={styles.modeFieldset}>
@@ -292,6 +434,19 @@ export default function DonatePage() {
               </div>
 
               {mode === 'subscribe' && (
+                <div className={styles.cancelSubscriptionRow}>
+                  <button
+                    ref={cancelSubscriptionTriggerRef}
+                    type="button"
+                    className={styles.cancelSubscriptionLink}
+                    onClick={openCancellationFlow}
+                  >
+                    {t.cancelSubscription}
+                  </button>
+                </div>
+              )}
+
+              {mode === 'subscribe' && (
                 <div className={styles.subscriptionEmailField}>
                   <label className={styles.fieldLabel} htmlFor="email">
                     {t.emailLabel}
@@ -345,6 +500,187 @@ export default function DonatePage() {
           </section>
         </div>
       </main>
+
+      {isSuccess && (
+        <div
+          className={styles.successModalBackdrop}
+          onMouseDown={event => {
+            if (event.target === event.currentTarget) {
+              dismissSuccessModal();
+            }
+          }}
+        >
+          <section
+            className={styles.successModal}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="donation-success-title"
+          >
+            <button
+              ref={activeModalCloseRef}
+              type="button"
+              className={styles.successModalClose}
+              onClick={dismissSuccessModal}
+              aria-label={t.successModalCloseLabel}
+            >
+              <X aria-hidden="true" />
+            </button>
+
+            <div className={styles.successModalHeart} aria-hidden="true">
+              💛
+            </div>
+
+            <div className={styles.successModalContent}>
+              <h2 id="donation-success-title" className={styles.successModalTitle}>
+                {t.successModalTitle}
+              </h2>
+
+              <div className={styles.successModalBody}>
+                {t.successModalBody.map(paragraph => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+
+              <button type="button" className={styles.successModalDone} onClick={dismissSuccessModal}>
+                {t.successModalDone}
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
+
+      {cancellationStep && !isSuccess && (
+        <div
+          className={styles.successModalBackdrop}
+          onMouseDown={event => {
+            if (event.target === event.currentTarget) {
+              closeCancellationFlow();
+            }
+          }}
+        >
+          <section
+            className={`${styles.successModal} ${styles.cancellationModal}`}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={`subscription-cancellation-${cancellationStep}-title`}
+          >
+            <button
+              ref={activeModalCloseRef}
+              type="button"
+              className={styles.successModalClose}
+              onClick={closeCancellationFlow}
+              aria-label={t.cancelModalCloseLabel}
+            >
+              <X aria-hidden="true" />
+            </button>
+
+            <div className={styles.cancellationModalIcon} aria-hidden="true">
+              {cancellationStep === 'email' ? '📩' : '💛'}
+            </div>
+
+            <div className={styles.cancellationModalContent}>
+              {cancellationStep === 'confirm' && (
+                <>
+                  <h2 id="subscription-cancellation-confirm-title" className={styles.cancellationModalTitle}>
+                    {t.cancelConfirmTitle}
+                  </h2>
+
+                  <div className={styles.cancellationModalBody}>
+                    <p>{t.cancelConfirmBody}</p>
+                    <p>{t.cancelConfirmPrompt}</p>
+                    <ul className={styles.cancellationPoints}>
+                      {t.cancelConfirmPoints.map(point => (
+                        <li key={point}>{point}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className={styles.cancellationModalActions}>
+                    <button
+                      type="button"
+                      className={styles.cancellationSecondaryButton}
+                      onClick={closeCancellationFlow}
+                    >
+                      {t.cancelKeepSubscription}
+                    </button>
+                    <button
+                      type="button"
+                      className={styles.cancellationPrimaryButton}
+                      onClick={showCancellationEmailStep}
+                    >
+                      {t.cancelYes}
+                    </button>
+                  </div>
+                </>
+              )}
+
+              {cancellationStep === 'email' && (
+                <form onSubmit={handleCancellationSubmit} noValidate>
+                  <h2 id="subscription-cancellation-email-title" className={styles.cancellationModalTitle}>
+                    {t.cancelEmailTitle}
+                  </h2>
+                  <p className={styles.cancellationModalBody}>{t.cancelEmailDescription}</p>
+
+                  <div className={styles.cancellationEmailField}>
+                    <label className={styles.fieldLabel} htmlFor="cancellation-email">
+                      {t.cancelEmailLabel}
+                    </label>
+                    <input
+                      id="cancellation-email"
+                      type="email"
+                      inputMode="email"
+                      autoComplete="email"
+                      placeholder={t.cancelEmailPlaceholder}
+                      value={cancellationEmail}
+                      onChange={event => setCancellationEmail(event.target.value)}
+                      className={styles.textInput}
+                      aria-invalid={Boolean(cancellationError)}
+                      aria-describedby={cancellationError ? 'subscription-cancellation-error' : undefined}
+                      required
+                    />
+                  </div>
+
+                  {cancellationError && (
+                    <div id="subscription-cancellation-error" className={styles.cancellationError} role="alert">
+                      {cancellationError}
+                    </div>
+                  )}
+
+                  <div className={styles.cancellationModalActions}>
+                    <button
+                      type="button"
+                      className={styles.cancellationSecondaryButton}
+                      onClick={() => setCancellationStep('confirm')}
+                      disabled={isCancelling}
+                    >
+                      {t.cancelBack}
+                    </button>
+                    <button type="submit" className={styles.cancellationPrimaryButton} disabled={isCancelling}>
+                      {isCancelling ? t.cancelLoading : t.cancelContinue}
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {cancellationStep === 'success' && (
+                <>
+                  <h2 id="subscription-cancellation-success-title" className={styles.cancellationModalTitle}>
+                    {t.cancelSuccessTitle}
+                  </h2>
+                  <p className={styles.cancellationModalBody}>{t.cancelSuccessBody}</p>
+                  <button
+                    type="button"
+                    className={`${styles.cancellationPrimaryButton} ${styles.cancellationStartButton}`}
+                    onClick={closeCancellationFlow}
+                  >
+                    {t.cancelStartNewSubscription}
+                  </button>
+                </>
+              )}
+            </div>
+          </section>
+        </div>
+      )}
     </>
   );
 }

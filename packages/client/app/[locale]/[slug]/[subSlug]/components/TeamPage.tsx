@@ -58,13 +58,13 @@ export const TeamPage: FC<PageProps> = ({ locale }) => {
     <>
       <div className="h1 mt-6 mb-8 text-center md:mt-8 md:mb-12">{title}</div>
       <Slider images={images} />
-      <div className="px-4 py-10 text-[16px] leading-[24px] md:px-8 md:py-14 lg:px-[120px] xl:px-[220px]">{motto}</div>
+      <div className="px-6 py-10 text-[16px] leading-[24px] md:px-8 md:py-14 lg:px-[120px] xl:px-[220px]">{motto}</div>
       <div
         className="
         bg-[rgb(72,72,56)]
         bg-[url('/images/asphalt-bg.png')]
         bg-cover bg-center bg-no-repeat
-        w-full px-4 pt-12 pb-14 md:px-6 md:pt-16 md:pb-20 lg:px-[52px] lg:pt-[100px] lg:pb-[120px]
+        w-full px-6 pt-12 pb-14 md:pt-16 md:pb-20 lg:px-[52px] lg:pt-[100px] lg:pb-[120px]
       "
       >
         <div className="mx-auto w-full max-w-[1200px]">
@@ -86,7 +86,7 @@ export const TeamPage: FC<PageProps> = ({ locale }) => {
         </div>
       </div>
       {joinTeamSection && (
-        <div className="w-full bg-[var(--white-80)] text-center py-[120px] px-4">
+        <div className="w-full bg-[var(--white-80)] px-6 pt-[120px] pb-[52px] text-center lg:px-[52px] lg:py-[120px]">
           <h2 className="text-[44px] font-bold mb-8">{joinTeamSection.title}</h2>
 
           <div className="text-left max-w-[820px] mx-auto mb-10">

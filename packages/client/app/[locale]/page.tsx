@@ -685,14 +685,14 @@ export default function Home() {
   if (isLoading) {
     return (
       <div className={styles.homePage}>
-        <div className="px-[52px] pt-8 max-[960px]:px-5 max-[640px]:px-3 max-[420px]:px-3">
+        <div className="px-6 pt-8 lg:px-[52px]">
           <div className="mb-4 h-[72px] w-3/4 animate-pulse rounded-lg bg-[#e8e5de] mx-auto" />
           <div
             className="h-[695px] max-[1200px]:h-[clamp(260px,40vw,470px)]
             max-[960px]:h-[clamp(220px,42vw,300px)] animate-pulse rounded-xl bg-[#e8e5de]"
           />
         </div>
-        <div className="px-[52px] py-[68px] max-[960px]:px-5 max-[640px]:px-3">
+        <div className="px-6 py-[68px] lg:px-[52px]">
           <div className="mx-auto mb-12 h-10 w-1/3 animate-pulse rounded-lg bg-[#e8e5de]" />
           <div className="flex gap-8 max-[960px]:flex-col">
             <div
@@ -714,8 +714,8 @@ export default function Home() {
     <div className={styles.homePage}>
       {introSection ? (
         <section
-          className="mb-[120px] px-[52px] pt-8 max-[960px]:mb-0 max-[960px]:px-5 max-[960px]:pb-10 max-[960px]:pt-7
-          max-[640px]:px-3 max-[640px]:pb-7 max-[640px]:pt-6 max-[420px]:px-3"
+          className="mb-[120px] px-6 pt-8 lg:px-[52px] max-[960px]:mb-0 max-[960px]:pb-10 max-[960px]:pt-7
+          max-[640px]:pb-7 max-[640px]:pt-6"
         >
           <div className="w-full">
             <div className="flex w-full flex-col items-center gap-[6px] max-[640px]:gap-1">
@@ -785,8 +785,8 @@ export default function Home() {
 
       {aboutSection ? (
         <section
-          className="px-[52px] pb-[68px] max-[960px]:px-5 max-[960px]:pb-[50px] max-[960px]:pt-[38px]
-          max-[640px]:px-3 max-[640px]:py-[44px] max-[420px]:px-3 max-[420px]:py-[32px]"
+          className="px-6 pb-[68px] lg:px-[52px] max-[960px]:pb-[50px] max-[960px]:pt-[38px]
+          max-[640px]:py-[44px] max-[420px]:py-[32px]"
         >
           <div className="w-full">
             <h2 className={styles.sectionTitle}>{aboutSection.title}</h2>
@@ -855,7 +855,7 @@ export default function Home() {
 
       {activitiesSection ? (
         <section className={styles.activitiesSection}>
-          <div className="w-full px-[52px] max-[960px]:px-5 max-[640px]:px-3 max-[420px]:px-3">
+          <div className="w-full px-6 lg:px-[52px]">
             <h2 className={clsx(styles.sectionTitle, styles.sectionTitleLight)}>{activitiesSection.title}</h2>
 
             <Carousel setApi={setActivitiesApi} opts={{ align: 'start' }} className={styles.activitiesCarousel}>

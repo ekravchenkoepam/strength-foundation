@@ -30,7 +30,7 @@ export const Slider = ({ images = [] }: SliderProps) => {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="w-full px-4 md:px-6 lg:px-[52px]">
+      <div className="w-full px-6 lg:px-[52px]">
         <Carousel className="relative w-full">
           {/* SLIDES */}
           <CarouselContent className="-ml-0">

@@ -218,14 +218,14 @@
   .missionPage {
     .pageTitle {
       margin: 18px 0 30px;
-      padding: 0 12px;
+      padding: 0 24px;
       white-space: nowrap;
       font-size: clamp(30px, 8vw, 44px);
       line-height: 1.1;
     }
 
     .missionBlock {
-      padding: 0 12px;
+      padding: 0 24px;
 
       .missionImage {
         & img {
@@ -247,7 +247,7 @@
     }
 
     .principlesBlock {
-      padding: 48px 12px;
+      padding: 48px 24px;
 
       .principlesTitle {
         font-size: 34px;

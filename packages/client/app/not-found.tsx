@@ -18,7 +18,7 @@ export default function NotFound() {
   const locale = getLocaleFromUrl();
 
   return (
-    <div className="h-[60vh] flex flex-col justify-center text-center">
+    <div className="flex h-[60vh] flex-col justify-center px-6 text-center lg:px-[52px]">
       <div>
         <h2 className="text-[64px]">😕</h2>
 

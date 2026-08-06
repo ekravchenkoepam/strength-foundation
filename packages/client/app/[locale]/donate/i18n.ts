@@ -7,6 +7,27 @@ type PluralizedText = Partial<Record<PluralCategory, string>> & {
 type DonateTranslations = {
   amountPlaceholder: string;
   amountValidationError: string;
+  cancelBack: string;
+  cancelConfirmBody: string;
+  cancelConfirmPoints: string[];
+  cancelConfirmPrompt: string;
+  cancelConfirmTitle: string;
+  cancelEmailDescription: string;
+  cancelEmailLabel: string;
+  cancelEmailPlaceholder: string;
+  cancelEmailTitle: string;
+  cancelErrorGeneric: string;
+  cancelErrorInvalidEmail: string;
+  cancelErrorNoSubscription: string;
+  cancelKeepSubscription: string;
+  cancelLoading: string;
+  cancelModalCloseLabel: string;
+  cancelStartNewSubscription: string;
+  cancelSubscription: string;
+  cancelSuccessBody: string;
+  cancelSuccessTitle: string;
+  cancelYes: string;
+  cancelContinue: string;
   currencyLabel: string;
   donateBreadcrumb: string;
   donationAmountLabel: string;
@@ -34,7 +55,10 @@ type DonateTranslations = {
   supporterAriaLabel: string;
   supporterNoun: PluralizedText;
   supporterPrefix: PluralizedText;
-  successMessage: string;
+  successModalBody: string[];
+  successModalCloseLabel: string;
+  successModalDone: string;
+  successModalTitle: string;
   title: string;
 };
 
@@ -42,6 +66,33 @@ const TRANSLATIONS: Record<string, DonateTranslations> = {
   uk: {
     amountPlaceholder: 'Введіть суму',
     amountValidationError: 'Вкажіть суму внеску',
+    cancelBack: 'Назад',
+    cancelConfirmBody: 'Після підтвердження регулярні списання буде припинено.',
+    cancelConfirmPoints: [
+      'нові платежі більше не списуватимуться;',
+      'раніше здійснені благодійні внески залишаться у фонді;',
+      'за потреби ви зможете відновити підписку будь-коли.',
+    ],
+    cancelConfirmPrompt: 'Що це означає:',
+    cancelConfirmTitle: 'Ви дійсно хочете скасувати регулярну підписку?',
+    cancelContinue: 'Продовжити',
+    cancelEmailDescription:
+      'Введіть електронну адресу, яку ви використовували під час оформлення підписки. Ми знайдемо вашу активну підписку та допоможемо її скасувати.',
+    cancelEmailLabel: 'Електронна адреса*',
+    cancelEmailPlaceholder: 'Example@example.com',
+    cancelEmailTitle: 'Підтвердження електронної адреси',
+    cancelErrorGeneric: 'Не вдалося скасувати підписку. Спробуйте ще раз пізніше.',
+    cancelErrorInvalidEmail: 'Введіть коректну електронну адресу.',
+    cancelErrorNoSubscription: 'Активної підписки для цієї електронної адреси не знайдено.',
+    cancelKeepSubscription: 'Залишити підписку',
+    cancelLoading: 'Скасовуємо...',
+    cancelModalCloseLabel: 'Закрити скасування підписки',
+    cancelStartNewSubscription: 'Оформити нову підписку',
+    cancelSubscription: 'Скасувати підписку',
+    cancelSuccessBody:
+      'Дякуємо, що підтримували фонд. Ваша допомога була дуже важливою. Якщо захочете повернутися — ми будемо раді.',
+    cancelSuccessTitle: 'Підписку скасовано!',
+    cancelYes: 'Так, скасувати',
     currencyLabel: 'Валюта платежу',
     donateBreadcrumb: 'Підтримати нас',
     donationAmountLabel: 'Сума вашого внеску*',
@@ -80,12 +131,46 @@ const TRANSLATIONS: Record<string, DonateTranslations> = {
       one: 'Нас вже підтримує',
       other: 'Нас вже підтримують',
     },
-    successMessage: 'Дякуємо! Повернення з LiqPay отримано.',
+    successModalBody: [
+      'Кожен внесок має значення.',
+      'Саме завдяки таким людям, як ви, ми можемо змінювати життя на краще.',
+      'Дякуємо, що стали частиною цієї доброї справи.',
+    ],
+    successModalCloseLabel: 'Закрити повідомлення',
+    successModalDone: 'Готово',
+    successModalTitle: 'Дякуємо за вашу підтримку!',
     title: 'Підтримати нас',
   },
   en: {
     amountPlaceholder: 'Enter amount',
     amountValidationError: 'Enter a donation amount',
+    cancelBack: 'Back',
+    cancelConfirmBody: 'Once confirmed, recurring charges will stop.',
+    cancelConfirmPoints: [
+      'no new payments will be charged;',
+      'your previous charitable contributions will remain with the Foundation;',
+      'you can start a new subscription at any time.',
+    ],
+    cancelConfirmPrompt: 'This means:',
+    cancelConfirmTitle: 'Do you really want to cancel your recurring subscription?',
+    cancelContinue: 'Continue',
+    cancelEmailDescription:
+      'Enter the email address you used when starting the subscription. We will find your active subscription and help you cancel it.',
+    cancelEmailLabel: 'Email address*',
+    cancelEmailPlaceholder: 'Example@example.com',
+    cancelEmailTitle: 'Confirm your email address',
+    cancelErrorGeneric: 'We could not cancel your subscription. Please try again later.',
+    cancelErrorInvalidEmail: 'Enter a valid email address.',
+    cancelErrorNoSubscription: 'No active subscription was found for this email address.',
+    cancelKeepSubscription: 'Keep subscription',
+    cancelLoading: 'Cancelling...',
+    cancelModalCloseLabel: 'Close subscription cancellation',
+    cancelStartNewSubscription: 'Start a new subscription',
+    cancelSubscription: 'Cancel subscription',
+    cancelSuccessBody:
+      'Thank you for supporting the Foundation. Your help has meant a great deal. If you decide to return, we will be glad to welcome you back.',
+    cancelSuccessTitle: 'Subscription cancelled!',
+    cancelYes: 'Yes, cancel',
     currencyLabel: 'Payment currency',
     donateBreadcrumb: 'Support us',
     donationAmountLabel: 'Your donation amount*',
@@ -121,7 +206,14 @@ const TRANSLATIONS: Record<string, DonateTranslations> = {
     supporterPrefix: {
       other: 'Already supported by',
     },
-    successMessage: 'Thank you! We received your LiqPay response.',
+    successModalBody: [
+      'Every contribution matters.',
+      'Thanks to people like you, we can change lives for the better.',
+      'Thank you for becoming part of this good cause.',
+    ],
+    successModalCloseLabel: 'Close message',
+    successModalDone: 'Done',
+    successModalTitle: 'Thank you for your support!',
     title: 'Support us',
   },
 };

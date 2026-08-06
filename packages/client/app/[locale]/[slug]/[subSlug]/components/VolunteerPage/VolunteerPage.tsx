@@ -156,7 +156,7 @@ export const VolunteerPage = (_: PageProps) => {
         </div>
       </section>
 
-      <div className="bg-[var(--white-80)] px-[50px] pb-[80px] pt-[110px]">
+      <div className="bg-[var(--white-80)] px-6 pb-[80px] pt-[110px] lg:px-[50px]">
         <div className="mx-auto flex max-w-[1700px] flex-col items-center">
           <h2 className="h1 mb-[32px] mt-0 text-center">Хочеш бути частиною змін?</h2>
           <div className="mx-auto max-w-[820px] text-left text-[length:var(--h8-size)] leading-[var(--h8-line)]">
@@ -175,16 +175,16 @@ export const VolunteerPage = (_: PageProps) => {
                 rel={questionnaire.isExternal ? 'noreferrer' : undefined}
                 href={questionnaire.href}
                 className="
-                  min-h-[168px] items-center justify-between gap-4 rounded-2xl
-                  border border-[#f2c94c] bg-transparent px-5 py-6 text-[color:var(--black-100)]
+                  flex min-h-[88px] items-center justify-between gap-4 rounded-2xl
+                  border border-[#f2c94c] bg-transparent px-5 py-4 text-[color:var(--black-100)]
                   no-underline shadow-[0_8px_22px_rgba(34,33,29,0.1)]
                   md:min-h-[132px] md:rounded-[24px]
                 "
               >
-                <span className="m-0 text-left text-[20px] leading-[var(--h4-line)] font-[var(--h4-weight)]">
+                <span className="m-0 min-w-0 flex-1 text-left text-[20px] leading-[var(--h4-line)] font-[var(--h4-weight)]">
                   {questionnaire.title}
                 </span>
-                <div className="flex justify-end">
+                <div className="flex shrink-0 justify-end">
                   <img src="/images/pointer-right.svg" alt="arrow" className="h-[32px] w-[24px]" />
                 </div>
               </a>

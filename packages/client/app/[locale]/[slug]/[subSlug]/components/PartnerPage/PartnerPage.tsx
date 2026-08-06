@@ -4,9 +4,15 @@ import { PageProps } from '../../../types';
 import { TelegramIcon, ViberIcon, WhatsappIcon } from '@/app/components/icons';
 
 const contactChannelClassName = [
-  'flex min-h-[56px] min-w-[190px] items-center justify-center gap-[16px]',
-  'rounded-full border border-transparent bg-[var(--green-80)] px-6 py-[10px]',
-  'text-[16px] font-medium leading-[var(--h10-line)]',
+  'flex min-h-[72px] min-w-0 w-full flex-col-reverse items-center justify-center gap-2',
+  'rounded-[14px] border border-white/20 bg-white/[0.08] px-1 py-3',
+  'text-[11px] font-medium leading-4 tracking-[0.02em]',
+  'transition-colors hover:border-white/35 hover:bg-white/[0.14]',
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--yellow-100)]',
+  '[&_svg]:size-5',
+  'sm:min-h-[56px] sm:w-auto sm:min-w-[190px] sm:flex-row sm:gap-4 sm:rounded-full',
+  'sm:bg-[var(--green-80)] sm:px-6 sm:py-[10px] sm:text-[16px] sm:leading-[var(--h10-line)]',
+  'sm:tracking-normal sm:[&_svg]:size-6',
 ].join(' ');
 
 const CONTACT_CHANNELS = [
@@ -72,7 +78,7 @@ export const PartnerPage = ({ locale }: PageProps) => {
                   {sectionTranslations.alternativeChannels}
                 </div>
 
-                <div className="flex flex-wrap gap-[10px]">
+                <div className="grid grid-cols-3 gap-2 sm:flex sm:flex-wrap sm:gap-[10px]">
                   {CONTACT_CHANNELS.map(({ id, label, Icon }) => (
                     <button key={id} className={contactChannelClassName} type="button">
                       <span>{label}</span>
