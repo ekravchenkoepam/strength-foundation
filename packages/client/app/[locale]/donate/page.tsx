@@ -31,6 +31,7 @@ type CancellationStep = 'confirm' | 'email' | 'success';
 
 type CancelSubscriptionResponse = {
   ok?: boolean;
+  alreadyInactive?: string[];
   cancelled?: string[];
   error?: string;
 };
@@ -228,7 +229,8 @@ export default function DonatePage() {
         throw new Error('subscription-not-found');
       }
 
-      if (!response.ok || !payload.ok || !payload.cancelled?.length) {
+      const resolvedSubscriptions = (payload.cancelled?.length ?? 0) + (payload.alreadyInactive?.length ?? 0);
+      if (!response.ok || !payload.ok || resolvedSubscriptions === 0) {
         throw new Error('subscription-cancellation-failed');
       }
 

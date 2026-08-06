@@ -94,7 +94,44 @@ export async function POST(request: NextRequest) {
   }
 
   const cancelled: string[] = [];
+  const alreadyInactive: string[] = [];
   const failed: Array<{ orderId: string; error: string }> = [];
+
+  const recordUnsubscribe = async (
+    orderId: string,
+    subscribeId: string,
+    status: string,
+    extraPaymentFields: Record<string, string> = {}
+  ) => {
+    const savedEvent = await saveCallbackEvent({
+      id: `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      receivedAt: new Date().toISOString(),
+      signatureValid: true,
+      payment: {
+        action: 'unsubscribe',
+        status,
+        order_id: orderId,
+        ...(subscribeId ? { subscribe_id: subscribeId } : {}),
+        sender_email: email,
+        ...extraPaymentFields,
+      },
+      requestMeta: {
+        method: request.method,
+        userAgent: request.headers.get('user-agent'),
+        contentType: request.headers.get('content-type'),
+        xForwardedFor: request.headers.get('x-forwarded-for'),
+      },
+    });
+
+    await syncLiqPayEventToStrapi({
+      eventId: savedEvent.id,
+      receivedAt: savedEvent.receivedAt,
+      source: 'system',
+      signatureValid: true,
+      payment: savedEvent.payment as Record<string, unknown>,
+      requestMeta: savedEvent.requestMeta,
+    });
+  };
 
   for (const candidate of candidates) {
     const { orderId } = candidate;
@@ -127,7 +164,6 @@ export async function POST(request: NextRequest) {
           version: 3,
           public_key: publicKey,
           order_id: orderId,
-          ...(subscribeId ? { subscribe_id: subscribeId } : {}),
         },
         privateKey
       );
@@ -139,6 +175,17 @@ export async function POST(request: NextRequest) {
         Boolean(response.code);
 
       if (isFailed) {
+        const errorCode = response.err_code || response.code || '';
+
+        if (errorCode === 'payment_not_subscribed') {
+          alreadyInactive.push(orderId);
+          await recordUnsubscribe(orderId, subscribeId, 'unsubscribed', {
+            liqpay_result: 'already_inactive',
+            liqpay_error_code: errorCode,
+          });
+          continue;
+        }
+
         failed.push({
           orderId,
           error:
@@ -151,34 +198,7 @@ export async function POST(request: NextRequest) {
       }
 
       cancelled.push(orderId);
-
-      const savedEvent = await saveCallbackEvent({
-        id: `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
-        receivedAt: new Date().toISOString(),
-        signatureValid: true,
-        payment: {
-          action: 'unsubscribe',
-          status: String(response.status ?? 'success'),
-          order_id: orderId,
-          ...(subscribeId ? { subscribe_id: subscribeId } : {}),
-          sender_email: email,
-        },
-        requestMeta: {
-          method: request.method,
-          userAgent: request.headers.get('user-agent'),
-          contentType: request.headers.get('content-type'),
-          xForwardedFor: request.headers.get('x-forwarded-for'),
-        },
-      });
-
-      await syncLiqPayEventToStrapi({
-        eventId: savedEvent.id,
-        receivedAt: savedEvent.receivedAt,
-        source: 'system',
-        signatureValid: true,
-        payment: savedEvent.payment as Record<string, unknown>,
-        requestMeta: savedEvent.requestMeta,
-      });
+      await recordUnsubscribe(orderId, subscribeId, String(response.status ?? 'success'));
     } catch (error) {
       failed.push({ orderId, error: error instanceof Error ? error.message : 'Unsubscribe failed' });
     }
@@ -189,6 +209,7 @@ export async function POST(request: NextRequest) {
     email,
     totalFound: candidates.length,
     cancelled,
+    alreadyInactive,
     failed,
   });
 }
