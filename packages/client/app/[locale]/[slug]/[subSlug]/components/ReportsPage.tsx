@@ -36,6 +36,17 @@ type ReportType = {
   years?: ReportYear[];
 };
 
+const REPORTS_COPY = {
+  uk: {
+    title: 'Звіти',
+    emptyState: 'Звітів не знайдено',
+  },
+  en: {
+    title: 'Reports',
+    emptyState: 'No reports found',
+  },
+} as const;
+
 const sortYears = (years: ReportYear[]) => {
   return [...years].sort((a, b) => {
     const yearA = parseInt(String(a.text || '').replace(/\D/g, ''), 10) || 0;
@@ -45,13 +56,14 @@ const sortYears = (years: ReportYear[]) => {
 };
 
 export const ReportsPage: FC<PageProps> = ({ locale }) => {
+  const copy = REPORTS_COPY[locale === 'en' ? 'en' : 'uk'];
   const [activeReportTypeId, setActiveReportTypeId] = useState<number | null>(null);
   const [openYearId, setOpenYearId] = useState<number | null>(null);
 
   const { data: reportsByType = [], isLoading: loading } = useQuery<ReportType[]>({
     queryKey: ['report-types', locale],
     queryFn: async () => {
-      const data = await fetchAPI({
+      const response = await fetchAPI({
         path: '/report-types',
         urlParams: {
           locale,
@@ -60,12 +72,11 @@ export const ReportsPage: FC<PageProps> = ({ locale }) => {
         },
       });
 
-      return (extractAttributes<ReportType>(data.data) as ReportType[] | null) ?? [];
+      return (extractAttributes<ReportType>(response.data) as ReportType[] | null) ?? [];
     },
   });
 
-  if (loading) return <Loading headerText="Звіти" />;
-  if (!reportsByType.length) return <p>Звітів не знайдено</p>;
+  if (loading) return <Loading headerText={copy.title} />;
 
   const handleTabClick = (reportTypeId: number) => {
     setActiveReportTypeId(reportTypeId);
@@ -77,7 +88,18 @@ export const ReportsPage: FC<PageProps> = ({ locale }) => {
   };
 
   const visibleReports = sortByPosition(reportsByType).filter(report => !report.isHidden);
-  if (!visibleReports.length) return <p>Звітів не знайдено</p>;
+  if (!visibleReports.length) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <div className={clsx('h1', styles.pageTitle)}>{copy.title}</div>
+        </div>
+        <div className={styles.emptyState}>
+          <p>{copy.emptyState}</p>
+        </div>
+      </div>
+    );
+  }
 
   const activeReport = visibleReports.find(report => report.id === activeReportTypeId) ?? visibleReports[0];
   const sortedYears = sortYears(activeReport?.years ?? []);
@@ -85,7 +107,7 @@ export const ReportsPage: FC<PageProps> = ({ locale }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <div className={clsx('h1', styles.pageTitle)}>Звіти</div>
+        <div className={clsx('h1', styles.pageTitle)}>{copy.title}</div>
       </div>
       <div className={styles.tabs}>
         {visibleReports.map(report => (
