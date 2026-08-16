@@ -1,30 +1,38 @@
 'use client';
 
 import { Logo, LogoVariant } from '@/app/components/shared';
+import { useApp } from '@/app/context/AppContext';
+import { ContactType } from '@/app/types';
 
 import styles from './footer.module.scss';
 
-type Phone = {
-  id: number;
-  number: string;
-};
-
-type Contact = {
-  phones: Phone[];
-  email: string;
-  copyright: string;
-};
+const FOOTER_TRANSLATIONS = {
+  uk: {
+    registrationAddress: 'Адреса реєстрації',
+    contacts: 'Контакти',
+    publicOffer: 'Договір публічної оферти',
+  },
+  en: {
+    registrationAddress: 'Registration address',
+    contacts: 'Contacts',
+    publicOffer: 'Public offer agreement',
+  },
+} as const;
 
 type FooterProps = {
-  contacts: Contact;
+  contacts: ContactType | null;
 };
 
 export const Footer = ({ contacts }: FooterProps) => {
+  const { locale } = useApp();
+
   if (!contacts) {
     return null;
   }
 
+  const translations = FOOTER_TRANSLATIONS[locale === 'en' ? 'en' : 'uk'];
   const { phones, email, copyright } = contacts;
+  const address = contacts.address?.trim();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -36,25 +44,20 @@ export const Footer = ({ contacts }: FooterProps) => {
           </div>
         </div>
 
-        <div className={styles.contactsContainer}>
-          <div className="h5">Адреса реєстрації</div>
-          <ul className={styles.contacts}>
-            <li>
-              <img src="/images/marker.svg" alt="mail" />
-              <div className={styles.address}>
-                <div className={styles.registration}>
-                  <p>Україна, 14007,</p>
-                  <p>Чернігівська обл., місто Чернігів,</p>
-                  <p>пр. Миру, будинок 261, 12</p>
-                </div>
-                <div>ЄДРПОУ 45698398</div>
-              </div>
-            </li>
-          </ul>
-        </div>
+        {address && (
+          <div className={styles.contactsContainer}>
+            <div className="h5">{translations.registrationAddress}</div>
+            <ul className={styles.contacts}>
+              <li>
+                <img src="/images/marker.svg" alt="location" />
+                <div className={styles.address}>{address}</div>
+              </li>
+            </ul>
+          </div>
+        )}
 
         <div className={styles.contactsContainer}>
-          <div className="h5">Контакти</div>
+          <div className="h5">{translations.contacts}</div>
           <ul className={styles.contacts}>
             {email && (
               <li>
@@ -67,10 +70,7 @@ export const Footer = ({ contacts }: FooterProps) => {
                 <img src="/images/phone.svg" alt="phone" />
                 <div className={styles.phones}>
                   {phones.map((phone, index) => (
-                    <a
-                      key={phone.id}
-                      href={`tel:${phone.number.replace(/\s+/g, '')}`}
-                    >
+                    <a key={phone.id} href={`tel:${phone.number.replace(/\s+/g, '')}`}>
                       {phone.number}
                       {index < phones.length - 1 ? ', ' : ''}
                     </a>
@@ -86,7 +86,7 @@ export const Footer = ({ contacts }: FooterProps) => {
         <div className={styles.copyrightText}>
           © {copyright} {currentYear}
         </div>
-        <a className={styles.publicOffer}>Договір публічної оферти</a>
+        <a className={styles.publicOffer}>{translations.publicOffer}</a>
       </div>
     </footer>
   );

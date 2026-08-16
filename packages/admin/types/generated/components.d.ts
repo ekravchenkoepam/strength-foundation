@@ -186,6 +186,42 @@ export interface MissionPrinciple extends Schema.Component {
   };
 }
 
+export interface PartnershipBenefit extends Schema.Component {
+  collectionName: 'components_partnership_benefits';
+  info: {
+    description: 'A benefit displayed on the volunteer page';
+    displayName: 'Benefit';
+  };
+  attributes: {
+    title: Attribute.String & Attribute.Required;
+  };
+}
+
+export interface PartnershipRequestForm extends Schema.Component {
+  collectionName: 'components_partnership_request_forms';
+  info: {
+    description: 'Labels and messages for the partnership request form';
+    displayName: 'Partnership Request Form';
+  };
+  attributes: {
+    consentText: Attribute.Text & Attribute.Required;
+    emailLabel: Attribute.String & Attribute.Required;
+    emailPlaceholder: Attribute.String & Attribute.Required;
+    errorMessage: Attribute.String & Attribute.Required;
+    fieldErrorMessage: Attribute.String & Attribute.Required;
+    heading: Attribute.Text & Attribute.Required;
+    messageLabel: Attribute.String & Attribute.Required;
+    messagePlaceholder: Attribute.String & Attribute.Required;
+    nameLabel: Attribute.String & Attribute.Required;
+    namePlaceholder: Attribute.String & Attribute.Required;
+    phoneLabel: Attribute.String & Attribute.Required;
+    phonePlaceholder: Attribute.String & Attribute.Required;
+    submitLabel: Attribute.String & Attribute.Required;
+    submittingLabel: Attribute.String & Attribute.Required;
+    successMessage: Attribute.String & Attribute.Required;
+  };
+}
+
 export interface ProjectItemsContactChannel extends Schema.Component {
   collectionName: 'components_project_items_contact_channels';
   info: {
@@ -429,6 +465,8 @@ declare module '@strapi/types' {
       'home.partners-section': HomePartnersSection;
       'mission.mission-content': MissionMissionContent;
       'mission.principle': MissionPrinciple;
+      'partnership.benefit': PartnershipBenefit;
+      'partnership.request-form': PartnershipRequestForm;
       'project-items.contact-channel': ProjectItemsContactChannel;
       'project-items.partnership-item': ProjectItemsPartnershipItem;
       'project-items.support-item': ProjectItemsSupportItem;

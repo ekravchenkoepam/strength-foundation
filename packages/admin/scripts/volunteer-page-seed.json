@@ -1,0 +1,44 @@
+{
+  "locales": {
+    "uk": {
+      "title": "Як стати волонтером",
+      "description": "Ми активно розширюємо нашу команду і запрошуємо людей з великим серцем долучитися до важливої місії — підтримки родин військовополонених та звільнених героїв. Якщо ти мрієш робити щось справді значуще, працювати з командою однодумців і змінювати світ на краще — ми чекаємо саме на тебе!",
+      "benefitsTitle": "Ти отримаєш",
+      "benefits": [
+        {
+          "title": "Унікальний досвід у соціальних проєктах"
+        },
+        {
+          "title": "Команду, яка підтримає тебе на кожному кроці"
+        },
+        {
+          "title": "Можливість робити реальні зміни й бачити результати"
+        }
+      ],
+      "testimonialsTitle": "Волонтери про нас",
+      "ctaTitle": "Хочеш бути частиною змін?",
+      "ctaDescription": "Фонд \"Сила для Сильних\" зростає і шукає людей із великим серцем та відкритою душею.\n\nЯкщо ти хочеш допомагати родинам військовополонених, працювати з командою однодумців, втілювати соціальні ініціативи та вкладатися у справді важливе — ми чекаємо саме на тебе.",
+      "vacanciesButtonLabel": "Переглянути усі актуальні вакансії"
+    },
+    "en": {
+      "title": "How to become a volunteer",
+      "description": "We are actively expanding our team and inviting big-hearted people to join an important mission — supporting the families of prisoners of war and released heroes. If you dream of doing something truly meaningful, working with a team of like-minded people, and changing the world for the better, we are waiting for you!",
+      "benefitsTitle": "What you will gain",
+      "benefits": [
+        {
+          "title": "Unique experience in social projects"
+        },
+        {
+          "title": "A team that will support you every step of the way"
+        },
+        {
+          "title": "The opportunity to make a real difference and see the results"
+        }
+      ],
+      "testimonialsTitle": "What our volunteers say about us",
+      "ctaTitle": "Want to be part of the change?",
+      "ctaDescription": "The Strength for the Strong Foundation is growing and looking for people with big hearts and open minds.\n\nIf you want to support the families of prisoners of war, work with a team of like-minded people, bring social initiatives to life, and contribute to something truly important, we are waiting for you.",
+      "vacanciesButtonLabel": "View all current vacancies"
+    }
+  }
+}

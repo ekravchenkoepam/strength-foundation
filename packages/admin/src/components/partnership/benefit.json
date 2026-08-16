@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_partnership_benefits",
+  "info": {
+    "displayName": "Benefit",
+    "description": "A benefit displayed on the volunteer page"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

@@ -297,6 +297,7 @@ export interface ApiContactContact extends Schema.SingleType {
     draftAndPublish: true;
   };
   attributes: {
+    address: Attribute.Text;
     copyright: Attribute.String;
     createdAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::contact.contact', 'oneToOne', 'admin::user'> & Attribute.Private;
@@ -807,6 +808,89 @@ export interface ApiNewsNews extends Schema.CollectionType {
       }>;
     updatedAt: Attribute.DateTime;
     updatedBy: Attribute.Relation<'api::news.news', 'oneToOne', 'admin::user'> & Attribute.Private;
+  };
+}
+
+export interface ApiPartnerPagePartnerPage extends Schema.SingleType {
+  collectionName: 'partner_pages';
+  info: {
+    description: 'Localized content for the become-a-partner page';
+    displayName: 'PartnerPage';
+    pluralName: 'partner-pages';
+    singularName: 'partner-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    alternativeChannelsTitle: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::partner-page.partner-page', 'oneToOne', 'admin::user'> & Attribute.Private;
+    description: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    emailLabel: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    form: Attribute.Component<'partnership.request-form'> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    locale: Attribute.String;
+    localizations: Attribute.Relation<'api::partner-page.partner-page', 'oneToMany', 'api::partner-page.partner-page'>;
+    phoneLabel: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    privacyText: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    publishedAt: Attribute.DateTime;
+    requestTitle: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::partner-page.partner-page', 'oneToOne', 'admin::user'> & Attribute.Private;
   };
 }
 
@@ -1331,6 +1415,93 @@ export interface ApiTestimonialTestimonial extends Schema.CollectionType {
   };
 }
 
+export interface ApiVolunteerPageVolunteerPage extends Schema.SingleType {
+  collectionName: 'volunteer_pages';
+  info: {
+    description: 'Localized content for the become-a-volunteer page';
+    displayName: 'VolunteerPage';
+    pluralName: 'volunteer-pages';
+    singularName: 'volunteer-page';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  pluginOptions: {
+    i18n: {
+      localized: true;
+    };
+  };
+  attributes: {
+    benefits: Attribute.Component<'partnership.benefit', true> &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    benefitsTitle: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    createdAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::volunteer-page.volunteer-page', 'oneToOne', 'admin::user'> & Attribute.Private;
+    ctaDescription: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    ctaTitle: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    description: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    locale: Attribute.String;
+    localizations: Attribute.Relation<
+      'api::volunteer-page.volunteer-page',
+      'oneToMany',
+      'api::volunteer-page.volunteer-page'
+    >;
+    publishedAt: Attribute.DateTime;
+    testimonialsTitle: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+    updatedAt: Attribute.DateTime;
+    updatedBy: Attribute.Relation<'api::volunteer-page.volunteer-page', 'oneToOne', 'admin::user'> & Attribute.Private;
+    vacanciesButtonLabel: Attribute.String &
+      Attribute.Required &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: true;
+        };
+      }>;
+  };
+}
+
 export interface PluginContentReleasesRelease extends Schema.CollectionType {
   collectionName: 'strapi_releases';
   info: {
@@ -1664,6 +1835,7 @@ declare module '@strapi/types' {
       'api::mission-page.mission-page': ApiMissionPageMissionPage;
       'api::navigation.navigation': ApiNavigationNavigation;
       'api::news.news': ApiNewsNews;
+      'api::partner-page.partner-page': ApiPartnerPagePartnerPage;
       'api::partner.partner': ApiPartnerPartner;
       'api::payment-transaction.payment-transaction': ApiPaymentTransactionPaymentTransaction;
       'api::project.project': ApiProjectProject;
@@ -1674,6 +1846,7 @@ declare module '@strapi/types' {
       'api::subscription.subscription': ApiSubscriptionSubscription;
       'api::team-page.team-page': ApiTeamPageTeamPage;
       'api::testimonial.testimonial': ApiTestimonialTestimonial;
+      'api::volunteer-page.volunteer-page': ApiVolunteerPageVolunteerPage;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

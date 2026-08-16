@@ -2,46 +2,13 @@
 
 import { FormEvent, useState } from 'react';
 
+import type { PartnershipRequestFormContent } from '../usePartnershipPageContent';
+
 type SubmissionStatus = 'idle' | 'submitting' | 'success' | 'error';
 
 type PartnershipFormProps = {
-  locale: string;
+  content: PartnershipRequestFormContent;
 };
-
-const PARTNERSHIP_FORM_TRANSLATIONS = {
-  uk: {
-    headingLine1: 'Залиште свій запит — і наш спеціаліст',
-    headingLine2: 'зв’яжеться з вами найближчим часом.',
-    name: 'Ім’я*',
-    namePlaceholder: 'Введіть ваше ім’я',
-    phone: 'Номер телефону*',
-    email: 'Електронна адреса*',
-    message: 'Короткий опис запиту',
-    messagePlaceholder: 'Текст',
-    consent: 'Даю згоду на обробку і використання персональних даних згідно з законодавством України*',
-    submit: 'Надіслати запит',
-    submitting: 'Надсилання...',
-    success: 'Дякуємо! Ваш запит надіслано.',
-    error: 'Не вдалося надіслати запит. Спробуйте ще раз.',
-    fieldError: 'Перевірте, чи поле заповнене коректно.',
-  },
-  en: {
-    headingLine1: 'Leave your request — and our specialist',
-    headingLine2: 'will contact you as soon as possible.',
-    name: 'Name*',
-    namePlaceholder: 'Enter your name',
-    phone: 'Phone number*',
-    email: 'Email address*',
-    message: 'Brief description of your request',
-    messagePlaceholder: 'Text',
-    consent: 'I consent to the processing and use of my personal data in accordance with Ukrainian law*',
-    submit: 'Send request',
-    submitting: 'Sending...',
-    success: 'Thank you! Your request has been sent.',
-    error: 'Failed to send the request. Please try again.',
-    fieldError: 'Please check that this field is filled in correctly.',
-  },
-} as const;
 
 const inputClassName = [
   'peer mt-2 h-[54px] w-full rounded-[10px] border border-transparent bg-white px-4',
@@ -52,10 +19,7 @@ const inputClassName = [
   'disabled:cursor-not-allowed disabled:bg-[var(--black-20)] disabled:text-[var(--black-40)]',
 ].join(' ');
 
-const fieldErrorClassName = [
-  'mt-1 hidden text-[12px] leading-4 text-[#c43838]',
-  'peer-user-invalid:block',
-].join(' ');
+const fieldErrorClassName = ['mt-1 hidden text-[12px] leading-4 text-[#c43838]', 'peer-user-invalid:block'].join(' ');
 
 const formClassName = [
   'min-h-[720px] rounded-[10px] bg-[var(--white-80)] px-[18px] pb-7 pt-7',
@@ -69,10 +33,9 @@ const submitButtonClassName = [
   'disabled:cursor-not-allowed disabled:opacity-60',
 ].join(' ');
 
-export const PartnershipForm = ({ locale }: PartnershipFormProps) => {
+export const PartnershipForm = ({ content }: PartnershipFormProps) => {
   const [status, setStatus] = useState<SubmissionStatus>('idle');
   const [statusMessage, setStatusMessage] = useState('');
-  const translations = PARTNERSHIP_FORM_TRANSLATIONS[locale === 'en' ? 'en' : 'uk'];
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -100,75 +63,74 @@ export const PartnershipForm = ({ locale }: PartnershipFormProps) => {
       });
 
       if (!response.ok) {
-        throw new Error(translations.error);
+        throw new Error(content.errorMessage);
       }
 
       form.reset();
       setStatus('success');
-      setStatusMessage(translations.success);
+      setStatusMessage(content.successMessage);
     } catch (error) {
       setStatus('error');
-      setStatusMessage(error instanceof Error ? error.message : translations.error);
+      setStatusMessage(error instanceof Error ? error.message : content.errorMessage);
     }
   };
 
   return (
     <form className={formClassName} onSubmit={handleSubmit}>
-      <h3 className="mb-12 max-w-[590px] text-[16px] font-bold uppercase leading-[18px]">
-        {translations.headingLine1}
-        <br className="hidden sm:block" /> {translations.headingLine2}
+      <h3 className="mb-12 max-w-[590px] whitespace-pre-line text-[16px] font-bold uppercase leading-[18px]">
+        {content.heading}
       </h3>
 
       <div className="space-y-5">
         <label className="block text-[16px] font-medium leading-5">
-          {translations.name}
+          {content.nameLabel}
           <input
             className={inputClassName}
             name="name"
-            placeholder={translations.namePlaceholder}
+            placeholder={content.namePlaceholder}
             type="text"
             autoComplete="name"
             minLength={2}
             maxLength={120}
             required
           />
-          <span className={fieldErrorClassName}>{translations.fieldError}</span>
+          <span className={fieldErrorClassName}>{content.fieldErrorMessage}</span>
         </label>
 
         <label className="block text-[16px] font-medium leading-5">
-          {translations.phone}
+          {content.phoneLabel}
           <input
             className={inputClassName}
             name="phone"
-            placeholder="+38 0XX XXX XX XX"
+            placeholder={content.phonePlaceholder}
             type="tel"
             autoComplete="tel"
             maxLength={50}
             required
           />
-          <span className={fieldErrorClassName}>{translations.fieldError}</span>
+          <span className={fieldErrorClassName}>{content.fieldErrorMessage}</span>
         </label>
 
         <label className="block text-[16px] font-medium leading-5">
-          {translations.email}
+          {content.emailLabel}
           <input
             className={inputClassName}
             name="email"
-            placeholder="Example@example.com"
+            placeholder={content.emailPlaceholder}
             type="email"
             autoComplete="email"
             maxLength={254}
             required
           />
-          <span className={fieldErrorClassName}>{translations.fieldError}</span>
+          <span className={fieldErrorClassName}>{content.fieldErrorMessage}</span>
         </label>
 
         <label className="block text-[16px] font-medium leading-5">
-          {translations.message}
+          {content.messageLabel}
           <textarea
             className={`${inputClassName} h-[134px] resize-none py-3`}
             name="message"
-            placeholder={translations.messagePlaceholder}
+            placeholder={content.messagePlaceholder}
             maxLength={2000}
           />
         </label>
@@ -181,7 +143,7 @@ export const PartnershipForm = ({ locale }: PartnershipFormProps) => {
           type="checkbox"
           required
         />
-        <span>{translations.consent}</span>
+        <span>{content.consentText}</span>
       </label>
 
       <input
@@ -194,7 +156,7 @@ export const PartnershipForm = ({ locale }: PartnershipFormProps) => {
       />
 
       <button className={submitButtonClassName} type="submit" disabled={status === 'submitting'}>
-        {status === 'submitting' ? translations.submitting : translations.submit}
+        {status === 'submitting' ? content.submittingLabel : content.submitLabel}
       </button>
 
       {statusMessage ? (

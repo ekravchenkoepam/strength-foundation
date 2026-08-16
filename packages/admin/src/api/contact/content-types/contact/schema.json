@@ -20,6 +20,9 @@
     "email": {
       "type": "string"
     },
+    "address": {
+      "type": "text"
+    },
     "copyright": {
       "type": "string"
     }

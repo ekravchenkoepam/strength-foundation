@@ -11,6 +11,16 @@ export interface ImageType {
   alt: string;
 }
 
+export interface ContactType {
+  address?: string | null;
+  phones: Array<{
+    id: number;
+    number: string;
+  }>;
+  email: string;
+  copyright: string;
+}
+
 export interface IconType {
   className?: string;
   backgroundColor?: string;

@@ -40,11 +40,10 @@
           line-height: var(--h9-line);
           min-width: 0;
 
-          .address, .registration {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
+          .address {
             min-width: 0;
+            overflow-wrap: anywhere;
+            white-space: pre-line;
           }
 
           .phones {
