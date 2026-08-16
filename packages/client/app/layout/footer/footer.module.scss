@@ -41,9 +41,12 @@
           min-width: 0;
 
           .address {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
             min-width: 0;
             overflow-wrap: anywhere;
-            white-space: pre-line;
+            line-height: var(--h9-line);
           }
 
           .phones {

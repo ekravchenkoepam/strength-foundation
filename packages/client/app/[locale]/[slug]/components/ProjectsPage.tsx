@@ -48,12 +48,12 @@ type ProjectCard = {
 
 const PAGE_COPY = {
   uk: {
-    defaultTitle: 'Наші проєкти',
+    defaultTitle: 'Наші програми',
     emptyState: 'Наразі проєкти ще не додані.',
     defaultButtonLabel: 'Переглянути',
   },
   en: {
-    defaultTitle: 'Our projects',
+    defaultTitle: 'Our Programs',
     emptyState: 'Projects have not been added yet.',
     defaultButtonLabel: 'View',
   },
@@ -120,7 +120,11 @@ export const ProjectsPage = ({ locale }: PageProps) => {
             {projects.map(project => (
               <article
                 key={project.id}
-                className="group relative isolate flex min-h-[420px] flex-col justify-end overflow-hidden rounded-[18px] bg-[var(--green-20)] p-5 shadow-[0_22px_48px_rgba(0,0,0,0.14)] md:min-h-[460px] md:p-[22px] xl:min-h-[560px]"
+                className="
+                  group relative isolate flex min-h-[420px] flex-col justify-end overflow-hidden
+                  rounded-[18px] bg-[var(--green-20)] p-5 shadow-[0_22px_48px_rgba(0,0,0,0.14)]
+                  md:min-h-[460px] md:p-[22px] xl:min-h-[560px]
+                "
               >
                 {project.imageUrl ? (
                   <img
@@ -135,7 +139,7 @@ export const ProjectsPage = ({ locale }: PageProps) => {
                 <LiquidGlass
                   tint="dark"
                   intensity="strong"
-                  className="relative flex w-full flex-col gap-3 rounded-[16px] p-6"
+                  className="relative flex min-h-[260px] w-full flex-col gap-3 rounded-[16px] p-6"
                 >
                   <h2 className="m-0 line-clamp-2 text-[22px] leading-[1.2] font-bold tracking-[-0.01em] text-white md:text-[24px]">
                     {project.title}
@@ -144,10 +148,15 @@ export const ProjectsPage = ({ locale }: PageProps) => {
                     {project.description}
                   </p>
 
-                  <div className="mt-2 flex justify-end">
+                  <div className="mt-auto flex justify-end pt-2">
                     <Link
                       href={`/${locale}/projects/${project.slug}`}
-                      className="inline-flex items-center justify-center rounded-[10px] border-2 border-[var(--green-100)] bg-white px-[30px] py-[14px] text-[16px] leading-6 font-medium text-[var(--black-100)] no-underline transition-opacity duration-150 ease-out hover:opacity-90"
+                      className="
+                        inline-flex items-center justify-center rounded-[10px] border-2
+                        border-[var(--green-100)] bg-white px-[30px] py-[14px] text-[16px]
+                        leading-6 font-medium text-[var(--black-100)] no-underline
+                        transition-opacity duration-150 ease-out hover:opacity-90
+                      "
                     >
                       {project.buttonText}
                     </Link>

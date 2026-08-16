@@ -33,6 +33,12 @@ export const Footer = ({ contacts }: FooterProps) => {
   const translations = FOOTER_TRANSLATIONS[locale === 'en' ? 'en' : 'uk'];
   const { phones, email, copyright } = contacts;
   const address = contacts.address?.trim();
+  const addressLines = address
+    ? address
+        .split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(Boolean)
+    : [];
   const currentYear = new Date().getFullYear();
 
   return (
@@ -50,7 +56,11 @@ export const Footer = ({ contacts }: FooterProps) => {
             <ul className={styles.contacts}>
               <li>
                 <img src="/images/marker.svg" alt="location" />
-                <div className={styles.address}>{address}</div>
+                <div className={styles.address}>
+                  {addressLines.map((line, index) => (
+                    <span key={`${line}-${index}`}>{line}</span>
+                  ))}
+                </div>
               </li>
             </ul>
           </div>
