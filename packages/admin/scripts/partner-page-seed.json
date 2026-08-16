@@ -1,0 +1,56 @@
+{
+  "locales": {
+    "uk": {
+      "title": "Як стати партнером",
+      "description": "Ми активно розширюємо нашу команду і запрошуємо людей з великим серцем долучитися до важливої місії — підтримки родин військовополонених та звільнених героїв. Якщо ти мрієш робити щось справді значуще, працювати з командою однодумців і змінювати світ на краще — ми чекаємо саме на тебе!",
+      "requestTitle": "Запит на партнерство",
+      "alternativeChannelsTitle": "Альтернативні канали зв’язку",
+      "phoneLabel": "Phone",
+      "emailLabel": "Email",
+      "privacyText": "Ми дотримуємося принципів конфіденційності та професійної етики. Уся інформація використовується виключно для надання консультаційних послуг.",
+      "form": {
+        "heading": "Залиште свій запит — і наш спеціаліст\nзв’яжеться з вами найближчим часом.",
+        "nameLabel": "Ім’я*",
+        "namePlaceholder": "Введіть ваше ім’я",
+        "phoneLabel": "Номер телефону*",
+        "phonePlaceholder": "+38 0XX XXX XX XX",
+        "emailLabel": "Електронна адреса*",
+        "emailPlaceholder": "Example@example.com",
+        "messageLabel": "Короткий опис запиту",
+        "messagePlaceholder": "Текст",
+        "consentText": "Даю згоду на обробку і використання персональних даних згідно з законодавством України*",
+        "submitLabel": "Надіслати запит",
+        "submittingLabel": "Надсилання...",
+        "successMessage": "Дякуємо! Ваш запит надіслано.",
+        "errorMessage": "Не вдалося надіслати запит. Спробуйте ще раз.",
+        "fieldErrorMessage": "Перевірте, чи поле заповнене коректно."
+      }
+    },
+    "en": {
+      "title": "How to become a partner",
+      "description": "We are actively expanding our team and inviting big-hearted people to join an important mission — supporting the families of prisoners of war and released heroes. If you dream of doing something truly meaningful, working with a team of like-minded people, and changing the world for the better, we are waiting for you!",
+      "requestTitle": "Partnership request",
+      "alternativeChannelsTitle": "Alternative communication channels",
+      "phoneLabel": "Phone",
+      "emailLabel": "Email",
+      "privacyText": "We adhere to the principles of confidentiality and professional ethics. All information is used exclusively to provide consulting services.",
+      "form": {
+        "heading": "Leave your request — and our specialist\nwill contact you as soon as possible.",
+        "nameLabel": "Name*",
+        "namePlaceholder": "Enter your name",
+        "phoneLabel": "Phone number*",
+        "phonePlaceholder": "+38 0XX XXX XX XX",
+        "emailLabel": "Email address*",
+        "emailPlaceholder": "Example@example.com",
+        "messageLabel": "Brief description of your request",
+        "messagePlaceholder": "Text",
+        "consentText": "I consent to the processing and use of my personal data in accordance with Ukrainian law*",
+        "submitLabel": "Send request",
+        "submittingLabel": "Sending...",
+        "successMessage": "Thank you! Your request has been sent.",
+        "errorMessage": "Failed to send the request. Please try again.",
+        "fieldErrorMessage": "Please check that this field is filled in correctly."
+      }
+    }
+  }
+}

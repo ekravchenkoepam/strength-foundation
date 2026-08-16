@@ -6,14 +6,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import styles from '../page.module.scss';
-
 import { Button, ButtonTypeEnum, LiquidGlass, MemberCard } from '@/app/components/shared';
 import type { SocialName } from '@/app/components/shared/Socials/types';
 import { useApp } from '@/app/context/AppContext';
 import { getStrapiMedia } from '@/app/utils/api-helpers';
 import { fetchAPI } from '@/app/utils/fetch-api';
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+
+import styles from '../page.module.scss';
 
 type ActivityCard = {
   id: number;
@@ -30,6 +30,17 @@ type MediaCard = {
   link?: string;
   imageUrl?: string;
 };
+
+const HOME_UI_TRANSLATIONS = {
+  uk: {
+    mediaDetails: 'Детальніше',
+    partnerPlaceholder: 'Місце для вашої компанії',
+  },
+  en: {
+    mediaDetails: 'Read more',
+    partnerPlaceholder: 'Place for your company',
+  },
+} as const;
 
 type PartnerCard = {
   id: number;
@@ -580,7 +591,8 @@ export default function Home() {
   }, [activitiesApi]);
 
   const currentLocale = locale || 'uk';
-  const partnerPlaceholderText = currentLocale === 'en' ? 'Place for your company' : 'Місце для вашої компанії';
+  const uiTranslations = HOME_UI_TRANSLATIONS[currentLocale === 'en' ? 'en' : 'uk'];
+  const partnerPlaceholderText = uiTranslations.partnerPlaceholder;
 
   const { data: homePageData, isLoading } = useQuery<HomePageContent>({
     queryKey: ['home-page', currentLocale],
@@ -791,7 +803,12 @@ export default function Home() {
           <div className="w-full">
             <h2 className={styles.sectionTitle}>{aboutSection.title}</h2>
 
-            <div className="mt-[58px] flex w-full items-start justify-around gap-[32px] max-[1200px]:gap-6 max-[960px]:mt-10 max-[960px]:flex-col max-[960px]:gap-6 max-[640px]:mt-7">
+            <div
+              className="
+                mt-[58px] flex w-full items-start justify-around gap-[32px] max-[1200px]:gap-6
+                max-[960px]:mt-10 max-[960px]:flex-col max-[960px]:gap-6 max-[640px]:mt-7
+              "
+            >
               <div className="flex flex-1 max-[960px]:block max-[960px]:w-full">
                 {aboutSection.imageUrl ? (
                   <Image
@@ -950,7 +967,7 @@ export default function Home() {
                         item.link ? window.open(item.link, '_blank', 'noopener,noreferrer') : navigateTo('news')
                       }
                     >
-                      Детальніше
+                      {uiTranslations.mediaDetails}
                       <Image src="/images/arrow-right.svg" alt="" aria-hidden width={20} height={20} />
                     </button>
                   </div>

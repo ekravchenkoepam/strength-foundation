@@ -1,6 +1,7 @@
 import { AppContextProvider } from '@/app/context/AppProvider';
 import { Footer } from '@/app/layout/footer';
 import { Header } from '@/app/layout/header';
+import { ContactType } from '@/app/types';
 import { extractAttributes } from '@/app/utils/api-helpers';
 import { fetchAPI } from '@/app/utils/fetch-api';
 
@@ -46,10 +47,10 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   const links = (extractAttributes(navigationsResponse.data) as any[]) || [];
   const socials = (extractAttributes(socialsResponse.data) as any[]) || [];
-  const contacts = extractAttributes(contactResponse.data);
+  const contacts = extractAttributes<ContactType>(contactResponse.data) as ContactType | null;
 
   return (
-    <AppContextProvider links={links} socials={socials} locale={locale}>
+    <AppContextProvider links={links} socials={socials} contacts={contacts} locale={locale}>
       <Header />
       {children}
       <Footer contacts={contacts} />

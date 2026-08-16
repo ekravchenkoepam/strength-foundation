@@ -1,0 +1,70 @@
+{
+  "collectionName": "components_partnership_request_forms",
+  "info": {
+    "displayName": "Partnership Request Form",
+    "description": "Labels and messages for the partnership request form"
+  },
+  "options": {},
+  "attributes": {
+    "heading": {
+      "type": "text",
+      "required": true
+    },
+    "nameLabel": {
+      "type": "string",
+      "required": true
+    },
+    "namePlaceholder": {
+      "type": "string",
+      "required": true
+    },
+    "phoneLabel": {
+      "type": "string",
+      "required": true
+    },
+    "phonePlaceholder": {
+      "type": "string",
+      "required": true
+    },
+    "emailLabel": {
+      "type": "string",
+      "required": true
+    },
+    "emailPlaceholder": {
+      "type": "string",
+      "required": true
+    },
+    "messageLabel": {
+      "type": "string",
+      "required": true
+    },
+    "messagePlaceholder": {
+      "type": "string",
+      "required": true
+    },
+    "consentText": {
+      "type": "text",
+      "required": true
+    },
+    "submitLabel": {
+      "type": "string",
+      "required": true
+    },
+    "submittingLabel": {
+      "type": "string",
+      "required": true
+    },
+    "successMessage": {
+      "type": "string",
+      "required": true
+    },
+    "errorMessage": {
+      "type": "string",
+      "required": true
+    },
+    "fieldErrorMessage": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
