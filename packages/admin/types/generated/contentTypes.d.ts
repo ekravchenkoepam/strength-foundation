@@ -835,6 +835,12 @@ export interface ApiPartnerPagePartnerPage extends Schema.SingleType {
           localized: true;
         };
       }>;
+    background: Attribute.Media<'images'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
     createdAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::partner-page.partner-page', 'oneToOne', 'admin::user'> & Attribute.Private;
     description: Attribute.Text &
@@ -1432,6 +1438,12 @@ export interface ApiVolunteerPageVolunteerPage extends Schema.SingleType {
     };
   };
   attributes: {
+    background: Attribute.Media<'images'> &
+      Attribute.SetPluginOptions<{
+        i18n: {
+          localized: false;
+        };
+      }>;
     benefits: Attribute.Component<'partnership.benefit', true> &
       Attribute.Required &
       Attribute.SetPluginOptions<{

@@ -2,6 +2,17 @@ import { useQuery } from '@tanstack/react-query';
 
 import { fetchAPI } from '@/app/utils/fetch-api';
 
+type StrapiImage = {
+  data?: {
+    id?: number;
+    attributes?: {
+      url?: string | null;
+      name?: string | null;
+      alternativeText?: string | null;
+    };
+  } | null;
+};
+
 export type PartnershipRequestFormContent = {
   heading: string;
   nameLabel: string;
@@ -22,6 +33,7 @@ export type PartnershipRequestFormContent = {
 
 export type PartnerPageContent = {
   title: string;
+  background?: StrapiImage;
   description: string;
   requestTitle: string;
   alternativeChannelsTitle: string;
@@ -33,6 +45,7 @@ export type PartnerPageContent = {
 
 export type VolunteerPageContent = {
   title: string;
+  background?: StrapiImage;
   description: string;
   benefitsTitle: string;
   benefits: Array<{
@@ -54,6 +67,7 @@ export const usePartnerPageContent = (locale: string) =>
         urlParams: {
           locale,
           populate: {
+            background: '*',
             form: '*',
           },
         },
@@ -72,6 +86,7 @@ export const useVolunteerPageContent = (locale: string) =>
         urlParams: {
           locale,
           populate: {
+            background: '*',
             benefits: '*',
           },
         },

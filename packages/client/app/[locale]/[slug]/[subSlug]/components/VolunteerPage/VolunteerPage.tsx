@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { useState } from 'react';
 
 import { Button, ButtonTypeEnum, Cards, Loading } from '@/app/components/shared';
+import { getStrapiMedia } from '@/app/utils/api-helpers';
 import { fetchAPI } from '@/app/utils/fetch-api';
 
 import { PageProps } from '../../../types';
@@ -80,13 +81,21 @@ export const VolunteerPage = ({ locale }: PageProps) => {
   if (isLoading) return <Loading />;
   if (!content) return null;
 
+  const background = content.background?.data?.attributes;
+  const backgroundUrl = getStrapiMedia(background?.url ?? null);
+  const backgroundAlt = background?.alternativeText || background?.name || content.title;
+
   return (
     <div className="w-full">
       <section className="bg-[var(--white-80)] pb-[52px] md:pb-[72px]">
         <div className="mx-auto px-6 lg:px-[52px]">
           <h1 className="h1 pb-[30px] pt-6 text-center md:pb-12 md:pt-8">{content.title}</h1>
 
-          <div className="h-[min(34vw,530px)] min-h-[260px] w-full rounded-[20px] bg-[#c4c4c4]" />
+          <div className="h-[min(34vw,530px)] min-h-[260px] w-full overflow-hidden rounded-[20px] bg-[#c4c4c4]">
+            {backgroundUrl ? (
+              <img src={backgroundUrl} alt={backgroundAlt} className="h-full w-full object-cover object-center" />
+            ) : null}
+          </div>
 
           <p className="mx-auto mt-6 max-w-[760px] whitespace-pre-line text-[length:var(--h8-size)] leading-[var(--h8-line)] md:mt-12">
             {content.description}
