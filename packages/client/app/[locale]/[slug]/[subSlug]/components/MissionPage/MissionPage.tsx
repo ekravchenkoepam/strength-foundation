@@ -5,7 +5,7 @@ import React, { FC } from 'react';
 import styles from './MissionPage.module.scss';
 
 import { PageProps } from '@/app/[locale]/[slug]/types';
-import { Loading } from '@/app/components/shared';
+import { LiquidGlass, Loading } from '@/app/components/shared';
 import { getStrapiMedia } from '@/app/utils/api-helpers';
 import { fetchAPI } from '@/app/utils/fetch-api';
 
@@ -59,17 +59,23 @@ export const MissionPage: FC<PageProps> = ({ locale }) => {
           );
         })}
       </div>
-      <div className={styles.principlesBlock}>
+      <div className={clsx(styles.principlesBlock, 'bg-[url(/images/asphalt-bg-alt.png)]')}>
         <div className={styles.principlesTitle}>{missionPage.attributes.principlesTitle}</div>
         <div className={styles.principlesList}>
           {missionPage.attributes.principles.map((principle: any) => (
-            <div key={principle.id} className={styles.principleItem}>
+            <LiquidGlass
+              key={principle.id}
+              tint="neutral"
+              intensity="subtle"
+              role="article"
+              className={clsx(styles.principleItem, '!border-white/10')}
+            >
               <div className={styles.principleIcon}>
                 <img src={`/images/icons/${principle.icon}.svg`} alt={principle.title} />
               </div>
               <h3>{principle.title}</h3>
               <div className={styles.principleContent} dangerouslySetInnerHTML={{ __html: principle.content }}></div>
-            </div>
+            </LiquidGlass>
           ))}
         </div>
       </div>

@@ -1,10 +1,18 @@
-import { LiquidGlass } from '@/app/components/shared';
-import { getStrapiMedia } from '@/app/utils/api-helpers';
+import clsx from 'clsx';
+import Image from 'next/image';
 
 import { SupportTypesBlock as SupportTypesBlockProps } from '../types';
 
+import { LiquidGlass } from '@/app/components/shared';
+import { getStrapiMedia } from '@/app/utils/api-helpers';
+
 export const SupportTypesBlock = ({ title, items = [] }: SupportTypesBlockProps) => (
-  <section className="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[var(--green-100)] bg-[url('/images/asphalt-bg-alt.png')] bg-cover bg-center px-6 pt-[100px] pb-[80px] md:pb-[100px] lg:px-[52px]">
+  <section
+    className={clsx(
+      'relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[var(--green-100)] bg-[url(/images/asphalt-bg-alt.png)]',
+      'bg-cover bg-center px-6 pt-[100px] pb-[80px] md:pb-[100px] lg:px-[52px]'
+    )}
+  >
     <div className="flex flex-col gap-8">
       <h2 className="m-0 text-center text-[26px] font-bold text-white md:text-[32px]">{title}</h2>
 
@@ -21,14 +29,16 @@ export const SupportTypesBlock = ({ title, items = [] }: SupportTypesBlockProps)
             >
               {iconUrl ? (
                 <div className="flex h-11 w-11 items-center justify-center rounded-full bg-white">
-                  <img
+                  <Image
                     src={getStrapiMedia(iconUrl)}
                     alt={item.icon?.data?.attributes?.alternativeText || ''}
+                    width={24}
+                    height={24}
                     className="h-6 w-6 object-contain"
                   />
                 </div>
               ) : null}
-              <h3 className="m-0 text-base font-semibold text-white">{item.title}</h3>
+              <h3 className="h4 m-0 text-white">{item.title}</h3>
               {item.description ? (
                 <p className="m-0 text-[14px] leading-[1.45] text-white">{item.description}</p>
               ) : null}
