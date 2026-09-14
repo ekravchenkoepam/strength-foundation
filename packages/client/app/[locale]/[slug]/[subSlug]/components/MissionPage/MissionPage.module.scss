@@ -81,11 +81,11 @@
     .principlesList {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      align-items: start;
+      align-items: stretch;
       gap: 32px;
 
       .principleItem {
-        height: 352px;
+        min-height: 352px;
         color: var(--white-100);
         border-radius: var(--border-radius);
 
