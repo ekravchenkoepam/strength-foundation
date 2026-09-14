@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import Link from 'next/link';
-
-import { LiquidGlass, Loading } from '@/app/components/shared';
-import { getStrapiMedia } from '@/app/utils/api-helpers';
-import { fetchAPI } from '@/app/utils/fetch-api';
 
 import { PageProps } from '../types';
+
+import { Button, ButtonTypeEnum, LiquidGlass, Loading } from '@/app/components/shared';
+import { getStrapiMedia } from '@/app/utils/api-helpers';
+import { fetchAPI } from '@/app/utils/fetch-api';
 
 type ProjectRelationItem = {
   id: number;
@@ -116,14 +115,14 @@ export const ProjectsPage = ({ locale }: PageProps) => {
         <h1 className="h1 mb-8 text-center text-[var(--black-100)] md:mb-12 lg:mb-[68px]">{title}</h1>
 
         {projects.length ? (
-          <div className="mx-auto grid w-full grid-cols-1 justify-center gap-[32px] md:grid-cols-2 lg:w-3/4">
+          <div className="mx-auto grid w-full grid-cols-1 justify-center gap-[32px] md:grid-cols-2">
             {projects.map(project => (
               <article
                 key={project.id}
                 className="
-                  group relative isolate flex min-h-[420px] flex-col justify-end overflow-hidden
+                  group relative isolate flex aspect-[4/3] flex-col justify-end overflow-hidden
                   rounded-[18px] bg-[var(--green-20)] p-5 shadow-[0_22px_48px_rgba(0,0,0,0.14)]
-                  md:min-h-[460px] md:p-[22px] xl:min-h-[560px]
+                  md:p-[22px]
                 "
               >
                 {project.imageUrl ? (
@@ -139,7 +138,7 @@ export const ProjectsPage = ({ locale }: PageProps) => {
                 <LiquidGlass
                   tint="dark"
                   intensity="strong"
-                  className="relative flex min-h-[260px] w-full flex-col gap-3 rounded-[16px] p-6"
+                  className="relative flex w-full flex-col gap-3 rounded-[16px] p-4 lg:p-6"
                 >
                   <h2 className="m-0 line-clamp-2 text-[22px] leading-[1.2] font-bold tracking-[-0.01em] text-white md:text-[24px]">
                     {project.title}
@@ -149,17 +148,11 @@ export const ProjectsPage = ({ locale }: PageProps) => {
                   </p>
 
                   <div className="mt-auto flex justify-end pt-2">
-                    <Link
+                    <Button
                       href={`/${locale}/projects/${project.slug}`}
-                      className="
-                        inline-flex items-center justify-center rounded-[10px] border-2
-                        border-[var(--green-100)] bg-white px-[30px] py-[14px] text-[16px]
-                        leading-6 font-medium text-[var(--black-100)] no-underline
-                        transition-opacity duration-150 ease-out hover:opacity-90
-                      "
-                    >
-                      {project.buttonText}
-                    </Link>
+                      label={project.buttonText}
+                      type={ButtonTypeEnum.Transparent}
+                    />
                   </div>
                 </LiquidGlass>
               </article>

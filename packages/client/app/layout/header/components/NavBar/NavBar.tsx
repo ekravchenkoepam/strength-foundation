@@ -51,12 +51,12 @@ export const NavBar = ({ isMenuOpen, setIsMenuOpen, locale, visibleLinks, hasSub
   const t = getHeaderTranslations(locale);
 
   return (
-    <LiquidGlass tint="light" intensity="strong">
+    <LiquidGlass tint="light" intensity="strong" className="!shadow-none">
       <div
         className={clsx(
           'grid w-full grid-cols-[1fr_auto_auto] items-center border-b-2 border-[var(--yellow-100)]',
           'px-4 py-3 md:px-6 md:py-4 lg:grid-cols-[auto_1fr_auto] lg:px-[70px] lg:py-[22px]',
-          'bg-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),inset_0_-1px_0_rgba(0,0,0,0.04),0_10px_28px_rgba(0,0,0,0.12)]'
+          'bg-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),inset_0_-1px_0_rgba(0,0,0,0.04)]'
         )}
       >
         <div className="justify-self-start">

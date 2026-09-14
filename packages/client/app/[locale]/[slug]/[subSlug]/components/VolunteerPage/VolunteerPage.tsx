@@ -2,12 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useState } from 'react';
 
+import { PageProps } from '../../../types';
+import { useVolunteerPageContent } from '../usePartnershipPageContent';
+
 import { Button, ButtonTypeEnum, Cards, Loading } from '@/app/components/shared';
 import { getStrapiMedia } from '@/app/utils/api-helpers';
 import { fetchAPI } from '@/app/utils/fetch-api';
-
-import { PageProps } from '../../../types';
-import { useVolunteerPageContent } from '../usePartnershipPageContent';
 
 type Testimonial = {
   id: string | number;
@@ -23,8 +23,10 @@ type Questionnaire = {
   isExternal: boolean;
 };
 
+const TESTIMONIALS_PER_PAGE = 2;
+
 export const VolunteerPage = ({ locale }: PageProps) => {
-  const [activeReviewIndex, setActiveReviewIndex] = useState(0);
+  const [activeReviewPage, setActiveReviewPage] = useState(0);
   const { data: content, isLoading } = useVolunteerPageContent(locale);
   const { data: testimonials = [] } = useQuery<Testimonial[]>({
     queryKey: ['testimonials', locale],
@@ -70,8 +72,12 @@ export const VolunteerPage = ({ locale }: PageProps) => {
         .filter((item: Questionnaire) => Boolean(item.title && item.href));
     },
   });
-  const safeActiveReviewIndex = testimonials.length ? Math.min(activeReviewIndex, testimonials.length - 1) : 0;
-  const activeReview = testimonials[safeActiveReviewIndex];
+  const testimonialPageCount = Math.ceil(testimonials.length / TESTIMONIALS_PER_PAGE);
+  const safeActiveReviewPage = testimonialPageCount ? Math.min(activeReviewPage, testimonialPageCount - 1) : 0;
+  const visibleTestimonials = testimonials.slice(
+    safeActiveReviewPage * TESTIMONIALS_PER_PAGE,
+    (safeActiveReviewPage + 1) * TESTIMONIALS_PER_PAGE
+  );
   const ctaParagraphs =
     content?.ctaDescription
       .split(/\n\s*\n/)
@@ -105,11 +111,16 @@ export const VolunteerPage = ({ locale }: PageProps) => {
 
       <section
         className="
-          bg-[var(--green-100)] bg-[url('/images/asphalt-bg.png')] bg-cover bg-center
+          relative isolate overflow-hidden bg-[var(--green-100)]
           pb-[70px] pt-16 text-[color:var(--white-100)] md:pb-[96px] md:pt-[86px]
         "
       >
-        <div className="mx-auto px-6 lg:px-[52px]">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0 bg-[url('/images/asphalt-bg.png')] bg-cover bg-center opacity-20"
+        />
+
+        <div className="relative z-10 mx-auto px-6 lg:px-[52px]">
           <h2 className="h2 text-center">{content.benefitsTitle}</h2>
 
           <Cards
@@ -122,40 +133,56 @@ export const VolunteerPage = ({ locale }: PageProps) => {
 
           <h2 className="h2 mt-16 text-center md:mt-[98px]">{content.testimonialsTitle}</h2>
 
-          {activeReview && (
-            <article className="mt-7 rounded-[18px] border border-white/30 bg-[rgba(72,72,56,0.4)] p-5 md:mt-10 md:p-7">
-              <div className="flex items-start gap-[18px] md:items-center">
-                <div className="h-[66px] w-[66px] rounded-full bg-[#d9d9d9] md:h-[86px] md:w-[86px]" />
-                <div>
-                  <div className="h3 m-0">{activeReview.name}</div>
-                  <div className="mt-2 text-[length:var(--h7-size)] leading-[var(--h7-line)]">{activeReview.role}</div>
-                </div>
-              </div>
-
-              <p className="mt-[18px] max-w-[900px] whitespace-pre-line text-[length:var(--h8-size)] leading-[var(--h8-line)] md:mt-[22px]">
-                {activeReview.text}
-              </p>
-
-              <div className="mt-6 flex justify-center gap-2">
-                {testimonials.map((review, index) => (
-                  <button
+          {visibleTestimonials.length ? (
+            <>
+              <div className="mt-7 grid grid-cols-1 gap-6 md:mt-10 md:grid-cols-2 md:gap-8">
+                {visibleTestimonials.map(review => (
+                  <article
                     key={review.id}
-                    type="button"
-                    onClick={() => setActiveReviewIndex(index)}
                     className={clsx(
-                      'h-[44px] w-[44px] rounded-full',
-                      'text-[length:var(--h6-size)] leading-[1]',
-                      activeReviewIndex === index
-                        ? 'border border-[var(--white-80)] bg-[var(--white-80)] text-[color:var(--green-100)]'
-                        : 'border border-white/65 bg-transparent text-[color:var(--white-100)]'
+                      'flex min-h-[353px] flex-col rounded-[18px] border border-white/30',
+                      'bg-[rgba(72,72,56,0.4)] p-5 md:p-7',
+                      visibleTestimonials.length === 1 && 'md:col-span-2'
                     )}
                   >
-                    {index + 1}
-                  </button>
+                    <div className="flex items-start gap-[18px] md:items-center">
+                      <div className="h-[66px] w-[66px] shrink-0 rounded-full bg-[#d9d9d9] md:h-[86px] md:w-[86px]" />
+                      <div>
+                        <div className="h3 m-0">{review.name}</div>
+                        <div className="mt-2 text-[length:var(--h7-size)] leading-[var(--h7-line)]">{review.role}</div>
+                      </div>
+                    </div>
+
+                    <p className="mt-8 whitespace-pre-line text-[length:var(--h8-size)] leading-[var(--h8-line)] md:mt-12">
+                      {review.text}
+                    </p>
+                  </article>
                 ))}
               </div>
-            </article>
-          )}
+
+              {testimonialPageCount > 1 ? (
+                <nav className="mt-6 flex justify-end gap-2" aria-label="Testimonials pagination">
+                  {Array.from({ length: testimonialPageCount }, (_, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => setActiveReviewPage(index)}
+                      className={clsx(
+                        'h-[52px] w-[52px] rounded-full transition-colors md:h-[60px] md:w-[60px]',
+                        'text-[length:var(--h6-size)] leading-[1]',
+                        safeActiveReviewPage === index
+                          ? 'border border-[var(--white-80)] bg-[var(--white-80)] text-[color:var(--green-100)]'
+                          : 'border border-white/65 bg-transparent text-[color:var(--white-100)] hover:bg-white/10'
+                      )}
+                      aria-current={safeActiveReviewPage === index ? 'page' : undefined}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
+                </nav>
+              ) : null}
+            </>
+          ) : null}
         </div>
       </section>
 
