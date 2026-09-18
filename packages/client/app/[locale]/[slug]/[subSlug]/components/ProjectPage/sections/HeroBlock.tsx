@@ -1,18 +1,13 @@
+import { HeroBlock as HeroBlockProps } from '../types';
+
 import { LiquidGlass } from '@/app/components/shared';
 import { getStrapiMedia } from '@/app/utils/api-helpers';
-
-import { HeroBlock as HeroBlockProps } from '../types';
 
 export const HeroBlock = ({ title, image, caption, intro, quote }: HeroBlockProps) => {
   const sourceImage = image?.data?.attributes;
   const imageUrl = sourceImage?.url;
-  const useGeneratedImage = Boolean(
-    imageUrl && ((sourceImage?.width ?? 0) < 1336 || (sourceImage?.height ?? 0) < 640)
-  );
-  const heroImageUrl = useGeneratedImage ? '/images/program-hero-v2.png' : getStrapiMedia(imageUrl ?? null);
-  const imageAlt = useGeneratedImage
-    ? ''
-    : sourceImage?.alternativeText || sourceImage?.name || title || '';
+  const heroImageUrl = getStrapiMedia(imageUrl ?? null);
+  const imageAlt = sourceImage?.alternativeText || sourceImage?.name || title || '';
 
   return (
     <section className="flex w-full flex-col pb-[74px]">
@@ -44,7 +39,10 @@ export const HeroBlock = ({ title, image, caption, intro, quote }: HeroBlockProp
       ) : null}
 
       {quote ? (
-        <blockquote className="mx-auto flex w-full max-w-[820px] flex-col gap-3 rounded-2xl border-2 border-[var(--yellow-100,#f5cf3e)] bg-white p-7 md:p-9">
+        <blockquote
+          className="mx-auto flex w-full max-w-[820px] flex-col gap-3 rounded-2xl border-2
+          border-[var(--yellow-100,#f5cf3e)] bg-white p-7 md:p-9"
+        >
           <img src="/images/quotes.svg" alt="" className="h-[53px] w-[84px]" aria-hidden="true" />
           <p className="m-0 text-lg leading-[1.45] font-semibold text-[var(--black-100)] md:text-xl">{quote}</p>
         </blockquote>

@@ -6,14 +6,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import styles from '../page.module.scss';
+
 import { Button, ButtonTypeEnum, LiquidGlass, MemberCard } from '@/app/components/shared';
 import type { SocialName } from '@/app/components/shared/Socials/types';
 import { useApp } from '@/app/context/AppContext';
 import { getStrapiMedia } from '@/app/utils/api-helpers';
 import { fetchAPI } from '@/app/utils/fetch-api';
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from '@/components/ui/carousel';
-
-import styles from '../page.module.scss';
 
 type ActivityCard = {
   id: number;
@@ -332,6 +332,8 @@ type IntroSectionContent = {
   description: string;
   imageUrl: string;
   imageAlt: string;
+  imageWidth: number | null;
+  imageHeight: number | null;
 };
 
 type ActivitiesSectionContent = {
@@ -431,9 +433,7 @@ const mapHomePageData = (response: HomePageApiResponse): HomePageContent => {
   const attributes = response?.data?.attributes;
   const intro = attributes?.introSection;
   const introImage = intro?.image?.data?.attributes;
-  const introImageUrl = introImage?.url && (introImage.width ?? 0) >= 1336 && (introImage.height ?? 0) >= 695
-    ? getStrapiMedia(introImage.url)
-    : '/images/home-hero-v2.png';
+  const introImageUrl = getStrapiMedia(introImage?.url ?? null);
   const about = attributes?.aboutSection;
   const activities = attributes?.activitiesSection;
   const newsSection = attributes?.newsSection;
@@ -494,6 +494,8 @@ const mapHomePageData = (response: HomePageApiResponse): HomePageContent => {
           description: intro.description || '',
           imageUrl: introImageUrl,
           imageAlt: intro.imageAlt || '',
+          imageWidth: introImage?.width ?? null,
+          imageHeight: introImage?.height ?? null,
         }
       : null,
     aboutSection: about
@@ -549,6 +551,7 @@ export default function Home() {
 
   const [activitiesApi, setActivitiesApi] = useState<CarouselApi | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [failedIntroImageUrl, setFailedIntroImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (!activitiesApi) return;
@@ -757,23 +760,22 @@ export default function Home() {
             </div>
 
             <div
-              className="relative mt-4 h-[695px] overflow-hidden rounded-[14px] bg-[#f3efe5]
+              className="relative mt-4 flex h-[695px] items-center justify-center overflow-hidden rounded-[14px] bg-[#d9d9d9]
               max-[1200px]:h-[clamp(260px,40vw,470px)]
               max-[960px]:h-[clamp(220px,42vw,300px)]
               max-[640px]:mt-4 max-[640px]:h-[360px] max-[420px]:h-[320px]"
             >
-              {introSection.imageUrl ? (
+              {introSection.imageUrl && failedIntroImageUrl !== introSection.imageUrl ? (
                 <Image
                   src={introSection.imageUrl}
                   alt={introSection.imageAlt}
                   className="h-full w-full object-cover object-center"
-                  width={1738}
-                  height={905}
-                  unoptimized={introSection.imageUrl === '/images/home-hero-v2.png'}
+                  width={introSection.imageWidth ?? 1336}
+                  height={introSection.imageHeight ?? 695}
+                  unoptimized
+                  onError={() => setFailedIntroImageUrl(introSection.imageUrl)}
                 />
-              ) : (
-                <div className="h-full w-full bg-[#f3efe5]" />
-              )}
+              ) : null}
               <LiquidGlass
                 tint="neutral"
                 intensity="subtle"
