@@ -123,6 +123,20 @@
   --sidebar-ring: oklch(0.707 0.022 261.325);
 }
 
+@media (max-width: 767px) {
+  :root {
+    --h1-size: 32px;
+    --h1-line: 40px;
+  }
+}
+
+@media (max-width: 380px) {
+  :root {
+    --h1-size: 28px;
+    --h1-line: 36px;
+  }
+}
+
 .h1 {
   font-size: var(--h1-size);
   line-height: var(--h1-line);
@@ -195,6 +209,19 @@ body {
   font-family: var(--font-e-ukraine);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* A 1440px frame keeps the existing 52px desktop gutters around a 1336px grid. */
+.content-frame {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+}
+
+.content-grid {
+  width: 100%;
+  max-width: 1336px;
+  margin-inline: auto;
 }
 
 /* Base resets — must be inside @layer base so Tailwind utility classes

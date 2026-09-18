@@ -15,10 +15,10 @@
 .sectionTitle {
   margin: 0;
   text-align: center;
-  font-size: 36px;
-  line-height: 1.2;
-  font-weight: var(--font-bold);
-  font-family: var(--font-e-ukraine-head);
+  font-size: var(--h1-size);
+  line-height: var(--h1-line);
+  font-weight: var(--h1-weight);
+  font-family: var(--font-e-ukraine);
 }
 
 .sectionTitleLight {
@@ -244,6 +244,9 @@
 }
 
 .mediaContainer {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
   padding: 0 52px;
 }
 
@@ -319,13 +322,14 @@
 }
 
 .partnersSection {
-  padding: 72px 0 78px;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
+  padding: 168px 0 78px;
+  width: 100%;
 }
 
 .partnersContainer {
   width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
   padding: 0 52px;
 }
 
@@ -386,6 +390,9 @@
 }
 
 .ambassadorsContainer {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
   padding: 0 52px;
 }
 
@@ -555,10 +562,6 @@
     width: min(1240px, calc(100% - 48px));
   }
 
-  .sectionTitle {
-    font-size: 24px;
-  }
-
   .helpSection,
   .mediaSection,
   .partnersSection,
@@ -679,10 +682,6 @@
 @media (max-width: 420px) {
   .container {
     width: min(1240px, calc(100% - 48px));
-  }
-
-  .sectionTitle {
-    font-size: 22px;
   }
 
   .activitiesSection,

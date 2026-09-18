@@ -13,7 +13,7 @@ export const SupportTypesBlock = ({ title, items = [] }: SupportTypesBlockProps)
       'bg-cover bg-center px-6 pt-[100px] pb-[80px] md:pb-[100px] lg:px-[52px]'
     )}
   >
-    <div className="flex flex-col gap-8">
+    <div className="content-grid flex flex-col gap-8">
       <h2 className="m-0 text-center text-[26px] font-bold text-white md:text-[32px]">{title}</h2>
 
       <div className="grid grid-cols-1 gap-[32px] md:grid-cols-3">

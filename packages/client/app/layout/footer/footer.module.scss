@@ -5,6 +5,8 @@
 
   .footerWrapper {
     display: flex;
+    max-width: 1440px;
+    margin-inline: auto;
     flex-wrap: wrap;
     gap: 32px;
     justify-content: space-between;
@@ -77,6 +79,8 @@
   }
 
   .copyrightContainer {
+    max-width: 1440px;
+    margin-inline: auto;
     border-top: 1px solid var(--green-80);
     padding: 40px 52px;
     display: flex;

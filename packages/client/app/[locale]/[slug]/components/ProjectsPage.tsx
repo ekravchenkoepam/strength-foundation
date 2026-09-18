@@ -111,7 +111,7 @@ export const ProjectsPage = ({ locale }: PageProps) => {
 
   return (
     <div className="w-full bg-[var(--white-80)] pb-14 md:pb-20 lg:pb-[96px]">
-      <section className="w-full px-6 pt-6 md:px-8 md:pt-8 lg:px-[52px] lg:pt-[36px]">
+      <section className="content-frame px-6 pt-6 md:px-8 md:pt-8 lg:px-[52px] lg:pt-[36px]">
         <h1 className="h1 mb-8 text-center text-[var(--black-100)] md:mb-12 lg:mb-[68px]">{title}</h1>
 
         {projects.length ? (
