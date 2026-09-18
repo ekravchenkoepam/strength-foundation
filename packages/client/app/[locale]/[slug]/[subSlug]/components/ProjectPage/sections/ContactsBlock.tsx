@@ -1,4 +1,5 @@
-import { getStrapiMedia } from '@/app/utils/api-helpers';
+import { useEffect, useState } from 'react';
+import QRCode from 'react-qr-code';
 
 import { ContactsBlock as ContactsBlockProps } from '../types';
 
@@ -13,17 +14,20 @@ export const ContactsBlock = ({
   phone,
   email,
   qrText,
-  qrImage,
   qrButtonText,
   locale,
   footnote,
 }: ContactsBlockComponentProps) => {
-  const qrUrl = qrImage?.data?.attributes?.url;
   const donateHref = `/${locale}/donate`;
+  const [qrHref, setQrHref] = useState('');
+
+  useEffect(() => {
+    setQrHref(new URL(donateHref, window.location.origin).href);
+  }, [donateHref]);
 
   return (
     <section className="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[var(--green-100)] px-6 py-14 text-white md:py-[72px] lg:px-[52px]">
-      <div className="flex flex-col gap-[80px]">
+      <div className="content-grid flex flex-col gap-[80px]">
         <h2 className="m-0 text-center text-[28px] font-bold md:text-[32px]">{title}</h2>
 
         <div className="grid grid-cols-1 gap-7 md:grid-cols-2 md:gap-9">
@@ -73,9 +77,16 @@ export const ContactsBlock = ({
 
           <div className="flex w-full flex-col rounded-[10px] bg-white p-6 text-[var(--black-100)] md:h-[583px]">
             {qrText ? <p className="m-0 text-center text-[13px] font-bold uppercase">{qrText}</p> : null}
-            {qrUrl ? (
+            {qrHref ? (
               <div className="flex flex-1 items-center justify-center">
-                <img src={getStrapiMedia(qrUrl)} alt="QR" className="h-[280px] w-[280px] object-contain" />
+                <QRCode
+                  value={qrHref}
+                  size={280}
+                  fgColor="#181818"
+                  bgColor="#ffffff"
+                  aria-label={locale === 'en' ? 'QR code for the donation page' : 'QR-код для сторінки підтримки'}
+                  className="h-auto max-w-full"
+                />
               </div>
             ) : null}
             {qrButtonText ? (

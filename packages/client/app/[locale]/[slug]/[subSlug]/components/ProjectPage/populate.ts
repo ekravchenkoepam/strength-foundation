@@ -22,7 +22,6 @@ export const projectBlocksPopulate = {
       'project-sections.contacts': {
         populate: {
           channels: '*',
-          qrImage: '*',
         },
       },
     },

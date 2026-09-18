@@ -53,10 +53,10 @@ export const PartnerPage = ({ locale }: PageProps) => {
   return (
     <div className="w-full">
       <section className="bg-[var(--white-80)] pb-[52px] md:pb-[72px]">
-        <div className="mx-auto px-6 lg:px-[52px]">
+        <div className="content-frame px-6 lg:px-[52px]">
           <h1 className="h1 pb-[30px] pt-6 text-center md:pb-12 md:pt-8">{content.title}</h1>
 
-          <div className="h-[min(34vw,530px)] min-h-[260px] w-full overflow-hidden rounded-[20px] bg-[#c4c4c4]">
+          <div className="aspect-[1336/638] min-h-[260px] max-h-[638px] w-full overflow-hidden rounded-[24px] bg-[#c4c4c4]">
             {backgroundUrl ? (
               <img src={backgroundUrl} alt={backgroundAlt} className="h-full w-full object-cover object-center" />
             ) : null}
@@ -69,7 +69,7 @@ export const PartnerPage = ({ locale }: PageProps) => {
       </section>
 
       <section className="border-b border-[var(--color-yellow)] bg-[var(--green-100)] pb-16 pt-16 text-[color:var(--white-100)] lg:pb-12 lg:pt-8">
-        <div className="mx-auto px-6 lg:px-[52px]">
+        <div className="content-frame px-6 lg:px-[52px]">
           <h2 className="h2 mb-8 text-center md:mb-14 lg:mb-[72px]">{content.requestTitle}</h2>
 
           <div className="grid grid-cols-1 gap-[48px] lg:grid-cols-2">

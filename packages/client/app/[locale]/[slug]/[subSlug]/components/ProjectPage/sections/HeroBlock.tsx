@@ -4,8 +4,15 @@ import { getStrapiMedia } from '@/app/utils/api-helpers';
 import { HeroBlock as HeroBlockProps } from '../types';
 
 export const HeroBlock = ({ title, image, caption, intro, quote }: HeroBlockProps) => {
-  const imageUrl = image?.data?.attributes?.url;
-  const imageAlt = image?.data?.attributes?.alternativeText || image?.data?.attributes?.name || title || '';
+  const sourceImage = image?.data?.attributes;
+  const imageUrl = sourceImage?.url;
+  const useGeneratedImage = Boolean(
+    imageUrl && ((sourceImage?.width ?? 0) < 1336 || (sourceImage?.height ?? 0) < 640)
+  );
+  const heroImageUrl = useGeneratedImage ? '/images/program-hero-v2.png' : getStrapiMedia(imageUrl ?? null);
+  const imageAlt = useGeneratedImage
+    ? ''
+    : sourceImage?.alternativeText || sourceImage?.name || title || '';
 
   return (
     <section className="flex w-full flex-col pb-[74px]">
@@ -14,7 +21,7 @@ export const HeroBlock = ({ title, image, caption, intro, quote }: HeroBlockProp
       {imageUrl ? (
         <div className="grid w-full overflow-hidden rounded-[20px] shadow-[0_24px_60px_rgba(0,0,0,0.14)]">
           <img
-            src={getStrapiMedia(imageUrl)}
+            src={heroImageUrl}
             alt={imageAlt}
             className="col-start-1 row-start-1 block h-[300px] w-full object-cover md:h-[430px] lg:h-[640px]"
           />

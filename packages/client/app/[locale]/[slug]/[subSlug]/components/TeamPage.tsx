@@ -58,7 +58,7 @@ export const TeamPage: FC<PageProps> = ({ locale }) => {
     <>
       <div className="h1 mt-6 mb-8 text-center md:mt-8 md:mb-12">{title}</div>
       <Slider images={images} />
-      <div className="px-6 py-10 text-[16px] leading-[24px] md:px-8 md:py-14 lg:px-[120px] xl:px-[220px]">{motto}</div>
+      <div className="content-frame px-6 py-10 text-[16px] leading-[24px] md:px-8 md:py-14 lg:px-[120px] xl:px-[220px]">{motto}</div>
       <div
         className="
         bg-[rgb(72,72,56)]
@@ -67,13 +67,13 @@ export const TeamPage: FC<PageProps> = ({ locale }) => {
         w-full px-6 pt-12 pb-14 md:pt-16 md:pb-20 lg:px-[52px] lg:pt-[100px] lg:pb-[120px]
       "
       >
-        <div className="mx-auto w-full max-w-[1200px]">
+        <div className="content-grid">
           <div
             className="grid w-full gap-4 pb-3 md:gap-6 lg:gap-8"
             style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))' }}
           >
             {members.map((member: any) => (
-              <MemberCard key={member.id} member={member} />
+              <MemberCard key={member.id} member={member} variant="team" />
             ))}
           </div>
 
@@ -87,7 +87,7 @@ export const TeamPage: FC<PageProps> = ({ locale }) => {
       </div>
       {joinTeamSection && (
         <div className="w-full bg-[var(--white-80)] px-6 pt-[120px] pb-[52px] text-center lg:px-[52px] lg:py-[120px]">
-          <h2 className="text-[44px] font-bold mb-8">{joinTeamSection.title}</h2>
+          <h2 className="h1 mb-8">{joinTeamSection.title}</h2>
 
           <div className="text-left max-w-[820px] mx-auto mb-10">
             {ctaDescription.map((paragraph: string, index: number) => (

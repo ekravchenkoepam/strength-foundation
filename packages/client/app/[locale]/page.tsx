@@ -169,6 +169,8 @@ type HomePageApiResponse = {
           data?: {
             attributes?: {
               url?: string | null;
+              width?: number | null;
+              height?: number | null;
             };
           } | null;
         } | null;
@@ -428,6 +430,10 @@ const mapNewsListItem = (item: NewsListItem): MediaCard => {
 const mapHomePageData = (response: HomePageApiResponse): HomePageContent => {
   const attributes = response?.data?.attributes;
   const intro = attributes?.introSection;
+  const introImage = intro?.image?.data?.attributes;
+  const introImageUrl = introImage?.url && (introImage.width ?? 0) >= 1336 && (introImage.height ?? 0) >= 695
+    ? getStrapiMedia(introImage.url)
+    : '/images/home-hero-v2.png';
   const about = attributes?.aboutSection;
   const activities = attributes?.activitiesSection;
   const newsSection = attributes?.newsSection;
@@ -486,7 +492,7 @@ const mapHomePageData = (response: HomePageApiResponse): HomePageContent => {
           title: intro.title || '',
           subtitle: intro.subtitle || '',
           description: intro.description || '',
-          imageUrl: getStrapiMedia(intro.image?.data?.attributes?.url ?? ''),
+          imageUrl: introImageUrl,
           imageAlt: intro.imageAlt || '',
         }
       : null,
@@ -697,14 +703,14 @@ export default function Home() {
   if (isLoading) {
     return (
       <div className={styles.homePage}>
-        <div className="px-6 pt-8 lg:px-[52px]">
+        <div className="content-frame px-6 pt-8 lg:px-[52px]">
           <div className="mb-4 h-[72px] w-3/4 animate-pulse rounded-lg bg-[#e8e5de] mx-auto" />
           <div
             className="h-[695px] max-[1200px]:h-[clamp(260px,40vw,470px)]
             max-[960px]:h-[clamp(220px,42vw,300px)] animate-pulse rounded-xl bg-[#e8e5de]"
           />
         </div>
-        <div className="px-6 py-[68px] lg:px-[52px]">
+        <div className="content-frame px-6 py-[68px] lg:px-[52px]">
           <div className="mx-auto mb-12 h-10 w-1/3 animate-pulse rounded-lg bg-[#e8e5de]" />
           <div className="flex gap-8 max-[960px]:flex-col">
             <div
@@ -726,14 +732,15 @@ export default function Home() {
     <div className={styles.homePage}>
       {introSection ? (
         <section
-          className="mb-[120px] px-6 pt-8 lg:px-[52px] max-[960px]:mb-0 max-[960px]:pb-10 max-[960px]:pt-7
+          className="content-frame mb-[120px] px-6 pt-8 lg:px-[52px] max-[960px]:mb-0 max-[960px]:pb-10 max-[960px]:pt-7
           max-[640px]:pb-7 max-[640px]:pt-6"
         >
           <div className="w-full">
             <div className="flex w-full flex-col items-center gap-[6px] max-[640px]:gap-1">
               <h1
-                className="m-0 w-full text-center font-bold text-[125px] leading-[0.92] text-[#151512]
-                max-[1200px]:text-[86px] max-[960px]:text-[64px] max-[640px]:text-[48px] max-[420px]:text-[40px]"
+                className="m-0 w-full text-center font-bold text-[125px] leading-none text-[#151512]
+                max-[1200px]:text-[86px] max-[960px]:text-[64px] max-[767px]:text-[32px] max-[767px]:leading-[40px]
+                max-[380px]:text-[28px] max-[380px]:leading-[36px]"
               >
                 {introSection.title}
               </h1>
@@ -750,7 +757,7 @@ export default function Home() {
             </div>
 
             <div
-              className="relative mt-4 h-[695px] overflow-hidden rounded-[12px] bg-[#f3efe5]
+              className="relative mt-4 h-[695px] overflow-hidden rounded-[14px] bg-[#f3efe5]
               max-[1200px]:h-[clamp(260px,40vw,470px)]
               max-[960px]:h-[clamp(220px,42vw,300px)]
               max-[640px]:mt-4 max-[640px]:h-[360px] max-[420px]:h-[320px]"
@@ -759,12 +766,13 @@ export default function Home() {
                 <Image
                   src={introSection.imageUrl}
                   alt={introSection.imageAlt}
-                  className="h-full w-full rounded-[12px] object-cover object-center"
-                  width={1200}
-                  height={800}
+                  className="h-full w-full object-cover object-center"
+                  width={1738}
+                  height={905}
+                  unoptimized={introSection.imageUrl === '/images/home-hero-v2.png'}
                 />
               ) : (
-                <div className="h-full w-full rounded-[12px] bg-[#f3efe5]" />
+                <div className="h-full w-full bg-[#f3efe5]" />
               )}
               <LiquidGlass
                 tint="neutral"
@@ -797,7 +805,7 @@ export default function Home() {
 
       {aboutSection ? (
         <section
-          className="px-6 pb-[68px] lg:px-[52px] max-[960px]:pb-[50px] max-[960px]:pt-[38px]
+          className="content-frame px-6 pb-[68px] lg:px-[52px] max-[960px]:pb-[50px] max-[960px]:pt-[38px]
           max-[640px]:py-[44px] max-[420px]:py-[32px]"
         >
           <div className="w-full">
@@ -872,7 +880,7 @@ export default function Home() {
 
       {activitiesSection ? (
         <section className={styles.activitiesSection}>
-          <div className="w-full px-6 lg:px-[52px]">
+          <div className="content-frame px-6 lg:px-[52px]">
             <h2 className={clsx(styles.sectionTitle, styles.sectionTitleLight)}>{activitiesSection.title}</h2>
 
             <Carousel setApi={setActivitiesApi} opts={{ align: 'start' }} className={styles.activitiesCarousel}>
@@ -1013,17 +1021,19 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={styles.ambassadorsSection}>
-        <div className={styles.ambassadorsContainer}>
-          <h2 className={styles.sectionTitle}>{ambassadorsSectionTitle}</h2>
+      {ambassadors.length > 0 ? (
+        <section className={styles.ambassadorsSection}>
+          <div className={styles.ambassadorsContainer}>
+            <h2 className={styles.sectionTitle}>{ambassadorsSectionTitle}</h2>
 
-          <div className={styles.ambassadorsGrid}>
-            {ambassadors.map(ambassador => (
-              <MemberCard key={ambassador.id} member={ambassador} />
-            ))}
+            <div className={styles.ambassadorsGrid}>
+              {ambassadors.map(ambassador => (
+                <MemberCard key={ambassador.id} member={ambassador} />
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
     </div>
   );
 }

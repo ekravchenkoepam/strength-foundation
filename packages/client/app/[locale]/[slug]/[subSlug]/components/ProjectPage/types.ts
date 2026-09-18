@@ -6,6 +6,8 @@ export type StrapiMedia = {
     id?: number;
     attributes?: {
       url?: string | null;
+      width?: number | null;
+      height?: number | null;
       name?: string | null;
       alternativeText?: string | null;
     };

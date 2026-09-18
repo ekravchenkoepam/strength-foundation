@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import Image from 'next/image';
 import React from 'react';
 
@@ -37,6 +38,7 @@ interface Member {
 
 interface MemberCardProps {
   member: Member;
+  variant?: 'team';
 }
 
 const SocialIcon = ({ icon, link }: { icon: SocialName; link: string }) => {
@@ -70,7 +72,7 @@ const SocialIcon = ({ icon, link }: { icon: SocialName; link: string }) => {
   );
 };
 
-export const MemberCard = ({ member }: MemberCardProps) => {
+export const MemberCard = ({ member, variant }: MemberCardProps) => {
   const image = member.image?.data?.attributes?.formats?.medium?.url ?? member.image?.data?.attributes?.url ?? null;
   const imgUrl = getStrapiMedia(image);
   const descriptionText = (member.description || [])
@@ -79,12 +81,22 @@ export const MemberCard = ({ member }: MemberCardProps) => {
     .join('\n\n');
 
   return (
-    <Card className="bg-[#ffffff] border-0 rounded-xl overflow-hidden flex flex-col p-0 w-full min-w-0 lg:min-w-0 lg:w-full">
-      <div className="relative h-[425px] w-full bg-[#cfcfcf]">
+    <Card
+      className={clsx(
+        'bg-[#ffffff] border-0 rounded-xl overflow-hidden flex flex-col p-0 w-full min-w-0 lg:min-w-0 lg:w-full',
+        variant === 'team' && 'gap-0 rounded-[10px] min-[1440px]:min-h-[728px]'
+      )}
+    >
+      <div className={clsx('relative w-full bg-[#cfcfcf]', variant === 'team' ? 'aspect-[652/425]' : 'h-[425px]')}>
         {imgUrl ? <Image src={imgUrl} alt={member.name} fill className="object-cover object-top" /> : null}
 
-        <div className="absolute bottom-0 left-0 right-0 p-6">
-          <div className="border border-white/30 rounded-lg p-4 backdrop-blur-sm bg-white/10">
+        <div className={clsx('absolute inset-x-0 bottom-0', variant === 'team' ? 'p-5 lg:p-8' : 'p-6')}>
+          <div
+            className={clsx(
+              'border border-white/30 rounded-lg backdrop-blur-sm bg-white/10',
+              variant === 'team' ? 'px-5 py-4' : 'p-4'
+            )}
+          >
             <div className="flex-1 mb-[8px]">
               <h3 className="text-[24px] font-semibold text-white mb-1">{member.name}</h3>
               <p className="text-[16px] text-white/90">{member.role}</p>

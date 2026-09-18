@@ -34,7 +34,7 @@ export const MissionPage: FC<PageProps> = ({ locale }) => {
     <div className={styles.missionPage}>
       <div className={clsx('h1', styles.pageTitle)}>{missionPage.attributes.title}</div>
 
-      <div className={styles.missionBlock}>
+      <div className={clsx('content-frame', styles.missionBlock)}>
         {missionPage.attributes.missionBlock.map((block: any, index: number) => {
           const isEven = index % 2 !== 0;
 
@@ -61,7 +61,7 @@ export const MissionPage: FC<PageProps> = ({ locale }) => {
       </div>
       <div className={clsx(styles.principlesBlock, 'bg-[url(/images/asphalt-bg-alt.png)]')}>
         <div className={styles.principlesTitle}>{missionPage.attributes.principlesTitle}</div>
-        <div className={styles.principlesList}>
+        <div className={clsx('content-grid', styles.principlesList)}>
           {missionPage.attributes.principles.map((principle: any) => (
             <LiquidGlass
               key={principle.id}

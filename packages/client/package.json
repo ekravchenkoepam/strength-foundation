@@ -28,6 +28,7 @@
     "radix-ui": "^1.4.3",
     "react": "^18",
     "react-dom": "^18",
+    "react-qr-code": "^2.2.0",
     "sass": "^1.85.0",
     "tailwind-merge": "^3.4.0"
   },
