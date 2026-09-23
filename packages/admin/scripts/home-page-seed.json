@@ -5,7 +5,7 @@
         "title": "Сила для сильних",
         "subtitle": "Благодійний фонд",
         "description": "Ми прагнемо повернути героїв додому, підтримати їхніх близьких і привернути увагу суспільства до цієї проблеми.",
-        "imagePath": "packages/client/public/images/home-hero-v2.png",
+        "imagePath": "packages/client/public/images/hands-alt.png",
         "imageAlt": "Підтримка родин військовополонених"
       },
       "aboutSection": {
@@ -148,7 +148,7 @@
         "title": "Strength for the strong",
         "subtitle": "Charity fund",
         "description": "We strive to bring the heroes home, support their loved ones, and draw public attention to this problem.",
-        "imagePath": "packages/client/public/images/home-hero-v2.png",
+        "imagePath": "packages/client/public/images/hands-alt.png",
         "imageAlt": "Support for families of prisoners of war"
       },
       "aboutSection": {

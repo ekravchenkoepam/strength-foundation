@@ -117,7 +117,7 @@ export const VolunteerPage = ({ locale }: PageProps) => {
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-0 bg-[url('/images/asphalt-bg.png')] bg-cover bg-center opacity-20"
+          className="pointer-events-none absolute inset-0 z-0 bg-[url('/images/asphalt-bg-alt.png')] bg-cover bg-center"
         />
 
         <div className="content-frame relative z-10 px-6 lg:px-[52px]">
