@@ -148,7 +148,7 @@ export const FaqPage: FC<PageProps> = ({ locale }) => {
 
       <section
         className="
-          bg-[var(--green-100)] bg-[url('/images/asphalt-bg.png')] bg-cover bg-center
+          bg-[var(--green-100)] bg-[url('/images/asphalt-bg-alt.png')] bg-cover bg-center
           px-6 py-10 text-[var(--color-light)] md:px-8 md:py-14 lg:px-[50px] lg:py-[100px]
         "
       >
@@ -179,7 +179,7 @@ export const FaqPage: FC<PageProps> = ({ locale }) => {
                     <>
                       {' '}
                       <a
-                        className="underline decoration-[var(--yellow-100)] underline-offset-4 break-words"
+                        className="break-words text-white underline decoration-white underline-offset-4 transition-colors hover:text-[#1683D8] hover:decoration-[#1683D8] focus-visible:text-[#1683D8] focus-visible:decoration-[#1683D8]"
                         href={item.href}
                       >
                         {item.highlight}

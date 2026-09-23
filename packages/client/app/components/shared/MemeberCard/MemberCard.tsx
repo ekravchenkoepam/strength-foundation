@@ -12,6 +12,7 @@ import {
   YoutubeIcon,
 } from '@/app/components/icons';
 import type { SocialName } from '@/app/components/shared/Socials/types';
+import { LiquidGlass } from '@/app/components/shared/LiquidGlass/LiquidGlass';
 import { getStrapiMedia } from '@/app/utils/api-helpers';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -91,23 +92,15 @@ export const MemberCard = ({ member, variant }: MemberCardProps) => {
         {imgUrl ? <Image src={imgUrl} alt={member.name} fill className="object-cover object-top" /> : null}
 
         <div className={clsx('absolute inset-x-0 bottom-0', variant === 'team' ? 'p-5 lg:p-8' : 'p-6')}>
-          <div
-            className={clsx(
-              'border border-white/30 rounded-lg backdrop-blur-sm bg-white/10',
-              variant === 'team' ? 'px-5 py-4' : 'p-4'
-            )}
-          >
-            <div className="flex-1 mb-[8px]">
-              <h3 className="text-[24px] font-semibold text-white mb-1">{member.name}</h3>
-              <p className="text-[16px] text-white/90">{member.role}</p>
+          {variant === 'team' ? (
+            <LiquidGlass tint="dark" intensity="strong" className="rounded-lg px-5 py-4">
+              <MemberDetails member={member} />
+            </LiquidGlass>
+          ) : (
+            <div className="rounded-lg border border-white/30 bg-white/10 p-4 backdrop-blur-sm">
+              <MemberDetails member={member} />
             </div>
-
-            <div className="flex justify-end gap-[8px]">
-              {(member.socials || []).map(social => (
-                <SocialIcon key={social.id} icon={social.icon} link={social.link} />
-              ))}
-            </div>
-          </div>
+          )}
         </div>
       </div>
 
@@ -117,3 +110,18 @@ export const MemberCard = ({ member, variant }: MemberCardProps) => {
     </Card>
   );
 };
+
+const MemberDetails = ({ member }: { member: Member }) => (
+  <>
+    <div className="flex-1 mb-[8px]">
+      <h3 className="text-[24px] font-semibold text-white mb-1">{member.name}</h3>
+      <p className="text-[16px] text-white/90">{member.role}</p>
+    </div>
+
+    <div className="flex justify-end gap-[8px]">
+      {(member.socials || []).map(social => (
+        <SocialIcon key={social.id} icon={social.icon} link={social.link} />
+      ))}
+    </div>
+  </>
+);

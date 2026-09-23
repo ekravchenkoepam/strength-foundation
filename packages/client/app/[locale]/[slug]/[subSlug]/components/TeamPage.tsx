@@ -61,13 +61,16 @@ export const TeamPage: FC<PageProps> = ({ locale }) => {
       <div className="content-frame px-6 py-10 text-[16px] leading-[24px] md:px-8 md:py-14 lg:px-[120px] xl:px-[220px]">{motto}</div>
       <div
         className="
-        bg-[rgb(72,72,56)]
-        bg-[url('/images/asphalt-bg.png')]
-        bg-cover bg-center bg-no-repeat
+        relative isolate overflow-hidden bg-[rgb(72,72,56)]
         w-full px-6 pt-12 pb-14 md:pt-16 md:pb-20 lg:px-[52px] lg:pt-[100px] lg:pb-[120px]
       "
       >
-        <div className="content-grid">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 -z-10 bg-[url('/images/asphalt-bg-alt.png')] bg-cover bg-center bg-no-repeat"
+        />
+
+        <div className="content-grid relative z-10">
           <div
             className="grid w-full gap-4 pb-3 md:gap-6 lg:gap-8"
             style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))' }}
